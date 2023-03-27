@@ -1274,7 +1274,9 @@ struct edit_text_ltr final : public Command {
 	STR_HELP("Change the direction of the text to LTR")
 
 	void operator()(agi::Context *c) override {
-		c->textSelectionController->GetControl()->SetLayoutDirection (wxLayout_LeftToRight);
+		if (c->textSelectionController->GetControl()->GetLayoutDirection() != wxLayout_LeftToRight) {
+			c->textSelectionController->GetControl()->SetLayoutDirection (wxLayout_LeftToRight);
+		}
 	}
 };
 
@@ -1286,7 +1288,15 @@ struct edit_text_rtl final : public Command {
 	STR_HELP("Change the direction of the text to RTL")
 
 	void operator()(agi::Context *c) override {
+		if (c->textSelectionController->GetControl()->GetLayoutDirection() == wxLayout_RightToLeft) 
+			return;
+		
 		c->textSelectionController->GetControl()->SetLayoutDirection (wxLayout_RightToLeft);
+		wxString data = c->textSelectionController->GetControl()->GetText();
+		if (data.StartsWith(RTL_MARK) != false) {
+			data.insert(0, RTL_MARK);
+			c->textSelectionController->GetControl()->SetTextRaw(data.c_str());
+		}
 	}
 };
 
