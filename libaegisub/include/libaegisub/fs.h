@@ -17,6 +17,7 @@
 #include <libaegisub/exception.h>
 #include <libaegisub/fs_fwd.h>
 
+#include <algorithm>
 #include <boost/filesystem/path.hpp>
 #include <cstdint>
 #include <ctime>
