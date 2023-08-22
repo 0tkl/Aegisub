@@ -42,6 +42,7 @@ jobs:
               -Davisynth=enabled
               -Dbestsource=enabled
               -Dvapoursynth=enabled
+
           - name: Windows MSVC Release (wx master)
             os: windows-latest
             msvc: true
@@ -64,49 +65,62 @@ jobs:
               -Dbestsource=enabled
               -Dvapoursynth=enabled
               -Dwx_version='3.3.0'
-          #- {
-          #  name: Windows MinGW,
-          #  os: windows-latest,
-          #  msvc: false
-          #}
-          - {
-            name: Ubuntu Debug,
-            os: ubuntu-latest,
-            buildtype: debugoptimized,
+
+          - name: Ubuntu Debug
+            os: ubuntu-latest
+            buildtype: debugoptimized
             args: ''
-          }
-          - {
-            name: Ubuntu Release,
-            os: ubuntu-latest,
-            buildtype: release,
+
+          - name: Ubuntu Release
+            os: ubuntu-latest
+            buildtype: release
             args: ''
-          }
+
           - name: Ubuntu AppImage
-            os: ubuntu-22.04
+            os: ubuntu-latest
             buildtype: release
             appimage: true
-            # distro ffms is currently broken
             args: >-
               --prefix=/usr
               -Dbuild_appimage=true
               -Ddefault_library=static
-              --force-fallback-for=ffms2
               -Davisynth=enabled
               -Dbestsource=enabled
+              -Dffms2=enabled
               -Dvapoursynth=enabled
-          - {
-            name: macOS Release,
-            os: macos-latest,
-            buildtype: release,
-            args: -Ddefault_library=static -Dbuild_osx_bundle=true -Dlocal_boost=true -Dvapoursynth=enabled --force-fallback-for=ffms2
-          }
+
+          - name: macOS Release
+            os: macos-latest
+            buildtype: release
+            args: >-
+              -Ddefault_library=static
+              -Dbuild_osx_bundle=true
+              -Dlocal_boost=true
+              -Dbestsource=enabled
+              -Dvapoursynth=enabled
+              -Dffms2=enabled
+              --force-fallback-for=ffms2
+
+          - name: macOS Release (wx master)
+            os: macos-latest
+            buildtype: release
+            args: >-
+              -Dcpp_std=c++20
+              -Ddefault_library=static
+              -Dbuild_osx_bundle=true
+              -Dlocal_boost=true
+              -Dbestsource=enabled
+              -Dvapoursynth=enabled
+              -Dffms2=enabled
+              --force-fallback-for=ffms2
+              -Dwx_version='3.3.0'
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: '0'
 
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
 
@@ -122,7 +136,7 @@ jobs:
       - name: Install dependencies (Windows)
         if: matrix.config.os == 'windows-latest'
         run: |
-          choco install ninja innosetup
+          choco install ninja innosetup nasm
 
           $moonscripturl = "https://github.com/leafo/moonscript/releases/download/win32-v0.5.0/moonscript-187bac54ee5a7450013e9c38e005a0e671b76f45.zip"
           mkdir moonscript
@@ -147,21 +161,59 @@ jobs:
           # Skip brew update for now, see https://github.com/actions/setup-python/issues/577
           # brew update
           brew install luarocks ninja
-          luarocks install luafilesystem 1.8.0
+          luarocks install luafilesystem --dev
           luarocks install moonscript --dev
-          brew install libass zlib ffms2 fftw hunspell
+          brew install --HEAD libass ffms2
+          brew install zlib fftw hunspell
           brew install pulseaudio  # NO OpenAL in github CI
 
       - name: Install dependencies (Linux)
         if: startsWith(matrix.config.os, 'ubuntu-')
         run: |
           sudo apt-get update
-          sudo apt-get install ninja-build build-essential libx11-dev libwxgtk3.0-gtk3-dev libfreetype6-dev pkg-config libfontconfig1-dev libass-dev libasound2-dev libffms2-dev intltool libboost-all-dev libhunspell-dev libuchardet-dev libpulse-dev libopenal-dev libxxhash-dev nasm
+          sudo apt-get install --no-install-recommends ninja-build libx11-dev libwxgtk3.0-gtk3-dev libfreetype6-dev pkg-config libfontconfig1-dev libass-dev libasound2-dev intltool libboost-all-dev libhunspell-dev libuchardet-dev libpulse-dev libopenal-dev libxxhash-dev nasm
+
+      - name: Setup Multimedia Packages (Linux)
+        if: startsWith(matrix.config.os, 'ubuntu-')
+        run: |
+          git clone --depth=1 -b 3.7 https://github.com/AviSynth/AviSynthPlus.git
+          cd AviSynthPlus
+          mkdir aspbuild && cd aspbuild
+          cmake ../ -DCMAKE_INSTALL_PREFIX=/usr -DHEADERS_ONLY:bool=off
+          sudo make VersionGen install
+          cd ../..
+          rm -rf AviSynthPlus
+          git clone --depth=1 -b release/6.1 https://github.com/FFmpeg/FFmpeg.git
+          cd FFmpeg
+          ./configure --prefix=/usr --disable-debug \
+          --disable-muxers --disable-encoders --disable-filters \
+          --disable-hwaccels --disable-network --disable-devices \
+          --enable-gpl --enable-nonfree --enable-version3 --enable-shared \
+          --enable-avisynth
+          make V=1 -j2 -k
+          sudo make install
+          cd ..
+          rm -rf FFmpeg
+          git clone --depth=1 https://github.com/FFMS/ffms2.git
+          cd ffms2
+          ./autogen.sh --prefix=/usr --enable-shared --disable-static --enable-avisynth
+          make V=1 CXXFLAGS='-I/usr/include/avisynth' -j2 -k
+          sudo make install
+          cd ..
+          rm -rf ffms2
 
       - name: Configure
+        if: matrix.config.os != 'macos-latest'
         run: |
           meson setup build ${{ matrix.config.args }} -Dbuildtype=${{ matrix.config.buildtype }}
           meson configure build
+
+      - name: Configure (MacOS)
+        if: matrix.config.os == 'macos-latest'
+        run: |
+          export PKG_CONFIG_PATH="/usr/local/opt/icu4c/lib/pkgconfig"
+          meson setup build ${{ matrix.config.args }} -Dbuildtype=${{ matrix.config.buildtype }}
+          meson configure
 
       - name: Build
         run: meson compile -C build
@@ -182,7 +234,7 @@ jobs:
         run: cd build && ninja win-portable
 
       - name: Upload artifacts - win_installer
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: matrix.config.os == 'windows-latest'
         with:
           name: ${{ matrix.config.name }} - installer
@@ -190,7 +242,7 @@ jobs:
           if-no-files-found: error
       
       - name: Upload artifacts - portable.zip
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: matrix.config.os == 'windows-latest'
         with:
           name: ${{ matrix.config.name }} - portable
@@ -204,7 +256,7 @@ jobs:
           meson compile osx-build-dmg -C build
 
       - name: Upload artifacts - macOS dmg
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: matrix.config.os == 'macos-latest'
         with:
           name: ${{ matrix.config.name }} - installer
@@ -228,7 +280,7 @@ jobs:
           ./appimagetool appdir
 
       - name: Upload artifacts - Linux AppImage
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: matrix.config.appimage
         with:
           name: ${{ matrix.config.name }}
