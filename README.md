@@ -152,7 +152,7 @@ A vaguely recent version of Xcode and the corresponding command-line tools are r
 For personal usage, you can use pip and homebrew to install almost all of Aegisub's dependencies:
 
     pip3 install meson
-    brew install cmake ninja pkg-config  libass boost zlib ffms2 fftw hunspell
+    brew install cmake ninja pkg-config libass boost zlib ffms2 fftw hunspell
     export LDFLAGS="-L/usr/local/opt/icu4c/lib"
     export CPPFLAGS="-I/usr/local/opt/icu4c/include"
     export PKG_CONFIG_PATH="/usr/local/opt/icu4c/lib/pkgconfig"
