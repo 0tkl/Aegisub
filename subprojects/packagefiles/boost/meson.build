@@ -1,6 +1,6 @@
 project('boost', 'cpp',
-  version: '1.83.0',
-  meson_version: '>=0.55.0')
+  version: '1.87.0',
+  meson_version: '>=0.61.0')
 
 cpp = meson.get_compiler('cpp')
 thread_dep = dependency('threads')

@@ -59,10 +59,10 @@ if host_machine.system() == 'windows'
     locale_args += '-DBOOST_LOCALE_NO_POSIX_BACKEND=1'
 else
     locale_sources += files([
+        'src/boost/locale/posix/codecvt.cpp',
         'src/boost/locale/posix/collate.cpp',
         'src/boost/locale/posix/converter.cpp',
         'src/boost/locale/posix/numeric.cpp',
-        'src/boost/locale/posix/codecvt.cpp',
         'src/boost/locale/posix/posix_backend.cpp',
     ])
     locale_args += '-DBOOST_LOCALE_NO_WINAPI_BACKEND=1'
@@ -79,10 +79,13 @@ locale_args += '-DBOOST_LOCALE_WITH_ICONV=1'
 locale_deps += icu_deps
 locale_args += '-DBOOST_LOCALE_WITH_ICU=1'
 
+locale_inc = [inc,  include_directories('src')]
+
 boost_locale = library('boost_locale', locale_sources,
-                       include_directories: [inc, 'src'],
+                       include_directories: locale_inc,
                        cpp_args: locale_args,
                        dependencies: [thread_dep, locale_deps, boost_thread_dep])
 
-boost_locale_dep = declare_dependency(link_with: boost_locale, include_directories: [inc, 'src'],
+boost_locale_dep = declare_dependency(link_with: boost_locale,
+                                      include_directories: locale_inc,
                                       compile_args: '-DBOOST_ALL_NO_LIB=1')
