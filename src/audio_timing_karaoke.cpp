@@ -112,7 +112,7 @@ class AudioTimingControllerKaraoke final : public AudioTimingController {
 	void DoCommit();
 	void ApplyLead(bool announce_primary);
 	int MoveMarker(KaraokeMarker *marker, int new_position);
-	void AnnounceChanges(int syl);
+	void AnnounceChanges(size_t syl);
 
 public:
 	// AudioTimingController implementation
@@ -387,7 +387,7 @@ int AudioTimingControllerKaraoke::MoveMarker(KaraokeMarker *marker, int new_posi
 	return syl;
 }
 
-void AudioTimingControllerKaraoke::AnnounceChanges(int syl) {
+void AudioTimingControllerKaraoke::AnnounceChanges(size_t syl) {
 	if (syl < 0) return;
 
 	if (syl == cur_syl || syl == cur_syl + 1) {

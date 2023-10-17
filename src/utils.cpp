@@ -238,7 +238,7 @@ wxString FontFace(std::string opt_prefix) {
 	auto value = OPT_GET(opt_prefix)->GetString();
 #ifdef __WXOSX_COCOA__
 	if (value.empty()) {
-		auto default_font = CTFontCreateUIFontForLanguage(kCTFontUserFontType, 0, nullptr);
+		auto default_font = CTFontCreateUIFontForLanguage(kCTFontUIFontUser, 0, nullptr);
 		auto default_font_name = CTFontCopyPostScriptName(default_font);
 		CFRelease(default_font);
 

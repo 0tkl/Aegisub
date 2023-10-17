@@ -39,14 +39,18 @@
 #define VS_INSTALL_REGKEY L"Software\\VapourSynth-32"
 #endif
 
-#else
-#ifdef __APPLE__
+#elif defined (__APPLE__)
 #define VSSCRIPT_SO "libvapoursynth-script.dylib"
 #define DLOPEN_FLAGS RTLD_LAZY | RTLD_GLOBAL
+
 #else
 #define VSSCRIPT_SO "libvapoursynth-script.so"
-#define DLOPEN_FLAGS RTLD_LAZY | RTLD_GLOBAL | RTLD_DEEPBIND
+#ifdef __GLIBC__
+#  define DLOPEN_FLAGS RTLD_LAZY | RTLD_GLOBAL | RTLD_DEEPBIND
+#else
+#  define DLOPEN_FLAGS RTLD_LAZY | RTLD_GLOBAL
 #endif
+
 #endif
 
 // Allocate storage for and initialise static members
