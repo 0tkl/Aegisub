@@ -281,8 +281,7 @@ endif
 
 if get_option('vapoursynth').enabled()
     conf.set('WITH_VAPOURSYNTH', 1)
-    vs_sub = subproject('vapoursynth')
-    deps_inc += vs_sub.get_variable('vs_inc')
+    deps += dependency('vapoursynth', version: '>=59', fallback : ['vapoursynth', 'vs_dep'])
     dep_avail += 'VapourSynth'
 endif
 
