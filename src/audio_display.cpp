@@ -84,7 +84,6 @@ public:
 	virtual ~AudioDisplayInteractionObject() = default;
 };
 
-namespace {
 /// @brief Colourscheme-based UI colour provider
 ///
 /// This class provides UI colours corresponding to the supplied audio colour
@@ -526,8 +525,6 @@ public:
 	iterator begin() { return points.begin(); }
 	iterator end() { return points.end(); }
 };
-
-}
 
 class AudioMarkerInteractionObject final : public AudioDisplayInteractionObject {
 	// Object-pair being interacted with

@@ -751,7 +751,7 @@ namespace Automation4 {
 	, can_modify(can_modify)
 	, can_set_undo(can_set_undo)
 	{
-		for (auto& line : ass->Info)
+		for (size_t i = ass->Info.size(); i--;)
 			lines.push_back(nullptr);
 		for (auto& line : ass->Styles)
 			lines.push_back(&line);

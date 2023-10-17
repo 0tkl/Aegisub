@@ -132,7 +132,7 @@ static bool read_subtitles(agi::ProgressSink *ps, MatroskaFile *file, MkvStdIO *
 
 		if (cs) {
 			cs_NextFrame(cs, filePos, frameSize);
-			int bytesRead = 0;
+			size_t bytesRead = 0;
 
 			int res;
 			do {
