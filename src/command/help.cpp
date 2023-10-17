@@ -49,17 +49,8 @@ struct help_bugs final : public Command {
 	STR_DISP("Bug Tracker")
 	STR_HELP("Visit Aegisub's bug tracker to report bugs and request new features")
 
-	void operator()(agi::Context *c) override {
-		if (wxGetMouseState().CmdDown()) {
-			if (wxGetMouseState().ShiftDown()) {
-				 wxMessageBox("Now crashing with an access violation...");
-				for (char *foo = (char*)nullptr;;) *foo++ = 42;
-			} else {
-				wxMessageBox("Now crashing with an unhandled exception...");
-				throw c->parent;
-			}
-		}
-		wxLaunchDefaultBrowser("https://github.com/Aegisub/Aegisub/issues", wxBROWSER_NEW_WINDOW);
+	void operator()(agi::Context *) override {
+		wxLaunchDefaultBrowser("https://github.com/arch1t3cht/Aegisub/issues", wxBROWSER_NEW_WINDOW);
 	}
 };
 

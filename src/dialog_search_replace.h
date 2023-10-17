@@ -29,6 +29,7 @@ struct SearchReplaceSettings;
 class wxComboBox;
 
 class DialogSearchReplace final : public wxDialog {
+	using wxDialog::Show;
 	agi::Context *c;
 	std::unique_ptr<SearchReplaceSettings> settings;
 	bool has_replace;
