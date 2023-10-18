@@ -1,0 +1,111 @@
+name: Meson CI for Archlinux
+
+on:
+  push:
+    branches:
+      - master
+      - feature
+      - cibuilds
+    paths-ignore: 
+      - ".github/workflows/ci.yml"
+  pull_request:
+    branches:
+      - master
+      - feature
+    paths-ignore: 
+      - ".github/workflows/ci.yml"    
+
+jobs:
+  build:
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    container:
+      image: ${{ matrix.config.container }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - name: Archlinux Release
+            os: ubuntu-latest
+            container: archlinux:base-devel
+            buildtype: release
+            args: >-
+                --prefix=/usr
+                -Ddefault_audio_output=PulseAudio
+                -Davisynth=enabled
+                -Dbestsource=enabled
+                -Dffms2=enabled
+                -Dvapoursynth=enabled
+
+    steps:
+      - name: Prerequisites 1
+        run: pacman --noconfirm -Syu cmake git
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Prerequisites 2
+        run: git config --global --add safe.directory '/__w/Aegisub/Aegisub'
+
+      - name: Install dependencies
+        run: |
+          pacman --noconfirm -Syu wireplumber
+          pacman --noconfirm -Sy pipewire-jack
+          pacman --noconfirm -Sy avisynthplus boost ffmpeg \
+          fontconfig hunspell libass libglvnd meson openal portaudio \
+          python pulseaudio uchardet vapoursynth wxwidgets-gtk3
+
+      - name: Add non-root user
+        run: |
+          USERNAME=user1
+          USER_UID=1001
+          USER_GID=$USER_UID
+          groupadd --gid $USER_GID $USERNAME
+          useradd --uid $USER_UID --gid $USER_GID -m $USERNAME
+          echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME
+          chmod 0440 /etc/sudoers.d/$USERNAME
+          chown -R $USERNAME:$USER_GID /__w/Aegisub/Aegisub
+
+      - name: Compile ffms2
+        run: |
+          sudo -u user1 git clone --depth=1 https://github.com/FFMS/ffms2.git
+          cd ffms2
+          sudo -u user1 ./autogen.sh --prefix=/usr --enable-shared --disable-static --enable-avisynth
+          sudo -u user1 make V=1 CXXFLAGS='-I/usr/include/avisynth' -j2 -k
+          make install
+          cd ..
+          rm -rf ffms2
+        
+      - name: Download some other dependencies
+        run: |
+          cd subprojects
+          sudo -u user1 git clone --depth=1 https://github.com/vapoursynth/bestsource.git
+          sudo -u user1 git clone --depth=1 https://github.com/LuaJIT/LuaJIT.git
+          mv LuaJIT luajit
+          sudo -u user1 mkdir packagecache
+          cd packagecache
+          sudo -u user1 curl -o gtest-1.14.0.tar.gz -L https://github.com/google/googletest/archive/refs/tags/v1.14.0.tar.gz
+          sudo -u user1 curl -o gtest_1.14.0-1_patch.zip -L https://wrapdb.mesonbuild.com/v2/gtest_1.14.0-1/get_patch
+          cd ../..
+          sudo -u user1 meson subprojects packagefiles --apply bestsource
+          sudo -u user1 meson subprojects packagefiles --apply luajit
+
+      - name: Configure
+        run: |
+          C_FLAGS="-Wall -Wextra -Wpedantic"
+          CXX_FLAGS="-Wall -Wextra -Wpedantic"
+          sudo -u user1 meson setup build ${{ matrix.config.args }} -Dcpp_std=c++2a -Dbuildtype=${{ matrix.config.buildtype }}
+
+      - name: Build
+        run: sudo -u user1 meson compile -C build
+      
+      - name: Run test
+        run: sudo -u user1 meson test -C build --verbose "gtest main"
+
+      - name: Generate Package
+        run: |
+          mkdir -p pkgdir
+          meson install -C build --destdir=../pkgdir
+          ls -Ral pkgdir
