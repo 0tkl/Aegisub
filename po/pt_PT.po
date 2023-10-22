@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Aegisub 3.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-30 03:10+0200\n"
+"POT-Creation-Date: 2023-11-07 18:36+0800\n"
 "PO-Revision-Date: 2014-05-19 22:58-0000\n"
 "Last-Translator: Daniel Mota <1060446@isep.ipp.pt>\n"
 "Language-Team: Leinad4Mind <1060446@isep.ipp.pt> & RiCON <wiiaboo@gmail."
@@ -287,7 +287,7 @@ msgstr "Zoom vertical"
 msgid "Audio Volume"
 msgstr "Volume do Áudio"
 
-#: ../src/audio_display.cpp:707
+#: ../src/audio_display.cpp:704
 #, c-format
 msgid "%d%%, %d pixel/second"
 msgstr "%d%%, %d pixel/segundo"
@@ -330,6 +330,10 @@ msgstr "A indexar"
 msgid "Creating cache... This can take a while!"
 msgstr ""
 
+#: ../src/audio_provider_factory.cpp:129
+msgid "Error loading audio"
+msgstr ""
+
 #: ../src/audio_renderer_waveform.cpp:152
 msgid "Maximum"
 msgstr "Máximo"
@@ -347,7 +351,7 @@ msgstr "temporizar"
 msgid "karaoke timing"
 msgstr "Tempos de Karaoke"
 
-#: ../src/auto4_base.cpp:451
+#: ../src/auto4_base.cpp:455
 #, c-format
 msgid ""
 "Failed to load Automation script '%s':\n"
@@ -356,24 +360,24 @@ msgstr ""
 "Falha ao abrir o script de Automatização '%s':\n"
 "%s"
 
-#: ../src/auto4_base.cpp:458
+#: ../src/auto4_base.cpp:462
 #, c-format
 msgid "The file was not recognised as an Automation script: %s"
 msgstr "Este ficheiro não foi reconhecido como script de Automatização: %s"
 
-#: ../src/auto4_base.cpp:487 ../src/command/audio.cpp:85
+#: ../src/auto4_base.cpp:491 ../src/command/audio.cpp:85
 #: ../src/command/keyframe.cpp:77 ../src/command/timecode.cpp:74
 #: ../src/command/timecode.cpp:94 ../src/command/video.cpp:611
 msgid "All Files"
 msgstr "Todos os ficheiros"
 
-#: ../src/auto4_base.cpp:493 ../src/command/keyframe.cpp:75
+#: ../src/auto4_base.cpp:497 ../src/command/keyframe.cpp:75
 #: ../src/command/timecode.cpp:74 ../src/command/timecode.cpp:94
 #: ../src/subtitle_format.cpp:315
 msgid "All Supported Formats"
 msgstr "Todos os formatos suportados"
 
-#: ../src/auto4_base.cpp:499
+#: ../src/auto4_base.cpp:503
 msgid "File was not recognized as a script"
 msgstr "Ficheiro não foi reconhecido como script"
 
@@ -879,7 +883,7 @@ msgid "&Automation..."
 msgstr "&Automatização..."
 
 #: ../src/command/automation.cpp:75 ../src/command/automation.cpp:87
-#: ../src/preferences.cpp:341
+#: ../src/preferences.cpp:349
 msgid "Automation"
 msgstr "Automatização"
 
@@ -1238,7 +1242,7 @@ msgid "splitting"
 msgstr "divisão"
 
 #: ../src/command/edit.cpp:1113 ../src/command/edit.cpp:1114
-#: ../src/subs_edit_ctrl.cpp:402
+#: ../src/subs_edit_ctrl.cpp:426
 msgid "Split at cursor (estimate times)"
 msgstr "Dividir no cursor (estimar tempos)"
 
@@ -1251,7 +1255,7 @@ msgstr ""
 "estimativa"
 
 #: ../src/command/edit.cpp:1129 ../src/command/edit.cpp:1130
-#: ../src/subs_edit_ctrl.cpp:401
+#: ../src/subs_edit_ctrl.cpp:425
 msgid "Split at cursor (preserve times)"
 msgstr "Dividir no cursor (preservar tempos)"
 
@@ -1332,7 +1336,7 @@ msgid "revert line"
 msgstr "repor linha"
 
 #: ../src/command/edit.cpp:1222 ../src/command/edit.cpp:1223
-#: ../src/preferences.cpp:416
+#: ../src/preferences.cpp:424
 msgid "Clear"
 msgstr "Limpar"
 
@@ -1428,8 +1432,9 @@ msgid "&Effect"
 msgstr "&Efeito"
 
 #: ../src/command/grid.cpp:135 ../src/command/grid.cpp:147
-#: ../src/dialog_paste_over.cpp:72 ../src/grid_column.cpp:262
-#: ../src/grid_column.cpp:263 ../src/subs_edit_box.cpp:142
+#: ../src/dialog_paste_over.cpp:72 ../src/grid_column.cpp:260
+#: ../src/grid_column.cpp:261 ../src/subs_edit_box.cpp:152
+#: ../src/subs_edit_box.cpp:154 ../src/subs_edit_box.cpp:156
 msgid "Effect"
 msgstr "Efeito"
 
@@ -1446,7 +1451,7 @@ msgid "&End Time"
 msgstr "Tempo &Final"
 
 #: ../src/command/grid.cpp:159 ../src/command/grid.cpp:171
-#: ../src/dialog_paste_over.cpp:66 ../src/grid_column.cpp:218
+#: ../src/dialog_paste_over.cpp:66 ../src/grid_column.cpp:216
 msgid "End Time"
 msgstr "Tempo Final"
 
@@ -1463,7 +1468,7 @@ msgid "&Layer"
 msgstr "Camada"
 
 #: ../src/command/grid.cpp:183 ../src/command/grid.cpp:195
-#: ../src/dialog_paste_over.cpp:64 ../src/grid_column.cpp:178
+#: ../src/dialog_paste_over.cpp:64 ../src/grid_column.cpp:176
 msgid "Layer"
 msgstr "Camada"
 
@@ -1480,7 +1485,7 @@ msgid "&Start Time"
 msgstr "Tempo &Inicial"
 
 #: ../src/command/grid.cpp:207 ../src/command/grid.cpp:219
-#: ../src/dialog_paste_over.cpp:65 ../src/grid_column.cpp:200
+#: ../src/dialog_paste_over.cpp:65 ../src/grid_column.cpp:198
 msgid "Start Time"
 msgstr "Tempo Inicial"
 
@@ -1515,7 +1520,7 @@ msgstr ""
 
 #: ../src/command/grid.cpp:255 ../src/command/grid.cpp:267
 #: ../src/dialog_kara_timing_copy.cpp:475 ../src/dialog_paste_over.cpp:73
-#: ../src/grid_column.cpp:410 ../src/grid_column.cpp:411
+#: ../src/grid_column.cpp:408 ../src/grid_column.cpp:409
 msgid "Text"
 msgstr "Texto"
 
@@ -1704,51 +1709,51 @@ msgstr ""
 "Visite o rastreamento de bugs do Aegisub para relatar bugs e pedir novos "
 "recursos"
 
-#: ../src/command/help.cpp:69
+#: ../src/command/help.cpp:60
 msgid "&Contents"
 msgstr "&Conteúdo"
 
-#: ../src/command/help.cpp:70
+#: ../src/command/help.cpp:61
 msgid "Contents"
 msgstr "Conteúdo"
 
-#: ../src/command/help.cpp:71
+#: ../src/command/help.cpp:62
 msgid "Help topics"
 msgstr "Tópicos de ajuda"
 
-#: ../src/command/help.cpp:81
+#: ../src/command/help.cpp:72
 msgid "&IRC Channel"
 msgstr "Canal de &IRC"
 
-#: ../src/command/help.cpp:82
+#: ../src/command/help.cpp:73
 msgid "IRC Channel"
 msgstr "Canal de IRC"
 
-#: ../src/command/help.cpp:83
+#: ../src/command/help.cpp:74
 msgid "Visit Aegisub's official IRC channel"
 msgstr "Visite o canal de IRC oficial do Aegisub"
 
-#: ../src/command/help.cpp:93
+#: ../src/command/help.cpp:84
 msgid "&Visual Typesetting"
 msgstr "Tipografia &Visual (Typesetting)"
 
-#: ../src/command/help.cpp:94
+#: ../src/command/help.cpp:85
 msgid "Visual Typesetting"
 msgstr "Tipografia Visual (Typesetting)"
 
-#: ../src/command/help.cpp:95
+#: ../src/command/help.cpp:86
 msgid "Open the manual page for Visual Typesetting"
 msgstr "Abre a página do manual para Tipografia Visual"
 
-#: ../src/command/help.cpp:105
+#: ../src/command/help.cpp:96
 msgid "&Website"
 msgstr "Sítio &Web"
 
-#: ../src/command/help.cpp:106
+#: ../src/command/help.cpp:97
 msgid "Website"
 msgstr "Sítio Web"
 
-#: ../src/command/help.cpp:107
+#: ../src/command/help.cpp:98
 msgid "Visit Aegisub's official website"
 msgstr "Visite o sítio oficial do Aegisub"
 
@@ -1919,7 +1924,7 @@ msgid "New subtitles"
 msgstr "Criar nova legenda"
 
 #: ../src/command/subtitle.cpp:256 ../src/command/subtitle.cpp:257
-#: ../src/command/subtitle.cpp:258 ../src/dialog_progress.cpp:188
+#: ../src/command/subtitle.cpp:258 ../src/dialog_progress.cpp:189
 #: ../src/dialog_style_manager.cpp:315
 msgid "Close"
 msgstr "Fechar"
@@ -2029,7 +2034,7 @@ msgid "Save subtitles with another name"
 msgstr "Guardar legendas com outro nome"
 
 #: ../src/command/subtitle.cpp:396 ../src/dialog_export.cpp:124
-#: ../src/dialog_selected_choices.cpp:26 ../src/subs_edit_ctrl.cpp:396
+#: ../src/dialog_selected_choices.cpp:26 ../src/subs_edit_ctrl.cpp:420
 msgid "Select &All"
 msgstr "Seleccionar &Tudo"
 
@@ -2381,7 +2386,7 @@ msgid "&Accept changes"
 msgstr "Aceitar alterações"
 
 #: ../src/command/tool.cpp:142 ../src/command/tool.cpp:226
-#: ../src/dialog_styling_assistant.cpp:90 ../src/dialog_translation.cpp:113
+#: ../src/dialog_styling_assistant.cpp:90 ../src/dialog_translation.cpp:118
 msgid "Accept changes"
 msgstr "Aceitar alterações"
 
@@ -2394,7 +2399,7 @@ msgid "&Preview changes"
 msgstr "Prever alterações"
 
 #: ../src/command/tool.cpp:153 ../src/command/tool.cpp:237
-#: ../src/dialog_styling_assistant.cpp:91 ../src/dialog_translation.cpp:114
+#: ../src/dialog_styling_assistant.cpp:91 ../src/dialog_translation.cpp:119
 msgid "Preview changes"
 msgstr "Prever alterações"
 
@@ -2446,7 +2451,7 @@ msgstr ""
 msgid "&Translation Assistant..."
 msgstr "Assistente de &Tradução..."
 
-#: ../src/command/tool.cpp:201 ../src/dialog_translation.cpp:66
+#: ../src/command/tool.cpp:201 ../src/dialog_translation.cpp:71
 #: ../src/preferences.cpp:232
 msgid "Translation Assistant"
 msgstr "Assistente de Tradução"
@@ -3218,7 +3223,7 @@ msgid "E&xtract"
 msgstr "E&xtrair"
 
 #: ../src/dialog_attachments.cpp:79 ../src/dialog_style_manager.cpp:206
-#: ../src/preferences.cpp:654
+#: ../src/preferences.cpp:678
 msgid "&Delete"
 msgstr "&Eliminar"
 
@@ -3473,31 +3478,31 @@ msgstr "Valor:"
 msgid "Video: %s"
 msgstr "Vídeo: %s"
 
-#: ../src/dialog_dummy_video.cpp:106
+#: ../src/dialog_dummy_video.cpp:102
 msgid "Dummy video options"
 msgstr "Opções do vídeo exemplo"
 
-#: ../src/dialog_dummy_video.cpp:118
+#: ../src/dialog_dummy_video.cpp:114
 msgid "Checkerboard &pattern"
 msgstr "Padrão xadrez"
 
-#: ../src/dialog_dummy_video.cpp:121
+#: ../src/dialog_dummy_video.cpp:117
 msgid "Video resolution:"
 msgstr "Resolução do vídeo:"
 
-#: ../src/dialog_dummy_video.cpp:123
+#: ../src/dialog_dummy_video.cpp:119
 msgid "Color:"
 msgstr "Cor:"
 
-#: ../src/dialog_dummy_video.cpp:124
+#: ../src/dialog_dummy_video.cpp:122
 msgid "Frame rate (fps):"
 msgstr "Frames por segundo (fps):"
 
-#: ../src/dialog_dummy_video.cpp:125
+#: ../src/dialog_dummy_video.cpp:123
 msgid "Duration (frames):"
 msgstr "Duração (frames):"
 
-#: ../src/dialog_dummy_video.cpp:171
+#: ../src/dialog_dummy_video.cpp:178
 #, c-format
 msgid "Resulting duration: %s"
 msgstr "Duração resultante: %s"
@@ -3766,7 +3771,7 @@ msgstr "&Iniciar!"
 #: ../src/dialog_fonts_collector.cpp:304 ../src/dialog_fonts_collector.cpp:309
 #: ../src/dialog_fonts_collector.cpp:314 ../src/dialog_kara_timing_copy.cpp:574
 #: ../src/dialog_kara_timing_copy.cpp:576
-#: ../src/dialog_kara_timing_copy.cpp:626 ../src/preferences.cpp:272
+#: ../src/dialog_kara_timing_copy.cpp:626 ../src/preferences.cpp:280
 msgid "Error"
 msgstr "Erro"
 
@@ -3927,13 +3932,14 @@ msgstr "Por favor, seleccione os campos sobre os quais quer colar:"
 msgid "Comment"
 msgstr "&Comentário"
 
-#: ../src/dialog_paste_over.cpp:67 ../src/grid_column.cpp:248
-#: ../src/grid_column.cpp:249
+#: ../src/dialog_paste_over.cpp:67 ../src/grid_column.cpp:246
+#: ../src/grid_column.cpp:247
 msgid "Style"
 msgstr "Estilo"
 
-#: ../src/dialog_paste_over.cpp:68 ../src/grid_column.cpp:276
-#: ../src/grid_column.cpp:277 ../src/subs_edit_box.cpp:137
+#: ../src/dialog_paste_over.cpp:68 ../src/grid_column.cpp:274
+#: ../src/grid_column.cpp:275 ../src/subs_edit_box.cpp:141
+#: ../src/subs_edit_box.cpp:143 ../src/subs_edit_box.cpp:145
 msgid "Actor"
 msgstr "Personagem"
 
@@ -3965,11 +3971,11 @@ msgstr "&Tempos"
 msgid "T&ext"
 msgstr "T&exto"
 
-#: ../src/dialog_progress.cpp:206
+#: ../src/dialog_progress.cpp:207
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: ../src/dialog_progress.cpp:254
+#: ../src/dialog_progress.cpp:255
 msgid "Cancelling..."
 msgstr "A Cancelar..."
 
@@ -4474,7 +4480,7 @@ msgstr "Editor de Estilos"
 msgid "Font"
 msgstr "Tipo de Letra"
 
-#: ../src/dialog_style_editor.cpp:181 ../src/preferences.cpp:243
+#: ../src/dialog_style_editor.cpp:181 ../src/preferences.cpp:251
 msgid "Colors"
 msgstr "Cores"
 
@@ -4614,15 +4620,15 @@ msgstr "Secundária"
 msgid "Shadow"
 msgstr "Sombra"
 
-#: ../src/dialog_style_editor.cpp:292 ../src/grid_column.cpp:311
+#: ../src/dialog_style_editor.cpp:292 ../src/grid_column.cpp:309
 msgid "Left"
 msgstr "Esquerda"
 
-#: ../src/dialog_style_editor.cpp:292 ../src/grid_column.cpp:317
+#: ../src/dialog_style_editor.cpp:292 ../src/grid_column.cpp:315
 msgid "Right"
 msgstr "Direita"
 
-#: ../src/dialog_style_editor.cpp:292 ../src/grid_column.cpp:323
+#: ../src/dialog_style_editor.cpp:292 ../src/grid_column.cpp:321
 msgid "Vert"
 msgstr "Vertical"
 
@@ -4685,7 +4691,7 @@ msgstr ""
 msgid "Update script?"
 msgstr "Actualizar documento?"
 
-#: ../src/dialog_style_editor.cpp:457 ../src/subs_edit_box.cpp:617
+#: ../src/dialog_style_editor.cpp:457 ../src/subs_edit_box.cpp:633
 msgid "style change"
 msgstr "mudança de estilo"
 
@@ -4709,16 +4715,16 @@ msgstr "Mover estilo para o fim"
 msgid "Sort styles alphabetically"
 msgstr "Organizar estilos alfabeticamente"
 
-#: ../src/dialog_style_manager.cpp:203 ../src/preferences.cpp:652
+#: ../src/dialog_style_manager.cpp:203 ../src/preferences.cpp:676
 msgid "&New"
 msgstr "&Novo"
 
-#: ../src/dialog_style_manager.cpp:204 ../src/preferences.cpp:653
+#: ../src/dialog_style_manager.cpp:204 ../src/preferences.cpp:677
 msgid "&Edit"
 msgstr "&Editar"
 
-#: ../src/dialog_style_manager.cpp:205 ../src/subs_edit_ctrl.cpp:393
-#: ../src/timeedit_ctrl.cpp:208
+#: ../src/dialog_style_manager.cpp:205 ../src/subs_edit_ctrl.cpp:417
+#: ../src/timeedit_ctrl.cpp:209
 msgid "&Copy"
 msgstr "&Copiar"
 
@@ -4899,23 +4905,23 @@ msgstr "Estilos disponíveis"
 msgid "Set style"
 msgstr "Definir estilo"
 
-#: ../src/dialog_styling_assistant.cpp:87 ../src/dialog_translation.cpp:110
+#: ../src/dialog_styling_assistant.cpp:87 ../src/dialog_translation.cpp:115
 msgid "Keys"
 msgstr "Teclas"
 
-#: ../src/dialog_styling_assistant.cpp:92 ../src/dialog_translation.cpp:115
+#: ../src/dialog_styling_assistant.cpp:92 ../src/dialog_translation.cpp:120
 msgid "Previous line"
 msgstr "Linha anterior"
 
-#: ../src/dialog_styling_assistant.cpp:93 ../src/dialog_translation.cpp:116
+#: ../src/dialog_styling_assistant.cpp:93 ../src/dialog_translation.cpp:121
 msgid "Next line"
 msgstr "Linha seguinte"
 
-#: ../src/dialog_styling_assistant.cpp:94 ../src/dialog_translation.cpp:118
+#: ../src/dialog_styling_assistant.cpp:94 ../src/dialog_translation.cpp:123
 msgid "Play video"
 msgstr "Reproduzir vídeo"
 
-#: ../src/dialog_styling_assistant.cpp:95 ../src/dialog_translation.cpp:119
+#: ../src/dialog_styling_assistant.cpp:95 ../src/dialog_translation.cpp:124
 msgid "Play audio"
 msgstr "Reproduzir áudio"
 
@@ -4931,15 +4937,15 @@ msgstr "Seleccionar o estilo"
 msgid "&Seek video to line start time"
 msgstr "&Saltar o vídeo para o tempo inicial da linha seleccionada"
 
-#: ../src/dialog_styling_assistant.cpp:110 ../src/dialog_translation.cpp:131
+#: ../src/dialog_styling_assistant.cpp:110 ../src/dialog_translation.cpp:136
 msgid "Actions"
 msgstr "Acções"
 
-#: ../src/dialog_styling_assistant.cpp:113 ../src/dialog_translation.cpp:133
+#: ../src/dialog_styling_assistant.cpp:113 ../src/dialog_translation.cpp:138
 msgid "Play &Audio"
 msgstr "Reproduzir &Áudio"
 
-#: ../src/dialog_styling_assistant.cpp:117 ../src/dialog_translation.cpp:138
+#: ../src/dialog_styling_assistant.cpp:117 ../src/dialog_translation.cpp:143
 msgid "Play &Video"
 msgstr "Reproduzir &Vídeo"
 
@@ -5148,36 +5154,36 @@ msgstr "Script inválido"
 msgid "timing processor"
 msgstr "processador de tempo"
 
-#: ../src/dialog_translation.cpp:79
+#: ../src/dialog_translation.cpp:84
 msgid "Original"
 msgstr "Original"
 
-#: ../src/dialog_translation.cpp:102
+#: ../src/dialog_translation.cpp:107
 msgid "Translation"
 msgstr "Tradução"
 
-#: ../src/dialog_translation.cpp:117
+#: ../src/dialog_translation.cpp:122
 msgid "Insert original"
 msgstr "Inserir original"
 
-#: ../src/dialog_translation.cpp:120
+#: ../src/dialog_translation.cpp:125
 msgid "Delete line"
 msgstr "Eliminar linha"
 
-#: ../src/dialog_translation.cpp:123
+#: ../src/dialog_translation.cpp:128
 msgid "Enable &preview"
 msgstr "Activar pré-visualização"
 
-#: ../src/dialog_translation.cpp:180 ../src/dialog_translation.cpp:284
+#: ../src/dialog_translation.cpp:185 ../src/dialog_translation.cpp:289
 msgid "No more lines to translate."
 msgstr "Não existem mais linhas a serem traduzidas."
 
-#: ../src/dialog_translation.cpp:188 ../src/dialog_translation.cpp:238
+#: ../src/dialog_translation.cpp:193 ../src/dialog_translation.cpp:243
 #, c-format
 msgid "Current line: %d/%d"
 msgstr "Linha actual: %d/%d"
 
-#: ../src/dialog_translation.cpp:279
+#: ../src/dialog_translation.cpp:284
 msgid "translation assistant"
 msgstr "assistente de tradução"
 
@@ -5271,7 +5277,7 @@ msgid "Decoder:"
 msgstr "Descodificador:"
 
 #: ../src/dialog_video_details.cpp:66 ../src/preferences.cpp:166
-#: ../src/preferences.cpp:453
+#: ../src/preferences.cpp:461
 msgid "Video"
 msgstr "Vídeo"
 
@@ -5409,15 +5415,15 @@ msgstr "Escolha a faixa de vídeo"
 msgid "add fold"
 msgstr ""
 
-#: ../src/fold_controller.cpp:315
+#: ../src/fold_controller.cpp:301
 msgid "clear all folds"
 msgstr ""
 
-#: ../src/fold_controller.cpp:320
+#: ../src/fold_controller.cpp:308
 msgid "open all folds"
 msgstr ""
 
-#: ../src/fold_controller.cpp:325
+#: ../src/fold_controller.cpp:315
 msgid "close all folds"
 msgstr ""
 
@@ -5425,15 +5431,15 @@ msgstr ""
 msgid "clear folds"
 msgstr ""
 
-#: ../src/fold_controller.cpp:339
+#: ../src/fold_controller.cpp:343
 msgid "open folds"
 msgstr ""
 
-#: ../src/fold_controller.cpp:344
+#: ../src/fold_controller.cpp:352
 msgid "close folds"
 msgstr ""
 
-#: ../src/fold_controller.cpp:349
+#: ../src/fold_controller.cpp:361
 msgid "toggle folds"
 msgstr ""
 
@@ -5444,51 +5450,56 @@ msgstr "O estilo '%s' não existe\n"
 
 #: ../src/font_file_lister.cpp:154
 #, c-format
+msgid "Font '%s' is used in a drawing, but not in any text.\n"
+msgstr ""
+
+#: ../src/font_file_lister.cpp:160
+#, c-format
 msgid "Could not find font '%s'\n"
 msgstr "O seguinte tipo de letra não pôde ser encontrado: '%s'\n"
 
-#: ../src/font_file_lister.cpp:162
+#: ../src/font_file_lister.cpp:168
 #, c-format
 msgid "Found '%s' at '%s'\n"
 msgstr "Encontrado '%s' em '%s'\n"
 
-#: ../src/font_file_lister.cpp:168
+#: ../src/font_file_lister.cpp:174
 #, c-format
 msgid "'%s' does not have a bold variant.\n"
 msgstr "'%s' não possui a variante negrito.\n"
 
-#: ../src/font_file_lister.cpp:170
+#: ../src/font_file_lister.cpp:176
 #, c-format
 msgid "'%s' does not have an italic variant.\n"
 msgstr "'%s' não possui a variante itálico.\n"
 
-#: ../src/font_file_lister.cpp:174
+#: ../src/font_file_lister.cpp:180
 #, c-format
 msgid "'%s' is missing %d glyphs used.\n"
 msgstr " '%s' estão em falta em %d glifos usados.\n"
 
-#: ../src/font_file_lister.cpp:176
+#: ../src/font_file_lister.cpp:182
 #, c-format
 msgid "'%s' is missing the following glyphs used: %s\n"
 msgstr "Faltam estes glifos usados em '%s': %s\n"
 
-#: ../src/font_file_lister.cpp:187
+#: ../src/font_file_lister.cpp:193
 msgid "Used in styles:\n"
 msgstr "Usado nos estilos:\n"
 
-#: ../src/font_file_lister.cpp:193
+#: ../src/font_file_lister.cpp:199
 msgid "Used on lines:"
 msgstr "Usado nas linhas:"
 
-#: ../src/font_file_lister.cpp:205
+#: ../src/font_file_lister.cpp:211
 msgid "Parsing file\n"
 msgstr "A verificar o ficheiro\n"
 
-#: ../src/font_file_lister.cpp:219
+#: ../src/font_file_lister.cpp:225
 msgid "Searching for font files\n"
 msgstr "À procura dos tipos de letra no sistema...\n"
 
-#: ../src/font_file_lister.cpp:221
+#: ../src/font_file_lister.cpp:227
 msgid ""
 "Done\n"
 "\n"
@@ -5496,18 +5507,18 @@ msgstr ""
 "Procura terminada.\n"
 "\n"
 
-#: ../src/font_file_lister.cpp:228
+#: ../src/font_file_lister.cpp:234
 msgid "All fonts found.\n"
 msgstr "Terminado. Todos os tipos de letra foram encontrados.\n"
 
-#: ../src/font_file_lister.cpp:230
+#: ../src/font_file_lister.cpp:236
 #, c-format
 msgid "One font could not be found\n"
 msgid_plural "%d fonts could not be found.\n"
 msgstr[0] "Um tipo de letra não pôde ser encontrado.\n"
 msgstr[1] "%d tipos de letra não puderam ser encontrados.\n"
 
-#: ../src/font_file_lister.cpp:233
+#: ../src/font_file_lister.cpp:239
 #, c-format
 msgid "One font was found, but was missing glyphs used in the script.\n"
 msgid_plural ""
@@ -5540,43 +5551,43 @@ msgstr ""
 msgid "Folds"
 msgstr ""
 
-#: ../src/grid_column.cpp:177
+#: ../src/grid_column.cpp:175
 msgid "L"
 msgstr "C"
 
-#: ../src/grid_column.cpp:199
+#: ../src/grid_column.cpp:197
 msgid "Start"
 msgstr "Início"
 
-#: ../src/grid_column.cpp:217
+#: ../src/grid_column.cpp:215
 msgid "End"
 msgstr "Fim"
 
-#: ../src/grid_column.cpp:312
+#: ../src/grid_column.cpp:310
 msgid "Left Margin"
 msgstr "Margem Esquerda"
 
-#: ../src/grid_column.cpp:318
+#: ../src/grid_column.cpp:316
 msgid "Right Margin"
 msgstr "Margem Direita"
 
-#: ../src/grid_column.cpp:324
+#: ../src/grid_column.cpp:322
 msgid "Vertical Margin"
 msgstr "Margem Vertical"
 
-#: ../src/grid_column.cpp:342
+#: ../src/grid_column.cpp:340
 msgid "CPS"
 msgstr "CPS"
 
-#: ../src/grid_column.cpp:343
+#: ../src/grid_column.cpp:341
 msgid "Characters Per Second"
 msgstr "Caracteres Por Segundo"
 
-#: ../src/hotkey.cpp:269
+#: ../src/hotkey.cpp:258
 msgid "Invalid command name for hotkey"
 msgstr "Conjunto de teclas inválidas para atalho"
 
-#: ../src/main.cpp:276
+#: ../src/main.cpp:281
 #, c-format
 msgid ""
 "Oops, Aegisub has crashed!\n"
@@ -5595,11 +5606,11 @@ msgstr ""
 "\n"
 "O Aegisub irá encerrar."
 
-#: ../src/main.cpp:303
+#: ../src/main.cpp:308
 msgid "Check for updates?"
 msgstr "Verificar actualizações?"
 
-#: ../src/main.cpp:303
+#: ../src/main.cpp:308
 msgid ""
 "Do you want Aegisub to check for updates whenever it starts? You can still "
 "do it manually via the Help menu."
@@ -5607,11 +5618,11 @@ msgstr ""
 "Deseja que o Aegisub verifique por actualizações sempre que inicie? Poderá "
 "também fazê-lo manualmente no menu Ajuda."
 
-#: ../src/main.cpp:420 ../src/main.cpp:423
+#: ../src/main.cpp:425 ../src/main.cpp:428
 msgid "Program error"
 msgstr "Erro no programa"
 
-#: ../src/main.cpp:437
+#: ../src/main.cpp:442
 #, c-format
 msgid ""
 "An unexpected error has occurred. Please save your work and restart "
@@ -5624,37 +5635,37 @@ msgstr ""
 "\v\n"
 "\vMensagem de Erro: %s"
 
-#: ../src/menu.cpp:96
+#: ../src/menu.cpp:97
 msgid "Empty"
 msgstr "Vazio"
 
-#: ../src/menu.cpp:233
+#: ../src/menu.cpp:236
 msgid "&Recent"
 msgstr "&Recente"
 
-#: ../src/menu.cpp:464
+#: ../src/menu.cpp:467
 msgid "No Automation macros loaded"
 msgstr "Macros de automatização não carregadas"
 
-#: ../src/mkv_wrap.cpp:213
+#: ../src/mkv_wrap.cpp:244
 msgid "Choose which track to read:"
 msgstr "Escolha qual faixa deseja carregar:"
 
-#: ../src/mkv_wrap.cpp:213
+#: ../src/mkv_wrap.cpp:244
 msgid "Multiple subtitle tracks found"
 msgstr "Foram encontradas diversas faixas de legendas"
 
-#: ../src/mkv_wrap.cpp:251
+#: ../src/mkv_wrap.cpp:289
 msgid "Parsing Matroska"
 msgstr "A analisar Matroska"
 
-#: ../src/mkv_wrap.cpp:251
+#: ../src/mkv_wrap.cpp:289
 msgid "Reading subtitles from Matroska file."
 msgstr "A ler legendas do ficheiro Matroska."
 
 #: ../src/preferences.cpp:62 ../src/preferences.cpp:64
-#: ../src/preferences.cpp:343 ../src/preferences.cpp:364
-#: ../src/preferences.cpp:493
+#: ../src/preferences.cpp:351 ../src/preferences.cpp:372
+#: ../src/preferences.cpp:501
 msgid "General"
 msgstr "Geral"
 
@@ -5742,7 +5753,7 @@ msgstr "Importar TTXT"
 msgid "Plain text import"
 msgstr "Importar texto puro"
 
-#: ../src/preferences.cpp:126 ../src/preferences.cpp:377
+#: ../src/preferences.cpp:126 ../src/preferences.cpp:385
 msgid "Audio"
 msgstr "Áudio"
 
@@ -5840,7 +5851,7 @@ msgstr "Desenhar tempo no cursor"
 msgid "Video position"
 msgstr "Desenhar posição do vídeo"
 
-#: ../src/preferences.cpp:154 ../src/preferences.cpp:257
+#: ../src/preferences.cpp:154 ../src/preferences.cpp:265
 msgid "Seconds boundaries"
 msgstr "Divisória dos segundos"
 
@@ -5989,299 +6000,315 @@ msgid "Skip over whitespace"
 msgstr ""
 
 #: ../src/preferences.cpp:235
-msgid "Colour Picker"
+msgid "Visual Tools"
 msgstr ""
 
 #: ../src/preferences.cpp:236
+msgid "Shape handle size"
+msgstr ""
+
+#: ../src/preferences.cpp:238
+msgid "Colour Picker"
+msgstr ""
+
+#: ../src/preferences.cpp:239
 msgid "Restrict Screen Picker to Window"
 msgstr ""
 
-#: ../src/preferences.cpp:251
+#: ../src/preferences.cpp:242
+msgid "Dark Mode"
+msgstr ""
+
+#: ../src/preferences.cpp:243
+msgid "Enable experimental dark mode (restart required)"
+msgstr ""
+
+#: ../src/preferences.cpp:259
 msgid "Audio Display"
 msgstr "Reprodutor de áudio"
 
-#: ../src/preferences.cpp:252
+#: ../src/preferences.cpp:260
 msgid "Play cursor"
 msgstr "Cursor de reprodução"
 
-#: ../src/preferences.cpp:253
+#: ../src/preferences.cpp:261
 msgid "Line boundary start"
 msgstr "Divisa - início"
 
-#: ../src/preferences.cpp:254
+#: ../src/preferences.cpp:262
 msgid "Line boundary end"
 msgstr "Divisa - fim"
 
-#: ../src/preferences.cpp:255
+#: ../src/preferences.cpp:263
 msgid "Line boundary inactive line"
 msgstr "Divisa - inactiva"
 
-#: ../src/preferences.cpp:256
+#: ../src/preferences.cpp:264
 msgid "Syllable boundaries"
 msgstr "Divisória das sílabas"
 
-#: ../src/preferences.cpp:259
+#: ../src/preferences.cpp:267
 msgid "Syntax Highlighting"
 msgstr "Ligar destaque de sintaxe"
 
-#: ../src/preferences.cpp:260
+#: ../src/preferences.cpp:268
 msgid "Background"
 msgstr ""
 
-#: ../src/preferences.cpp:261
+#: ../src/preferences.cpp:269
 msgid "Normal"
 msgstr "Normal"
 
-#: ../src/preferences.cpp:262
+#: ../src/preferences.cpp:270
 msgid "Comments"
 msgstr ""
 
-#: ../src/preferences.cpp:263
+#: ../src/preferences.cpp:271
 msgid "Drawing Commands"
 msgstr ""
 
-#: ../src/preferences.cpp:264
+#: ../src/preferences.cpp:272
 msgid "Drawing X Coords"
 msgstr ""
 
-#: ../src/preferences.cpp:265
+#: ../src/preferences.cpp:273
 msgid "Drawing Y Coords"
 msgstr ""
 
-#: ../src/preferences.cpp:266
+#: ../src/preferences.cpp:274
 msgid "Underline Spline Endpoints"
 msgstr ""
 
-#: ../src/preferences.cpp:268
+#: ../src/preferences.cpp:276
 msgid "Brackets"
 msgstr "Chaves"
 
-#: ../src/preferences.cpp:269
+#: ../src/preferences.cpp:277
 msgid "Slashes and Parentheses"
 msgstr "Barras e parênteses"
 
-#: ../src/preferences.cpp:270
+#: ../src/preferences.cpp:278
 msgid "Tags"
 msgstr "Tags"
 
-#: ../src/preferences.cpp:271
+#: ../src/preferences.cpp:279
 msgid "Parameters"
 msgstr "Parâmetros"
 
-#: ../src/preferences.cpp:273
+#: ../src/preferences.cpp:281
 msgid "Error Background"
 msgstr "Fundo de Erro"
 
-#: ../src/preferences.cpp:274
+#: ../src/preferences.cpp:282
 msgid "Line Break"
 msgstr "Quebra de linha"
 
-#: ../src/preferences.cpp:275
+#: ../src/preferences.cpp:283
 msgid "Karaoke templates"
 msgstr "Template de karaoke"
 
-#: ../src/preferences.cpp:276
+#: ../src/preferences.cpp:284
 msgid "Karaoke variables"
 msgstr ""
 
-#: ../src/preferences.cpp:282
+#: ../src/preferences.cpp:290
 msgid "Audio Color Schemes"
 msgstr "Esquemas de Cor do Áudio"
 
-#: ../src/preferences.cpp:284 ../src/preferences.cpp:393
+#: ../src/preferences.cpp:292 ../src/preferences.cpp:401
 msgid "Spectrum"
 msgstr "Modo do espectro:"
 
-#: ../src/preferences.cpp:285
+#: ../src/preferences.cpp:293
 msgid "Waveform"
 msgstr "Onda de Áudio"
 
-#: ../src/preferences.cpp:287
+#: ../src/preferences.cpp:295
 msgid "Subtitle Grid"
 msgstr "Grelha da legenda"
 
-#: ../src/preferences.cpp:288
+#: ../src/preferences.cpp:296
 msgid "Standard foreground"
 msgstr "Texto padrão"
 
-#: ../src/preferences.cpp:289
+#: ../src/preferences.cpp:297
 msgid "Standard background"
 msgstr "Fundo padrão"
 
-#: ../src/preferences.cpp:290
+#: ../src/preferences.cpp:298
 msgid "Selection foreground"
 msgstr "Texto seleccionado"
 
-#: ../src/preferences.cpp:291
+#: ../src/preferences.cpp:299
 msgid "Selection background"
 msgstr "Fundo seleccionado"
 
-#: ../src/preferences.cpp:292
+#: ../src/preferences.cpp:300
 msgid "Collision foreground"
 msgstr "Texto em colisão"
 
-#: ../src/preferences.cpp:293
+#: ../src/preferences.cpp:301
 msgid "In frame background"
 msgstr "Fundo de linha no frame"
 
-#: ../src/preferences.cpp:294
+#: ../src/preferences.cpp:302
 msgid "Comment background"
 msgstr "Fundo de comentário"
 
-#: ../src/preferences.cpp:295
+#: ../src/preferences.cpp:303
 msgid "Selected comment background"
 msgstr "Fundo de comentário seleccionado"
 
-#: ../src/preferences.cpp:296
+#: ../src/preferences.cpp:304
 msgid "Open fold background"
 msgstr ""
 
-#: ../src/preferences.cpp:297
+#: ../src/preferences.cpp:305
 msgid "Closed fold background"
 msgstr ""
 
-#: ../src/preferences.cpp:298
+#: ../src/preferences.cpp:306
 msgid "Header background"
 msgstr "Fundo padrão"
 
-#: ../src/preferences.cpp:299
+#: ../src/preferences.cpp:307
 msgid "Left Column"
 msgstr "Coluna esquerda"
 
-#: ../src/preferences.cpp:300
+#: ../src/preferences.cpp:308
 msgid "Active Line Border"
 msgstr "Borda da linha activa"
 
-#: ../src/preferences.cpp:301
+#: ../src/preferences.cpp:309
 msgid "Lines"
 msgstr "Linhas"
 
-#: ../src/preferences.cpp:302
+#: ../src/preferences.cpp:310
 msgid "CPS Error"
 msgstr "Erro de CPS"
 
-#: ../src/preferences.cpp:304
+#: ../src/preferences.cpp:312
 msgid "Visual Typesetting Tools"
 msgstr ""
 
-#: ../src/preferences.cpp:305
+#: ../src/preferences.cpp:313
 msgid "Primary Lines"
 msgstr ""
 
-#: ../src/preferences.cpp:306
+#: ../src/preferences.cpp:314
 msgid "Secondary Lines"
 msgstr ""
 
-#: ../src/preferences.cpp:307
+#: ../src/preferences.cpp:315
 msgid "Primary Highlight"
 msgstr ""
 
-#: ../src/preferences.cpp:308
+#: ../src/preferences.cpp:316
 msgid "Secondary Highlight"
 msgstr ""
 
-#: ../src/preferences.cpp:311
+#: ../src/preferences.cpp:319
 msgid "Visual Typesetting Tools Alpha"
 msgstr ""
 
-#: ../src/preferences.cpp:312
+#: ../src/preferences.cpp:320
 msgid "Shaded Area"
 msgstr ""
 
-#: ../src/preferences.cpp:321
+#: ../src/preferences.cpp:329
 msgid "Backup"
 msgstr "Segurança"
 
-#: ../src/preferences.cpp:323
+#: ../src/preferences.cpp:331
 msgid "Automatic Save"
 msgstr "Cópias de Segurança Automáticas"
 
-#: ../src/preferences.cpp:324 ../src/preferences.cpp:332
+#: ../src/preferences.cpp:332 ../src/preferences.cpp:340
 msgid "Enable"
 msgstr "Activar"
 
-#: ../src/preferences.cpp:327
+#: ../src/preferences.cpp:335
 msgid "Interval in seconds"
 msgstr "Intersectar com a selecção"
 
-#: ../src/preferences.cpp:328 ../src/preferences.cpp:334
-#: ../src/preferences.cpp:391
+#: ../src/preferences.cpp:336 ../src/preferences.cpp:342
+#: ../src/preferences.cpp:399
 msgid "Path"
 msgstr "Caminho"
 
-#: ../src/preferences.cpp:329
+#: ../src/preferences.cpp:337
 msgid "Autosave after every change"
 msgstr "Guardar automaticamente após cada mudança"
 
-#: ../src/preferences.cpp:331
+#: ../src/preferences.cpp:339
 msgid "Automatic Backup"
 msgstr "Backup Automático"
 
-#: ../src/preferences.cpp:345
+#: ../src/preferences.cpp:353
 msgid "Base path"
 msgstr "Caminho base"
 
-#: ../src/preferences.cpp:346
+#: ../src/preferences.cpp:354
 msgid "Include path"
 msgstr "Caminho para includes"
 
-#: ../src/preferences.cpp:347
+#: ../src/preferences.cpp:355
 msgid "Auto-load path"
 msgstr "Caminho de auto-load"
 
-#: ../src/preferences.cpp:349
+#: ../src/preferences.cpp:357
 msgid "0: Fatal"
 msgstr "0: Fatal"
 
-#: ../src/preferences.cpp:349
+#: ../src/preferences.cpp:357
 msgid "1: Error"
 msgstr "1: Erro"
 
-#: ../src/preferences.cpp:349
+#: ../src/preferences.cpp:357
 msgid "2: Warning"
 msgstr "2: Aviso"
 
-#: ../src/preferences.cpp:349
+#: ../src/preferences.cpp:357
 msgid "3: Hint"
 msgstr "3: Dica"
 
-#: ../src/preferences.cpp:349
+#: ../src/preferences.cpp:357
 msgid "4: Debug"
 msgstr "4: Depurar"
 
-#: ../src/preferences.cpp:349
+#: ../src/preferences.cpp:357
 msgid "5: Trace"
 msgstr "5: Rastrear"
 
-#: ../src/preferences.cpp:351
+#: ../src/preferences.cpp:359
 msgid "Trace level"
 msgstr "Nível de rastreamento"
 
-#: ../src/preferences.cpp:353
+#: ../src/preferences.cpp:361
 msgid "All scripts"
 msgstr "Todos os scripts"
 
-#: ../src/preferences.cpp:353
+#: ../src/preferences.cpp:361
 msgid "Global autoload scripts"
 msgstr "Auto-carregar scripts globais"
 
-#: ../src/preferences.cpp:353
+#: ../src/preferences.cpp:361
 msgid "No scripts"
 msgstr "Nenhum script"
 
-#: ../src/preferences.cpp:353
+#: ../src/preferences.cpp:361
 msgid "Subtitle-local scripts"
 msgstr "Scripts locais às legendas"
 
-#: ../src/preferences.cpp:355
+#: ../src/preferences.cpp:363
 msgid "Autoreload on Export"
 msgstr "Auto-recarregar ao exportar"
 
-#: ../src/preferences.cpp:362
+#: ../src/preferences.cpp:370
 msgid "Advanced"
 msgstr "Avançado"
 
-#: ../src/preferences.cpp:366
+#: ../src/preferences.cpp:374
 msgid ""
 "Changing these settings might result in bugs and/or crashes.  Do not touch "
 "these unless you know what you're doing."
@@ -6289,213 +6316,221 @@ msgstr ""
 "Alterar estas configurações pode resultar em bugs/crashes. Não toque nestas "
 "opções se não souber o que está a fazer."
 
-#: ../src/preferences.cpp:379 ../src/preferences.cpp:455
+#: ../src/preferences.cpp:387 ../src/preferences.cpp:463
 msgid "Expert"
 msgstr "Experiente"
 
-#: ../src/preferences.cpp:382
+#: ../src/preferences.cpp:390
 msgid "Audio provider"
 msgstr "Fornecedor de áudio"
 
-#: ../src/preferences.cpp:385
+#: ../src/preferences.cpp:393
 msgid "Audio player"
 msgstr "Reprodutor de áudio"
 
-#: ../src/preferences.cpp:387
+#: ../src/preferences.cpp:395
 msgid "Cache"
 msgstr "Tipo de Cache"
 
-#: ../src/preferences.cpp:388
+#: ../src/preferences.cpp:396
 msgid "Hard Disk"
 msgstr "Disco Rígido"
 
-#: ../src/preferences.cpp:388
+#: ../src/preferences.cpp:396
 msgid "None (NOT RECOMMENDED)"
 msgstr "Nenhum (NÃO É RECOMENDADO)"
 
-#: ../src/preferences.cpp:388
+#: ../src/preferences.cpp:396
 msgid "RAM"
 msgstr "RAM"
 
-#: ../src/preferences.cpp:390
+#: ../src/preferences.cpp:398
 msgid "Cache type"
 msgstr "Tipo de Cache"
 
-#: ../src/preferences.cpp:395
+#: ../src/preferences.cpp:403
 msgid "Better quality"
 msgstr "Boa"
 
-#: ../src/preferences.cpp:395
+#: ../src/preferences.cpp:403
 msgid "High quality"
 msgstr "Alta"
 
-#: ../src/preferences.cpp:395
+#: ../src/preferences.cpp:403
 msgid "Insane quality"
 msgstr "Melhor"
 
-#: ../src/preferences.cpp:395
+#: ../src/preferences.cpp:403
 msgid "Regular quality"
 msgstr "Razoável"
 
-#: ../src/preferences.cpp:397
+#: ../src/preferences.cpp:405
 msgid "Quality"
 msgstr "Qualidade"
 
-#: ../src/preferences.cpp:399
+#: ../src/preferences.cpp:407
 msgid "Compressed"
 msgstr ""
 
-#: ../src/preferences.cpp:399
+#: ../src/preferences.cpp:407
 msgid "Extended"
 msgstr ""
 
-#: ../src/preferences.cpp:399
+#: ../src/preferences.cpp:407
 msgid "Linear"
 msgstr ""
 
-#: ../src/preferences.cpp:399
+#: ../src/preferences.cpp:407
 msgid "Logarithmic"
 msgstr ""
 
-#: ../src/preferences.cpp:399
+#: ../src/preferences.cpp:407
 msgid "Medium"
 msgstr ""
 
-#: ../src/preferences.cpp:401
+#: ../src/preferences.cpp:409
 msgid "Frequency mapping"
 msgstr ""
 
-#: ../src/preferences.cpp:403
+#: ../src/preferences.cpp:411
 msgid "Cache memory max (MB)"
 msgstr "Cache de memória máximo para espectro (MB)"
 
-#: ../src/preferences.cpp:409
+#: ../src/preferences.cpp:417
 msgid "Avisynth down-mixer"
 msgstr "Down-mixer do Avisynth"
 
-#: ../src/preferences.cpp:410
+#: ../src/preferences.cpp:418
 msgid "Force sample rate"
 msgstr "Forçar Frequência de Amostragem"
 
-#: ../src/preferences.cpp:416
+#: ../src/preferences.cpp:424
 msgid "Abort"
 msgstr "Abortar"
 
-#: ../src/preferences.cpp:416
+#: ../src/preferences.cpp:424
 msgid "Ignore"
 msgstr "Ignorar"
 
-#: ../src/preferences.cpp:416
+#: ../src/preferences.cpp:424
 msgid "Stop"
 msgstr "Parar"
 
-#: ../src/preferences.cpp:418
+#: ../src/preferences.cpp:426
 msgid "Audio indexing error handling mode"
 msgstr "Modo de tratamento de erros de índice de áudio"
 
-#: ../src/preferences.cpp:420
+#: ../src/preferences.cpp:428
 msgid "Always index all audio tracks"
 msgstr "Indexar sempre todas as faixas de áudio"
 
-#: ../src/preferences.cpp:421
+#: ../src/preferences.cpp:429
 msgid "Downmix to stereo"
 msgstr ""
 
-#: ../src/preferences.cpp:427
+#: ../src/preferences.cpp:435
 msgid "Max BS cache size (MB)"
 msgstr ""
 
-#: ../src/preferences.cpp:428
+#: ../src/preferences.cpp:436
 msgid "Use Aegisub's Cache"
 msgstr ""
 
-#: ../src/preferences.cpp:434
+#: ../src/preferences.cpp:442
 msgid "Portaudio device"
 msgstr "Dispositivo Portaudio"
 
-#: ../src/preferences.cpp:439
+#: ../src/preferences.cpp:447
 msgid "OSS Device"
 msgstr "Dispositivo OSS"
 
-#: ../src/preferences.cpp:444
+#: ../src/preferences.cpp:452
 msgid "Buffer latency"
 msgstr "Latência do Buffer"
 
-#: ../src/preferences.cpp:445
+#: ../src/preferences.cpp:453
 msgid "Buffer length"
 msgstr "Tamanho do Buffer"
 
-#: ../src/preferences.cpp:458
+#: ../src/preferences.cpp:466
 msgid "Video provider"
 msgstr "Fornecedor de vídeo"
 
-#: ../src/preferences.cpp:461
+#: ../src/preferences.cpp:469
 msgid "Subtitles provider"
 msgstr "Fornecedor de legendas"
 
-#: ../src/preferences.cpp:466
+#: ../src/preferences.cpp:474
 msgid "Avisynth memory limit"
 msgstr "Limite de memória do Avisynth"
 
-#: ../src/preferences.cpp:474
+#: ../src/preferences.cpp:482
 msgid "Debug log verbosity"
 msgstr "Verbosidade de relatório de depuração"
 
-#: ../src/preferences.cpp:476
+#: ../src/preferences.cpp:484
 msgid "Decoding threads"
 msgstr "Threads de descodificação"
 
-#: ../src/preferences.cpp:477
+#: ../src/preferences.cpp:485
 msgid "Enable unsafe seeking"
 msgstr "Permitir seek inseguro"
 
-#: ../src/preferences.cpp:482
+#: ../src/preferences.cpp:490
 msgid "Max cache size (MB)"
 msgstr ""
 
-#: ../src/preferences.cpp:483
+#: ../src/preferences.cpp:491
 msgid "Decoder Threads (0 to autodetect)"
 msgstr ""
 
-#: ../src/preferences.cpp:484
+#: ../src/preferences.cpp:492
 msgid "Seek preroll (Frames)"
 msgstr ""
 
-#: ../src/preferences.cpp:492
+#: ../src/preferences.cpp:500
 msgid "VapourSynth"
 msgstr ""
 
-#: ../src/preferences.cpp:497
-msgid "Log Level"
+#: ../src/preferences.cpp:505
+msgid "Log level"
 msgstr ""
 
-#: ../src/preferences.cpp:499
+#: ../src/preferences.cpp:507
+msgid "Load user plugins"
+msgstr ""
+
+#: ../src/preferences.cpp:509
 msgid "Default Video Script"
 msgstr ""
 
-#: ../src/preferences.cpp:501
+#: ../src/preferences.cpp:512
+msgid "Set to Default"
+msgstr ""
+
+#: ../src/preferences.cpp:519
 msgid ""
 "This script will be executed to load video files that aren't\n"
 "VapourSynth scripts (i.e. end in .py or .vpy).\n"
 "The filename variable stores the path to the file."
 msgstr ""
 
-#: ../src/preferences.cpp:509
+#: ../src/preferences.cpp:530
 msgid "Default Audio Script"
 msgstr ""
 
-#: ../src/preferences.cpp:510
+#: ../src/preferences.cpp:531
 msgid ""
 "This script will be executed to load audio files that aren't\n"
 "VapourSynth scripts (i.e. end in .py or .vpy).\n"
 "The filename variable stores the path to the file."
 msgstr ""
 
-#: ../src/preferences.cpp:648
+#: ../src/preferences.cpp:672
 msgid "Hotkeys"
 msgstr "Atalhos"
 
-#: ../src/preferences.cpp:746
+#: ../src/preferences.cpp:770
 msgid ""
 "Are you sure that you want to restore the defaults? All your settings will "
 "be overridden."
@@ -6503,15 +6538,15 @@ msgstr ""
 "Tem a certeza que deseja restaurar os padrões? Todas as suas modificações "
 "serão perdidas."
 
-#: ../src/preferences.cpp:746
+#: ../src/preferences.cpp:770
 msgid "Restore defaults?"
 msgstr "Restaurar padrões?"
 
-#: ../src/preferences.cpp:764
+#: ../src/preferences.cpp:788
 msgid "Preferences"
 msgstr "Preferências"
 
-#: ../src/preferences.cpp:793
+#: ../src/preferences.cpp:817
 msgid "&Restore Defaults"
 msgstr "Restaurar Padrões"
 
@@ -6582,26 +6617,16 @@ msgstr "O ficheiro de áudio não foi encontrado:"
 #: ../src/project.cpp:263
 msgid ""
 "None of the available audio providers recognised the selected file as "
-"containing audio data.\n"
+"containing audio data:\n"
 "\n"
-"The following providers were tried:\n"
 msgstr ""
-"Nenhum dos fornecedores de áudio disponíveis reconheceu que o ficheiro "
-"seleccionado contivesse qualquer tipo de data áudio.\n"
-"\n"
-"Os fornecedores em questão foram:\n"
 
 #: ../src/project.cpp:266
 msgid ""
 "None of the available audio providers have a codec available to handle the "
-"selected file.\n"
+"selected file:\n"
 "\n"
-"The following providers were tried:\n"
 msgstr ""
-"Nenhum dos fornecedores de áudio disponíveis tem um codec capaz de lidar com "
-"o ficheiro seleccionado.\n"
-"\n"
-"Os fornecedores em questão foram:\n"
 
 #: ../src/resolution_resampler.cpp:289
 msgid "resolution resampling"
@@ -6644,29 +6669,29 @@ msgstr "Sem título"
 msgid "untitled"
 msgstr "sem título"
 
-#: ../src/subs_edit_box.cpp:117
+#: ../src/subs_edit_box.cpp:120
 msgid "&Comment"
 msgstr "&Comentário"
 
-#: ../src/subs_edit_box.cpp:118
+#: ../src/subs_edit_box.cpp:121
 msgid "Comment this line out. Commented lines don't show up on screen."
 msgstr "Comenta esta linha. Linhas comentadas não aparecem no vídeo."
 
-#: ../src/subs_edit_box.cpp:125
+#: ../src/subs_edit_box.cpp:128
 msgid "Style for this line"
 msgstr "Estilo desta linha"
 
-#: ../src/subs_edit_box.cpp:127
+#: ../src/subs_edit_box.cpp:130
 msgid "Edit"
 msgstr "Editar"
 
-#: ../src/subs_edit_box.cpp:137
+#: ../src/subs_edit_box.cpp:142 ../src/subs_edit_box.cpp:145
 msgid ""
 "Actor name for this speech. This is only for reference, and is mainly "
 "useless."
 msgstr "Nome do personagem para esta fala. Apenas para referência."
 
-#: ../src/subs_edit_box.cpp:142
+#: ../src/subs_edit_box.cpp:153 ../src/subs_edit_box.cpp:156
 msgid ""
 "Effect for this line. This can be used to store extra information for "
 "karaoke scripts, or for the effects supported by the renderer."
@@ -6674,73 +6699,73 @@ msgstr ""
 "Efeito para esta linha. Pode ser usado para armazenar informação extra para "
 "scripts de karaoke, ou para efeitos suportados pelo rasterizador."
 
-#: ../src/subs_edit_box.cpp:149
+#: ../src/subs_edit_box.cpp:164
 msgid "Number of characters in the longest line of this subtitle."
 msgstr ""
 "Número de caracteres mais significativos da linha activa. (parte da linha "
 "com mais caracteres)"
 
-#: ../src/subs_edit_box.cpp:162
+#: ../src/subs_edit_box.cpp:177
 msgid "Layer number"
 msgstr "Número da camada"
 
-#: ../src/subs_edit_box.cpp:166
+#: ../src/subs_edit_box.cpp:181
 msgid "Start time"
 msgstr "Tempo inicial"
 
-#: ../src/subs_edit_box.cpp:167
+#: ../src/subs_edit_box.cpp:182
 msgid "End time"
 msgstr "Tempo final"
 
-#: ../src/subs_edit_box.cpp:169
+#: ../src/subs_edit_box.cpp:184
 msgid "Line duration"
 msgstr "Duração da linha"
 
-#: ../src/subs_edit_box.cpp:172
+#: ../src/subs_edit_box.cpp:187
 msgid "Left Margin (0 = default from style)"
 msgstr "Margem Esquerda (0 = padrão do estilo)"
 
-#: ../src/subs_edit_box.cpp:172
+#: ../src/subs_edit_box.cpp:187
 msgid "left margin change"
 msgstr "mudar margem esquerda"
 
-#: ../src/subs_edit_box.cpp:173
+#: ../src/subs_edit_box.cpp:188
 msgid "Right Margin (0 = default from style)"
 msgstr "Margem Direita (0 = padrão do estilo)"
 
-#: ../src/subs_edit_box.cpp:173
+#: ../src/subs_edit_box.cpp:188
 msgid "right margin change"
 msgstr "mudar margem direita"
 
-#: ../src/subs_edit_box.cpp:174
+#: ../src/subs_edit_box.cpp:189
 msgid "Vertical Margin (0 = default from style)"
 msgstr "Margem Vertical (0 = padrão do estilo)"
 
-#: ../src/subs_edit_box.cpp:174
+#: ../src/subs_edit_box.cpp:189
 msgid "vertical margin change"
 msgstr "mudar margem esquerda"
 
-#: ../src/subs_edit_box.cpp:193
+#: ../src/subs_edit_box.cpp:208
 msgid "T&ime"
 msgstr "Tempo"
 
-#: ../src/subs_edit_box.cpp:193
+#: ../src/subs_edit_box.cpp:208
 msgid "Time by h:mm:ss.cs"
 msgstr "Tempo em h:mm:ss.cs"
 
-#: ../src/subs_edit_box.cpp:194
+#: ../src/subs_edit_box.cpp:209
 msgid "F&rame"
 msgstr "F&rame"
 
-#: ../src/subs_edit_box.cpp:194
+#: ../src/subs_edit_box.cpp:209
 msgid "Time by frame number"
 msgstr "Tempo pelo número de frame"
 
-#: ../src/subs_edit_box.cpp:197
+#: ../src/subs_edit_box.cpp:212
 msgid "Show Original"
 msgstr "Mostrar Original"
 
-#: ../src/subs_edit_box.cpp:198
+#: ../src/subs_edit_box.cpp:213
 msgid ""
 "Show the contents of the subtitle line when it was first selected above the "
 "edit box. This is sometimes useful when editing subtitles or translating "
@@ -6750,79 +6775,79 @@ msgstr ""
 "primeira vez, por cima da caixa de edição. Será acima de tudo útil para a "
 "edição de legendas ou ainda para a tradução das legendas para outro idioma."
 
-#: ../src/subs_edit_box.cpp:458
+#: ../src/subs_edit_box.cpp:474
 msgid "modify text"
 msgstr "modificar texto"
 
-#: ../src/subs_edit_box.cpp:536
+#: ../src/subs_edit_box.cpp:552
 msgid "modify times"
 msgstr "modificar tempos"
 
-#: ../src/subs_edit_box.cpp:623
+#: ../src/subs_edit_box.cpp:639
 msgid "actor change"
 msgstr "editar personagem"
 
-#: ../src/subs_edit_box.cpp:628
+#: ../src/subs_edit_box.cpp:644
 msgid "layer change"
 msgstr "editar camada"
 
-#: ../src/subs_edit_box.cpp:633
+#: ../src/subs_edit_box.cpp:649
 msgid "effect change"
 msgstr "editar efeito"
 
-#: ../src/subs_edit_box.cpp:638
+#: ../src/subs_edit_box.cpp:654
 msgid "comment change"
 msgstr "editar comentário"
 
-#: ../src/subs_edit_ctrl.cpp:382
+#: ../src/subs_edit_ctrl.cpp:406
 msgid "Spell checker language"
 msgstr "Idioma do corrector ortográfico"
 
-#: ../src/subs_edit_ctrl.cpp:392
+#: ../src/subs_edit_ctrl.cpp:416
 msgid "Cu&t"
 msgstr "Cortar"
 
-#: ../src/subs_edit_ctrl.cpp:394 ../src/timeedit_ctrl.cpp:209
+#: ../src/subs_edit_ctrl.cpp:418 ../src/timeedit_ctrl.cpp:210
 msgid "&Paste"
 msgstr "Co&lar"
 
-#: ../src/subs_edit_ctrl.cpp:429
+#: ../src/subs_edit_ctrl.cpp:453
 #, c-format
 msgid "Remove \"%s\" from dictionary"
 msgstr "Remover \"%s\" do dicionário"
 
-#: ../src/subs_edit_ctrl.cpp:434
+#: ../src/subs_edit_ctrl.cpp:458
 msgid "No spell checker suggestions"
 msgstr "Nenhuma sugestão do corrector ortográfico disponível"
 
-#: ../src/subs_edit_ctrl.cpp:440
+#: ../src/subs_edit_ctrl.cpp:464
 #, c-format
 msgid "Spell checker suggestions for \"%s\""
 msgstr "Sugestões de correcção ortográfica para \"%s\""
 
-#: ../src/subs_edit_ctrl.cpp:445
+#: ../src/subs_edit_ctrl.cpp:469
 msgid "No correction suggestions"
 msgstr "Sem sugestões de correcção"
 
-#: ../src/subs_edit_ctrl.cpp:451
+#: ../src/subs_edit_ctrl.cpp:475
 #, c-format
 msgid "Add \"%s\" to dictionary"
 msgstr "Adicionar \"%s\" ao dicionário"
 
-#: ../src/subs_edit_ctrl.cpp:486
+#: ../src/subs_edit_ctrl.cpp:510
 #, c-format
 msgid "Thesaurus suggestions for \"%s\""
 msgstr "Sugestões de sinónimos para \"%s\""
 
-#: ../src/subs_edit_ctrl.cpp:489
+#: ../src/subs_edit_ctrl.cpp:513
 msgid "No thesaurus suggestions"
 msgstr "Não existem sugestões de sinónimos"
 
-#: ../src/subs_edit_ctrl.cpp:492
+#: ../src/subs_edit_ctrl.cpp:516
 msgid "Thesaurus language"
 msgstr "Idioma de sinónimos"
 
-#: ../src/subs_edit_ctrl.cpp:501
+#: ../src/subs_edit_ctrl.cpp:525
 msgid "Disable"
 msgstr "Desactivar"
 
@@ -6920,6 +6945,10 @@ msgstr "Tempo deste frame em relação ao início e fim da legenda actual"
 msgid "Scanning"
 msgstr ""
 
+#: ../src/video_provider_manager.cpp:141
+msgid "Error loading video"
+msgstr ""
+
 #: ../src/video_provider_vs.cpp:137
 msgid "Executing VapourSynth Script"
 msgstr ""
@@ -6940,7 +6969,7 @@ msgstr "posicionamento"
 msgid "Toggle between \\move and \\pos"
 msgstr "Alternar entre \\move e \\pos"
 
-#: ../src/visual_tool_vector_clip.cpp:277
+#: ../src/visual_tool_vector_clip.cpp:278
 msgid "delete control point"
 msgstr "Insere um ponto de controlo"
 
@@ -7977,6 +8006,28 @@ msgstr "Verificar Actualizações:"
 
 #~ msgid "No timecodes to average"
 #~ msgstr "Timecodes não encontrados para normalizar"
+
+#~ msgid ""
+#~ "None of the available audio providers have a codec available to handle "
+#~ "the selected file.\n"
+#~ "\n"
+#~ "The following providers were tried:\n"
+#~ msgstr ""
+#~ "Nenhum dos fornecedores de áudio disponíveis tem um codec capaz de lidar "
+#~ "com o ficheiro seleccionado.\n"
+#~ "\n"
+#~ "Os fornecedores em questão foram:\n"
+
+#~ msgid ""
+#~ "None of the available audio providers recognised the selected file as "
+#~ "containing audio data.\n"
+#~ "\n"
+#~ "The following providers were tried:\n"
+#~ msgstr ""
+#~ "Nenhum dos fornecedores de áudio disponíveis reconheceu que o ficheiro "
+#~ "seleccionado contivesse qualquer tipo de data áudio.\n"
+#~ "\n"
+#~ "Os fornecedores em questão foram:\n"
 
 #~ msgid "Not enough parameters for Aegisub::text_extents()"
 #~ msgstr "Não há parâmetros suficientes para Aegisub::text_extents()"

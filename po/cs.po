@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-30 03:10+0200\n"
+"POT-Creation-Date: 2023-11-07 18:36+0800\n"
 "PO-Revision-Date: 2012-10-10 22:10+0100\n"
 "Last-Translator: Adam Rambousek <rambousek@gmail.com>\n"
 "Language-Team:  <en@li.org>\n"
@@ -281,7 +281,7 @@ msgstr "Vertikální zoom"
 msgid "Audio Volume"
 msgstr "Hlasitost"
 
-#: ../src/audio_display.cpp:707
+#: ../src/audio_display.cpp:704
 #, c-format
 msgid "%d%%, %d pixel/second"
 msgstr "%d%%, %d pixelů/sekundu"
@@ -324,6 +324,10 @@ msgstr "Indexace"
 msgid "Creating cache... This can take a while!"
 msgstr ""
 
+#: ../src/audio_provider_factory.cpp:129
+msgid "Error loading audio"
+msgstr ""
+
 #: ../src/audio_renderer_waveform.cpp:152
 msgid "Maximum"
 msgstr "Maximum"
@@ -341,31 +345,31 @@ msgstr "časování"
 msgid "karaoke timing"
 msgstr "časování karaoke"
 
-#: ../src/auto4_base.cpp:451
+#: ../src/auto4_base.cpp:455
 #, c-format
 msgid ""
 "Failed to load Automation script '%s':\n"
 "%s"
 msgstr ""
 
-#: ../src/auto4_base.cpp:458
+#: ../src/auto4_base.cpp:462
 #, c-format
 msgid "The file was not recognised as an Automation script: %s"
 msgstr "Soubor nebyl rozpoznán jako skript Automatizace: %s"
 
-#: ../src/auto4_base.cpp:487 ../src/command/audio.cpp:85
+#: ../src/auto4_base.cpp:491 ../src/command/audio.cpp:85
 #: ../src/command/keyframe.cpp:77 ../src/command/timecode.cpp:74
 #: ../src/command/timecode.cpp:94 ../src/command/video.cpp:611
 msgid "All Files"
 msgstr "Všechny soubory"
 
-#: ../src/auto4_base.cpp:493 ../src/command/keyframe.cpp:75
+#: ../src/auto4_base.cpp:497 ../src/command/keyframe.cpp:75
 #: ../src/command/timecode.cpp:74 ../src/command/timecode.cpp:94
 #: ../src/subtitle_format.cpp:315
 msgid "All Supported Formats"
 msgstr "Všechny podporované formáty"
 
-#: ../src/auto4_base.cpp:499
+#: ../src/auto4_base.cpp:503
 msgid "File was not recognized as a script"
 msgstr "Soubor nebyl rozpoznán jako skript"
 
@@ -863,7 +867,7 @@ msgid "&Automation..."
 msgstr "&Automatizace..."
 
 #: ../src/command/automation.cpp:75 ../src/command/automation.cpp:87
-#: ../src/preferences.cpp:341
+#: ../src/preferences.cpp:349
 msgid "Automation"
 msgstr "Automatizace"
 
@@ -1204,7 +1208,7 @@ msgid "splitting"
 msgstr "Rozděluji"
 
 #: ../src/command/edit.cpp:1113 ../src/command/edit.cpp:1114
-#: ../src/subs_edit_ctrl.cpp:402
+#: ../src/subs_edit_ctrl.cpp:426
 msgid "Split at cursor (estimate times)"
 msgstr "Rozdělit v místě kurzoru (odhadnout časování)"
 
@@ -1215,7 +1219,7 @@ msgid ""
 msgstr ""
 
 #: ../src/command/edit.cpp:1129 ../src/command/edit.cpp:1130
-#: ../src/subs_edit_ctrl.cpp:401
+#: ../src/subs_edit_ctrl.cpp:425
 msgid "Split at cursor (preserve times)"
 msgstr "Rozdělit v místě kurzoru (zachovat časování)"
 
@@ -1292,7 +1296,7 @@ msgid "revert line"
 msgstr ""
 
 #: ../src/command/edit.cpp:1222 ../src/command/edit.cpp:1223
-#: ../src/preferences.cpp:416
+#: ../src/preferences.cpp:424
 msgid "Clear"
 msgstr "Vymazat"
 
@@ -1388,8 +1392,9 @@ msgid "&Effect"
 msgstr "Efekt"
 
 #: ../src/command/grid.cpp:135 ../src/command/grid.cpp:147
-#: ../src/dialog_paste_over.cpp:72 ../src/grid_column.cpp:262
-#: ../src/grid_column.cpp:263 ../src/subs_edit_box.cpp:142
+#: ../src/dialog_paste_over.cpp:72 ../src/grid_column.cpp:260
+#: ../src/grid_column.cpp:261 ../src/subs_edit_box.cpp:152
+#: ../src/subs_edit_box.cpp:154 ../src/subs_edit_box.cpp:156
 msgid "Effect"
 msgstr "Efekt"
 
@@ -1406,7 +1411,7 @@ msgid "&End Time"
 msgstr "Koncový čas"
 
 #: ../src/command/grid.cpp:159 ../src/command/grid.cpp:171
-#: ../src/dialog_paste_over.cpp:66 ../src/grid_column.cpp:218
+#: ../src/dialog_paste_over.cpp:66 ../src/grid_column.cpp:216
 msgid "End Time"
 msgstr "Konec"
 
@@ -1423,7 +1428,7 @@ msgid "&Layer"
 msgstr "Vrstva"
 
 #: ../src/command/grid.cpp:183 ../src/command/grid.cpp:195
-#: ../src/dialog_paste_over.cpp:64 ../src/grid_column.cpp:178
+#: ../src/dialog_paste_over.cpp:64 ../src/grid_column.cpp:176
 msgid "Layer"
 msgstr "Vrstva"
 
@@ -1440,7 +1445,7 @@ msgid "&Start Time"
 msgstr "Počáteční čas"
 
 #: ../src/command/grid.cpp:207 ../src/command/grid.cpp:219
-#: ../src/dialog_paste_over.cpp:65 ../src/grid_column.cpp:200
+#: ../src/dialog_paste_over.cpp:65 ../src/grid_column.cpp:198
 msgid "Start Time"
 msgstr "Počátek"
 
@@ -1475,7 +1480,7 @@ msgstr ""
 
 #: ../src/command/grid.cpp:255 ../src/command/grid.cpp:267
 #: ../src/dialog_kara_timing_copy.cpp:475 ../src/dialog_paste_over.cpp:73
-#: ../src/grid_column.cpp:410 ../src/grid_column.cpp:411
+#: ../src/grid_column.cpp:408 ../src/grid_column.cpp:409
 msgid "Text"
 msgstr "Text"
 
@@ -1662,51 +1667,51 @@ msgstr "Bug Tracker"
 msgid "Visit Aegisub's bug tracker to report bugs and request new features"
 msgstr "Otevře Bug Tracker Aegisubu - pro hlášení chyb a žádosti o nové funkce"
 
-#: ../src/command/help.cpp:69
+#: ../src/command/help.cpp:60
 msgid "&Contents"
 msgstr "Obsah"
 
-#: ../src/command/help.cpp:70
+#: ../src/command/help.cpp:61
 msgid "Contents"
 msgstr "Obsah"
 
-#: ../src/command/help.cpp:71
+#: ../src/command/help.cpp:62
 msgid "Help topics"
 msgstr "Témata nápovědy"
 
-#: ../src/command/help.cpp:81
+#: ../src/command/help.cpp:72
 msgid "&IRC Channel"
 msgstr "&IRC kanál"
 
-#: ../src/command/help.cpp:82
+#: ../src/command/help.cpp:73
 msgid "IRC Channel"
 msgstr "IRC kanál"
 
-#: ../src/command/help.cpp:83
+#: ../src/command/help.cpp:74
 msgid "Visit Aegisub's official IRC channel"
 msgstr "Otevře oficiální IRC (internet relay chat) kanál Aegisubu"
 
-#: ../src/command/help.cpp:93
+#: ../src/command/help.cpp:84
 msgid "&Visual Typesetting"
 msgstr "Grafická sazba"
 
-#: ../src/command/help.cpp:94
+#: ../src/command/help.cpp:85
 msgid "Visual Typesetting"
 msgstr "Grafická sazba"
 
-#: ../src/command/help.cpp:95
+#: ../src/command/help.cpp:86
 msgid "Open the manual page for Visual Typesetting"
 msgstr "Otevřít manuál na stránce s Grafickou sazbou"
 
-#: ../src/command/help.cpp:105
+#: ../src/command/help.cpp:96
 msgid "&Website"
 msgstr "Web Aegisubu"
 
-#: ../src/command/help.cpp:106
+#: ../src/command/help.cpp:97
 msgid "Website"
 msgstr "Web Aegisubu"
 
-#: ../src/command/help.cpp:107
+#: ../src/command/help.cpp:98
 msgid "Visit Aegisub's official website"
 msgstr "Otevře oficiální stránky Aegisubu"
 
@@ -1875,7 +1880,7 @@ msgid "New subtitles"
 msgstr "Nové titulky"
 
 #: ../src/command/subtitle.cpp:256 ../src/command/subtitle.cpp:257
-#: ../src/command/subtitle.cpp:258 ../src/dialog_progress.cpp:188
+#: ../src/command/subtitle.cpp:258 ../src/dialog_progress.cpp:189
 #: ../src/dialog_style_manager.cpp:315
 msgid "Close"
 msgstr "Zavřít"
@@ -1982,7 +1987,7 @@ msgid "Save subtitles with another name"
 msgstr ""
 
 #: ../src/command/subtitle.cpp:396 ../src/dialog_export.cpp:124
-#: ../src/dialog_selected_choices.cpp:26 ../src/subs_edit_ctrl.cpp:396
+#: ../src/dialog_selected_choices.cpp:26 ../src/subs_edit_ctrl.cpp:420
 msgid "Select &All"
 msgstr "Vybrat vše"
 
@@ -2317,7 +2322,7 @@ msgid "&Accept changes"
 msgstr "Potvrdit změny"
 
 #: ../src/command/tool.cpp:142 ../src/command/tool.cpp:226
-#: ../src/dialog_styling_assistant.cpp:90 ../src/dialog_translation.cpp:113
+#: ../src/dialog_styling_assistant.cpp:90 ../src/dialog_translation.cpp:118
 msgid "Accept changes"
 msgstr "Potvrdit změny"
 
@@ -2330,7 +2335,7 @@ msgid "&Preview changes"
 msgstr "Náhled změn"
 
 #: ../src/command/tool.cpp:153 ../src/command/tool.cpp:237
-#: ../src/dialog_styling_assistant.cpp:91 ../src/dialog_translation.cpp:114
+#: ../src/dialog_styling_assistant.cpp:91 ../src/dialog_translation.cpp:119
 msgid "Preview changes"
 msgstr "Náhled změn"
 
@@ -2380,7 +2385,7 @@ msgstr ""
 msgid "&Translation Assistant..."
 msgstr "Překladatelův pomocník..."
 
-#: ../src/command/tool.cpp:201 ../src/dialog_translation.cpp:66
+#: ../src/command/tool.cpp:201 ../src/dialog_translation.cpp:71
 #: ../src/preferences.cpp:232
 msgid "Translation Assistant"
 msgstr "Překladatelův pomocník"
@@ -3149,7 +3154,7 @@ msgid "E&xtract"
 msgstr "Rozbalit (&x)"
 
 #: ../src/dialog_attachments.cpp:79 ../src/dialog_style_manager.cpp:206
-#: ../src/preferences.cpp:654
+#: ../src/preferences.cpp:678
 msgid "&Delete"
 msgstr "Smazat (&D)"
 
@@ -3403,31 +3408,31 @@ msgstr "Jas"
 msgid "Video: %s"
 msgstr "Video: %s"
 
-#: ../src/dialog_dummy_video.cpp:106
+#: ../src/dialog_dummy_video.cpp:102
 msgid "Dummy video options"
 msgstr "Nastavení testovacího videa"
 
-#: ../src/dialog_dummy_video.cpp:118
+#: ../src/dialog_dummy_video.cpp:114
 msgid "Checkerboard &pattern"
 msgstr "Šachovnicový podklad"
 
-#: ../src/dialog_dummy_video.cpp:121
+#: ../src/dialog_dummy_video.cpp:117
 msgid "Video resolution:"
 msgstr "Rozlišení videa:"
 
-#: ../src/dialog_dummy_video.cpp:123
+#: ../src/dialog_dummy_video.cpp:119
 msgid "Color:"
 msgstr "Barva:"
 
-#: ../src/dialog_dummy_video.cpp:124
+#: ../src/dialog_dummy_video.cpp:122
 msgid "Frame rate (fps):"
 msgstr "Snímková frekvence (fps):"
 
-#: ../src/dialog_dummy_video.cpp:125
+#: ../src/dialog_dummy_video.cpp:123
 msgid "Duration (frames):"
 msgstr "Trvání (snímky):"
 
-#: ../src/dialog_dummy_video.cpp:171
+#: ../src/dialog_dummy_video.cpp:178
 #, c-format
 msgid "Resulting duration: %s"
 msgstr ""
@@ -3695,7 +3700,7 @@ msgstr "&Start!"
 #: ../src/dialog_fonts_collector.cpp:304 ../src/dialog_fonts_collector.cpp:309
 #: ../src/dialog_fonts_collector.cpp:314 ../src/dialog_kara_timing_copy.cpp:574
 #: ../src/dialog_kara_timing_copy.cpp:576
-#: ../src/dialog_kara_timing_copy.cpp:626 ../src/preferences.cpp:272
+#: ../src/dialog_kara_timing_copy.cpp:626 ../src/preferences.cpp:280
 msgid "Error"
 msgstr "Chyba"
 
@@ -3855,13 +3860,14 @@ msgstr "Vyberte pole, na která chcete použít Chytré vložení:"
 msgid "Comment"
 msgstr ""
 
-#: ../src/dialog_paste_over.cpp:67 ../src/grid_column.cpp:248
-#: ../src/grid_column.cpp:249
+#: ../src/dialog_paste_over.cpp:67 ../src/grid_column.cpp:246
+#: ../src/grid_column.cpp:247
 msgid "Style"
 msgstr "Styl"
 
-#: ../src/dialog_paste_over.cpp:68 ../src/grid_column.cpp:276
-#: ../src/grid_column.cpp:277 ../src/subs_edit_box.cpp:137
+#: ../src/dialog_paste_over.cpp:68 ../src/grid_column.cpp:274
+#: ../src/grid_column.cpp:275 ../src/subs_edit_box.cpp:141
+#: ../src/subs_edit_box.cpp:143 ../src/subs_edit_box.cpp:145
 msgid "Actor"
 msgstr "Postava"
 
@@ -3893,11 +3899,11 @@ msgstr "Časování"
 msgid "T&ext"
 msgstr "Text"
 
-#: ../src/dialog_progress.cpp:206
+#: ../src/dialog_progress.cpp:207
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: ../src/dialog_progress.cpp:254
+#: ../src/dialog_progress.cpp:255
 msgid "Cancelling..."
 msgstr "Ruším..."
 
@@ -4405,7 +4411,7 @@ msgstr "Editor stylů"
 msgid "Font"
 msgstr "Font"
 
-#: ../src/dialog_style_editor.cpp:181 ../src/preferences.cpp:243
+#: ../src/dialog_style_editor.cpp:181 ../src/preferences.cpp:251
 msgid "Colors"
 msgstr "Barvy"
 
@@ -4546,15 +4552,15 @@ msgstr "Sekundární"
 msgid "Shadow"
 msgstr "Stín"
 
-#: ../src/dialog_style_editor.cpp:292 ../src/grid_column.cpp:311
+#: ../src/dialog_style_editor.cpp:292 ../src/grid_column.cpp:309
 msgid "Left"
 msgstr "Zleva"
 
-#: ../src/dialog_style_editor.cpp:292 ../src/grid_column.cpp:317
+#: ../src/dialog_style_editor.cpp:292 ../src/grid_column.cpp:315
 msgid "Right"
 msgstr "Zprava"
 
-#: ../src/dialog_style_editor.cpp:292 ../src/grid_column.cpp:323
+#: ../src/dialog_style_editor.cpp:292 ../src/grid_column.cpp:321
 msgid "Vert"
 msgstr "Vertikálně"
 
@@ -4618,7 +4624,7 @@ msgstr ""
 msgid "Update script?"
 msgstr "Aktualizovat skript?"
 
-#: ../src/dialog_style_editor.cpp:457 ../src/subs_edit_box.cpp:617
+#: ../src/dialog_style_editor.cpp:457 ../src/subs_edit_box.cpp:633
 msgid "style change"
 msgstr "změna stylu"
 
@@ -4642,16 +4648,16 @@ msgstr "Přesunout styl na konec"
 msgid "Sort styles alphabetically"
 msgstr "Seřadit styly abecedně"
 
-#: ../src/dialog_style_manager.cpp:203 ../src/preferences.cpp:652
+#: ../src/dialog_style_manager.cpp:203 ../src/preferences.cpp:676
 msgid "&New"
 msgstr "Nové"
 
-#: ../src/dialog_style_manager.cpp:204 ../src/preferences.cpp:653
+#: ../src/dialog_style_manager.cpp:204 ../src/preferences.cpp:677
 msgid "&Edit"
 msgstr "Úpr&avy"
 
-#: ../src/dialog_style_manager.cpp:205 ../src/subs_edit_ctrl.cpp:393
-#: ../src/timeedit_ctrl.cpp:208
+#: ../src/dialog_style_manager.cpp:205 ../src/subs_edit_ctrl.cpp:417
+#: ../src/timeedit_ctrl.cpp:209
 msgid "&Copy"
 msgstr "Kopírovat"
 
@@ -4833,23 +4839,23 @@ msgstr "Dostupné styly"
 msgid "Set style"
 msgstr "Zvolit styl"
 
-#: ../src/dialog_styling_assistant.cpp:87 ../src/dialog_translation.cpp:110
+#: ../src/dialog_styling_assistant.cpp:87 ../src/dialog_translation.cpp:115
 msgid "Keys"
 msgstr "Klávesy"
 
-#: ../src/dialog_styling_assistant.cpp:92 ../src/dialog_translation.cpp:115
+#: ../src/dialog_styling_assistant.cpp:92 ../src/dialog_translation.cpp:120
 msgid "Previous line"
 msgstr "Předchozí řádek"
 
-#: ../src/dialog_styling_assistant.cpp:93 ../src/dialog_translation.cpp:116
+#: ../src/dialog_styling_assistant.cpp:93 ../src/dialog_translation.cpp:121
 msgid "Next line"
 msgstr "Následující řádek"
 
-#: ../src/dialog_styling_assistant.cpp:94 ../src/dialog_translation.cpp:118
+#: ../src/dialog_styling_assistant.cpp:94 ../src/dialog_translation.cpp:123
 msgid "Play video"
 msgstr "Přehrát video"
 
-#: ../src/dialog_styling_assistant.cpp:95 ../src/dialog_translation.cpp:119
+#: ../src/dialog_styling_assistant.cpp:95 ../src/dialog_translation.cpp:124
 msgid "Play audio"
 msgstr "Přehrát audio"
 
@@ -4865,15 +4871,15 @@ msgstr "Vybere styl"
 msgid "&Seek video to line start time"
 msgstr "Přesunout se ve videu na začáteční čas řádku"
 
-#: ../src/dialog_styling_assistant.cpp:110 ../src/dialog_translation.cpp:131
+#: ../src/dialog_styling_assistant.cpp:110 ../src/dialog_translation.cpp:136
 msgid "Actions"
 msgstr "Akce"
 
-#: ../src/dialog_styling_assistant.cpp:113 ../src/dialog_translation.cpp:133
+#: ../src/dialog_styling_assistant.cpp:113 ../src/dialog_translation.cpp:138
 msgid "Play &Audio"
 msgstr "Přehrát audio"
 
-#: ../src/dialog_styling_assistant.cpp:117 ../src/dialog_translation.cpp:138
+#: ../src/dialog_styling_assistant.cpp:117 ../src/dialog_translation.cpp:143
 msgid "Play &Video"
 msgstr "Přehrát video"
 
@@ -5080,36 +5086,36 @@ msgstr "Neplatný skript"
 msgid "timing processor"
 msgstr "Zpracování časování"
 
-#: ../src/dialog_translation.cpp:79
+#: ../src/dialog_translation.cpp:84
 msgid "Original"
 msgstr "Původní"
 
-#: ../src/dialog_translation.cpp:102
+#: ../src/dialog_translation.cpp:107
 msgid "Translation"
 msgstr "Překlad"
 
-#: ../src/dialog_translation.cpp:117
+#: ../src/dialog_translation.cpp:122
 msgid "Insert original"
 msgstr "Vložit originál"
 
-#: ../src/dialog_translation.cpp:120
+#: ../src/dialog_translation.cpp:125
 msgid "Delete line"
 msgstr "Smazat řádky"
 
-#: ../src/dialog_translation.cpp:123
+#: ../src/dialog_translation.cpp:128
 msgid "Enable &preview"
 msgstr "Povolit náhled"
 
-#: ../src/dialog_translation.cpp:180 ../src/dialog_translation.cpp:284
+#: ../src/dialog_translation.cpp:185 ../src/dialog_translation.cpp:289
 msgid "No more lines to translate."
 msgstr "Žádné další řádky k překladu."
 
-#: ../src/dialog_translation.cpp:188 ../src/dialog_translation.cpp:238
+#: ../src/dialog_translation.cpp:193 ../src/dialog_translation.cpp:243
 #, c-format
 msgid "Current line: %d/%d"
 msgstr "Aktuální řádek: %d/%d"
 
-#: ../src/dialog_translation.cpp:279
+#: ../src/dialog_translation.cpp:284
 msgid "translation assistant"
 msgstr "Překladatelův pomocník"
 
@@ -5202,7 +5208,7 @@ msgid "Decoder:"
 msgstr "Dekodér:"
 
 #: ../src/dialog_video_details.cpp:66 ../src/preferences.cpp:166
-#: ../src/preferences.cpp:453
+#: ../src/preferences.cpp:461
 msgid "Video"
 msgstr "Video"
 
@@ -5338,15 +5344,15 @@ msgstr "Vybrat video stopu"
 msgid "add fold"
 msgstr ""
 
-#: ../src/fold_controller.cpp:315
+#: ../src/fold_controller.cpp:301
 msgid "clear all folds"
 msgstr ""
 
-#: ../src/fold_controller.cpp:320
+#: ../src/fold_controller.cpp:308
 msgid "open all folds"
 msgstr ""
 
-#: ../src/fold_controller.cpp:325
+#: ../src/fold_controller.cpp:315
 msgid "close all folds"
 msgstr ""
 
@@ -5354,15 +5360,15 @@ msgstr ""
 msgid "clear folds"
 msgstr ""
 
-#: ../src/fold_controller.cpp:339
+#: ../src/fold_controller.cpp:343
 msgid "open folds"
 msgstr ""
 
-#: ../src/fold_controller.cpp:344
+#: ../src/fold_controller.cpp:352
 msgid "close folds"
 msgstr ""
 
-#: ../src/fold_controller.cpp:349
+#: ../src/fold_controller.cpp:361
 msgid "toggle folds"
 msgstr ""
 
@@ -5373,51 +5379,56 @@ msgstr ""
 
 #: ../src/font_file_lister.cpp:154
 #, c-format
+msgid "Font '%s' is used in a drawing, but not in any text.\n"
+msgstr ""
+
+#: ../src/font_file_lister.cpp:160
+#, c-format
 msgid "Could not find font '%s'\n"
 msgstr "Nelze najít font '%s'\n"
 
-#: ../src/font_file_lister.cpp:162
+#: ../src/font_file_lister.cpp:168
 #, c-format
 msgid "Found '%s' at '%s'\n"
 msgstr "Nalezeno '%s' v '%s'\n"
 
-#: ../src/font_file_lister.cpp:168
+#: ../src/font_file_lister.cpp:174
 #, c-format
 msgid "'%s' does not have a bold variant.\n"
 msgstr ""
 
-#: ../src/font_file_lister.cpp:170
+#: ../src/font_file_lister.cpp:176
 #, c-format
 msgid "'%s' does not have an italic variant.\n"
 msgstr ""
 
-#: ../src/font_file_lister.cpp:174
+#: ../src/font_file_lister.cpp:180
 #, c-format
 msgid "'%s' is missing %d glyphs used.\n"
 msgstr "V '%s' chybí %d použitých znaků.\n"
 
-#: ../src/font_file_lister.cpp:176
+#: ../src/font_file_lister.cpp:182
 #, c-format
 msgid "'%s' is missing the following glyphs used: %s\n"
 msgstr "V '%s' chybí následující použité znaky: %s\n"
 
-#: ../src/font_file_lister.cpp:187
+#: ../src/font_file_lister.cpp:193
 msgid "Used in styles:\n"
 msgstr "Použito ve stylech:\n"
 
-#: ../src/font_file_lister.cpp:193
+#: ../src/font_file_lister.cpp:199
 msgid "Used on lines:"
 msgstr "Použito na řádcích:"
 
-#: ../src/font_file_lister.cpp:205
+#: ../src/font_file_lister.cpp:211
 msgid "Parsing file\n"
 msgstr "Zpracování souboru\n"
 
-#: ../src/font_file_lister.cpp:219
+#: ../src/font_file_lister.cpp:225
 msgid "Searching for font files\n"
 msgstr "Vyhledávání fontů\n"
 
-#: ../src/font_file_lister.cpp:221
+#: ../src/font_file_lister.cpp:227
 msgid ""
 "Done\n"
 "\n"
@@ -5425,11 +5436,11 @@ msgstr ""
 "Hotovo\n"
 "\n"
 
-#: ../src/font_file_lister.cpp:228
+#: ../src/font_file_lister.cpp:234
 msgid "All fonts found.\n"
 msgstr "Všechny fonty nalezeny.\n"
 
-#: ../src/font_file_lister.cpp:230
+#: ../src/font_file_lister.cpp:236
 #, c-format
 msgid "One font could not be found\n"
 msgid_plural "%d fonts could not be found.\n"
@@ -5437,7 +5448,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: ../src/font_file_lister.cpp:233
+#: ../src/font_file_lister.cpp:239
 #, c-format
 msgid "One font was found, but was missing glyphs used in the script.\n"
 msgid_plural ""
@@ -5467,43 +5478,43 @@ msgstr ""
 msgid "Folds"
 msgstr ""
 
-#: ../src/grid_column.cpp:177
+#: ../src/grid_column.cpp:175
 msgid "L"
 msgstr "Ř"
 
-#: ../src/grid_column.cpp:199
+#: ../src/grid_column.cpp:197
 msgid "Start"
 msgstr "Počátek"
 
-#: ../src/grid_column.cpp:217
+#: ../src/grid_column.cpp:215
 msgid "End"
 msgstr "Konec"
 
-#: ../src/grid_column.cpp:312
+#: ../src/grid_column.cpp:310
 msgid "Left Margin"
 msgstr ""
 
-#: ../src/grid_column.cpp:318
+#: ../src/grid_column.cpp:316
 msgid "Right Margin"
 msgstr ""
 
-#: ../src/grid_column.cpp:324
+#: ../src/grid_column.cpp:322
 msgid "Vertical Margin"
 msgstr ""
 
-#: ../src/grid_column.cpp:342
+#: ../src/grid_column.cpp:340
 msgid "CPS"
 msgstr ""
 
-#: ../src/grid_column.cpp:343
+#: ../src/grid_column.cpp:341
 msgid "Characters Per Second"
 msgstr ""
 
-#: ../src/hotkey.cpp:269
+#: ../src/hotkey.cpp:258
 msgid "Invalid command name for hotkey"
 msgstr ""
 
-#: ../src/main.cpp:276
+#: ../src/main.cpp:281
 #, c-format
 msgid ""
 "Oops, Aegisub has crashed!\n"
@@ -5522,11 +5533,11 @@ msgstr ""
 "\n"
 "A teď zavřeme Aegisub."
 
-#: ../src/main.cpp:303
+#: ../src/main.cpp:308
 msgid "Check for updates?"
 msgstr "Zkontrolovat aktualizace?"
 
-#: ../src/main.cpp:303
+#: ../src/main.cpp:308
 msgid ""
 "Do you want Aegisub to check for updates whenever it starts? You can still "
 "do it manually via the Help menu."
@@ -5534,11 +5545,11 @@ msgstr ""
 "Chcete, aby Aegisub při spuštění kontroloval dostupnost nové verze? (Můžete "
 "to udělat i manuálně přes položku v menu Nápověda.)"
 
-#: ../src/main.cpp:420 ../src/main.cpp:423
+#: ../src/main.cpp:425 ../src/main.cpp:428
 msgid "Program error"
 msgstr "Chyba programu"
 
-#: ../src/main.cpp:437
+#: ../src/main.cpp:442
 #, c-format
 msgid ""
 "An unexpected error has occurred. Please save your work and restart "
@@ -5547,37 +5558,37 @@ msgid ""
 "Error Message: %s"
 msgstr ""
 
-#: ../src/menu.cpp:96
+#: ../src/menu.cpp:97
 msgid "Empty"
 msgstr "Prázdný"
 
-#: ../src/menu.cpp:233
+#: ../src/menu.cpp:236
 msgid "&Recent"
 msgstr "Naposledy otevřené"
 
-#: ../src/menu.cpp:464
+#: ../src/menu.cpp:467
 msgid "No Automation macros loaded"
 msgstr "Žádná makra Automatizace nebyla načtena"
 
-#: ../src/mkv_wrap.cpp:213
+#: ../src/mkv_wrap.cpp:244
 msgid "Choose which track to read:"
 msgstr "Zvolte, kterou stopu načíst:"
 
-#: ../src/mkv_wrap.cpp:213
+#: ../src/mkv_wrap.cpp:244
 msgid "Multiple subtitle tracks found"
 msgstr "Nalezeno více titulkových stop"
 
-#: ../src/mkv_wrap.cpp:251
+#: ../src/mkv_wrap.cpp:289
 msgid "Parsing Matroska"
 msgstr "Provádím rozbor Matrosky"
 
-#: ../src/mkv_wrap.cpp:251
+#: ../src/mkv_wrap.cpp:289
 msgid "Reading subtitles from Matroska file."
 msgstr "Načítám titulky z Matroska kontejneru."
 
 #: ../src/preferences.cpp:62 ../src/preferences.cpp:64
-#: ../src/preferences.cpp:343 ../src/preferences.cpp:364
-#: ../src/preferences.cpp:493
+#: ../src/preferences.cpp:351 ../src/preferences.cpp:372
+#: ../src/preferences.cpp:501
 msgid "General"
 msgstr "Obecné"
 
@@ -5661,7 +5672,7 @@ msgstr ""
 msgid "Plain text import"
 msgstr ""
 
-#: ../src/preferences.cpp:126 ../src/preferences.cpp:377
+#: ../src/preferences.cpp:126 ../src/preferences.cpp:385
 msgid "Audio"
 msgstr "Audio"
 
@@ -5757,7 +5768,7 @@ msgstr "Čas na pozici kurzoru"
 msgid "Video position"
 msgstr "Pozice videa"
 
-#: ../src/preferences.cpp:154 ../src/preferences.cpp:257
+#: ../src/preferences.cpp:154 ../src/preferences.cpp:265
 msgid "Seconds boundaries"
 msgstr "Meze sekund"
 
@@ -5906,299 +5917,315 @@ msgid "Skip over whitespace"
 msgstr ""
 
 #: ../src/preferences.cpp:235
-msgid "Colour Picker"
+msgid "Visual Tools"
 msgstr ""
 
 #: ../src/preferences.cpp:236
+msgid "Shape handle size"
+msgstr ""
+
+#: ../src/preferences.cpp:238
+msgid "Colour Picker"
+msgstr ""
+
+#: ../src/preferences.cpp:239
 msgid "Restrict Screen Picker to Window"
 msgstr ""
 
-#: ../src/preferences.cpp:251
+#: ../src/preferences.cpp:242
+msgid "Dark Mode"
+msgstr ""
+
+#: ../src/preferences.cpp:243
+msgid "Enable experimental dark mode (restart required)"
+msgstr ""
+
+#: ../src/preferences.cpp:259
 msgid "Audio Display"
 msgstr "Zobrazení audia"
 
-#: ../src/preferences.cpp:252
+#: ../src/preferences.cpp:260
 msgid "Play cursor"
 msgstr "Barva přehrávacího kurzoru"
 
-#: ../src/preferences.cpp:253
+#: ../src/preferences.cpp:261
 msgid "Line boundary start"
 msgstr "Ohraničení počátku řádku"
 
-#: ../src/preferences.cpp:254
+#: ../src/preferences.cpp:262
 msgid "Line boundary end"
 msgstr "Ohraničení konce řádku"
 
-#: ../src/preferences.cpp:255
+#: ../src/preferences.cpp:263
 msgid "Line boundary inactive line"
 msgstr "Ohraničení neaktivního řádku"
 
-#: ../src/preferences.cpp:256
+#: ../src/preferences.cpp:264
 msgid "Syllable boundaries"
 msgstr "Meze slabiky"
 
-#: ../src/preferences.cpp:259
+#: ../src/preferences.cpp:267
 msgid "Syntax Highlighting"
 msgstr "Zvýrazňování syntaxe"
 
-#: ../src/preferences.cpp:260
+#: ../src/preferences.cpp:268
 msgid "Background"
 msgstr ""
 
-#: ../src/preferences.cpp:261
+#: ../src/preferences.cpp:269
 msgid "Normal"
 msgstr "Normální"
 
-#: ../src/preferences.cpp:262
+#: ../src/preferences.cpp:270
 msgid "Comments"
 msgstr ""
 
-#: ../src/preferences.cpp:263
+#: ../src/preferences.cpp:271
 msgid "Drawing Commands"
 msgstr ""
 
-#: ../src/preferences.cpp:264
+#: ../src/preferences.cpp:272
 msgid "Drawing X Coords"
 msgstr ""
 
-#: ../src/preferences.cpp:265
+#: ../src/preferences.cpp:273
 msgid "Drawing Y Coords"
 msgstr ""
 
-#: ../src/preferences.cpp:266
+#: ../src/preferences.cpp:274
 msgid "Underline Spline Endpoints"
 msgstr ""
 
-#: ../src/preferences.cpp:268
+#: ../src/preferences.cpp:276
 msgid "Brackets"
 msgstr "Složené závorky"
 
-#: ../src/preferences.cpp:269
+#: ../src/preferences.cpp:277
 msgid "Slashes and Parentheses"
 msgstr "Lomítka a závorky"
 
-#: ../src/preferences.cpp:270
+#: ../src/preferences.cpp:278
 msgid "Tags"
 msgstr "Lomené závorky"
 
-#: ../src/preferences.cpp:271
+#: ../src/preferences.cpp:279
 msgid "Parameters"
 msgstr "Parametrické značky"
 
-#: ../src/preferences.cpp:273
+#: ../src/preferences.cpp:281
 msgid "Error Background"
 msgstr "Chybové pozadí"
 
-#: ../src/preferences.cpp:274
+#: ../src/preferences.cpp:282
 msgid "Line Break"
 msgstr "Zalomení řádku"
 
-#: ../src/preferences.cpp:275
+#: ../src/preferences.cpp:283
 msgid "Karaoke templates"
 msgstr "Šablona karaoke"
 
-#: ../src/preferences.cpp:276
+#: ../src/preferences.cpp:284
 msgid "Karaoke variables"
 msgstr ""
 
-#: ../src/preferences.cpp:282
+#: ../src/preferences.cpp:290
 msgid "Audio Color Schemes"
 msgstr "Barevná schémata audia"
 
-#: ../src/preferences.cpp:284 ../src/preferences.cpp:393
+#: ../src/preferences.cpp:292 ../src/preferences.cpp:401
 msgid "Spectrum"
 msgstr "Spektrum"
 
-#: ../src/preferences.cpp:285
+#: ../src/preferences.cpp:293
 msgid "Waveform"
 msgstr "Zvuková vlna"
 
-#: ../src/preferences.cpp:287
+#: ../src/preferences.cpp:295
 msgid "Subtitle Grid"
 msgstr "Titulkové pole"
 
-#: ../src/preferences.cpp:288
+#: ../src/preferences.cpp:296
 msgid "Standard foreground"
 msgstr "Písmo běžné"
 
-#: ../src/preferences.cpp:289
+#: ../src/preferences.cpp:297
 msgid "Standard background"
 msgstr "Pozadí běžné"
 
-#: ../src/preferences.cpp:290
+#: ../src/preferences.cpp:298
 msgid "Selection foreground"
 msgstr "Písmo výběru"
 
-#: ../src/preferences.cpp:291
+#: ../src/preferences.cpp:299
 msgid "Selection background"
 msgstr "Pozadí výběru"
 
-#: ../src/preferences.cpp:292
+#: ../src/preferences.cpp:300
 msgid "Collision foreground"
 msgstr "Písmo kolizí"
 
-#: ../src/preferences.cpp:293
+#: ../src/preferences.cpp:301
 msgid "In frame background"
 msgstr "Pozadí ve snímku"
 
-#: ../src/preferences.cpp:294
+#: ../src/preferences.cpp:302
 msgid "Comment background"
 msgstr "Pozadí komentáře"
 
-#: ../src/preferences.cpp:295
+#: ../src/preferences.cpp:303
 msgid "Selected comment background"
 msgstr "Pozadí označeného komentáře"
 
-#: ../src/preferences.cpp:296
+#: ../src/preferences.cpp:304
 msgid "Open fold background"
 msgstr ""
 
-#: ../src/preferences.cpp:297
+#: ../src/preferences.cpp:305
 msgid "Closed fold background"
 msgstr ""
 
-#: ../src/preferences.cpp:298
+#: ../src/preferences.cpp:306
 msgid "Header background"
 msgstr "Pozadí záhlaví"
 
-#: ../src/preferences.cpp:299
+#: ../src/preferences.cpp:307
 msgid "Left Column"
 msgstr "Levý sloupec"
 
-#: ../src/preferences.cpp:300
+#: ../src/preferences.cpp:308
 msgid "Active Line Border"
 msgstr "Ohraničení aktivní oblasti"
 
-#: ../src/preferences.cpp:301
+#: ../src/preferences.cpp:309
 msgid "Lines"
 msgstr "Řádky"
 
-#: ../src/preferences.cpp:302
+#: ../src/preferences.cpp:310
 msgid "CPS Error"
 msgstr ""
 
-#: ../src/preferences.cpp:304
+#: ../src/preferences.cpp:312
 msgid "Visual Typesetting Tools"
 msgstr ""
 
-#: ../src/preferences.cpp:305
+#: ../src/preferences.cpp:313
 msgid "Primary Lines"
 msgstr ""
 
-#: ../src/preferences.cpp:306
+#: ../src/preferences.cpp:314
 msgid "Secondary Lines"
 msgstr ""
 
-#: ../src/preferences.cpp:307
+#: ../src/preferences.cpp:315
 msgid "Primary Highlight"
 msgstr ""
 
-#: ../src/preferences.cpp:308
+#: ../src/preferences.cpp:316
 msgid "Secondary Highlight"
 msgstr ""
 
-#: ../src/preferences.cpp:311
+#: ../src/preferences.cpp:319
 msgid "Visual Typesetting Tools Alpha"
 msgstr ""
 
-#: ../src/preferences.cpp:312
+#: ../src/preferences.cpp:320
 msgid "Shaded Area"
 msgstr ""
 
-#: ../src/preferences.cpp:321
+#: ../src/preferences.cpp:329
 msgid "Backup"
 msgstr "Záloha"
 
-#: ../src/preferences.cpp:323
+#: ../src/preferences.cpp:331
 msgid "Automatic Save"
 msgstr "Automatické ukládání"
 
-#: ../src/preferences.cpp:324 ../src/preferences.cpp:332
+#: ../src/preferences.cpp:332 ../src/preferences.cpp:340
 msgid "Enable"
 msgstr "Povolit"
 
-#: ../src/preferences.cpp:327
+#: ../src/preferences.cpp:335
 msgid "Interval in seconds"
 msgstr "Interval v sekundách"
 
-#: ../src/preferences.cpp:328 ../src/preferences.cpp:334
-#: ../src/preferences.cpp:391
+#: ../src/preferences.cpp:336 ../src/preferences.cpp:342
+#: ../src/preferences.cpp:399
 msgid "Path"
 msgstr "Cesta"
 
-#: ../src/preferences.cpp:329
+#: ../src/preferences.cpp:337
 msgid "Autosave after every change"
 msgstr "Automaticky ukládat po každé změně"
 
-#: ../src/preferences.cpp:331
+#: ../src/preferences.cpp:339
 msgid "Automatic Backup"
 msgstr "Automatické zálohování"
 
-#: ../src/preferences.cpp:345
+#: ../src/preferences.cpp:353
 msgid "Base path"
 msgstr "Základní umístění"
 
-#: ../src/preferences.cpp:346
+#: ../src/preferences.cpp:354
 msgid "Include path"
 msgstr "Umístnění součástí"
 
-#: ../src/preferences.cpp:347
+#: ../src/preferences.cpp:355
 msgid "Auto-load path"
 msgstr "Umístění automaticky načítaných"
 
-#: ../src/preferences.cpp:349
+#: ../src/preferences.cpp:357
 msgid "0: Fatal"
 msgstr "0: Fatální chyba"
 
-#: ../src/preferences.cpp:349
+#: ../src/preferences.cpp:357
 msgid "1: Error"
 msgstr "1: Chyba"
 
-#: ../src/preferences.cpp:349
+#: ../src/preferences.cpp:357
 msgid "2: Warning"
 msgstr "2: Varování"
 
-#: ../src/preferences.cpp:349
+#: ../src/preferences.cpp:357
 msgid "3: Hint"
 msgstr "3: Tip"
 
-#: ../src/preferences.cpp:349
+#: ../src/preferences.cpp:357
 msgid "4: Debug"
 msgstr "4: Debug"
 
-#: ../src/preferences.cpp:349
+#: ../src/preferences.cpp:357
 msgid "5: Trace"
 msgstr "5: Trace"
 
-#: ../src/preferences.cpp:351
+#: ../src/preferences.cpp:359
 msgid "Trace level"
 msgstr "Trace level"
 
-#: ../src/preferences.cpp:353
+#: ../src/preferences.cpp:361
 msgid "All scripts"
 msgstr "Všechny skripty"
 
-#: ../src/preferences.cpp:353
+#: ../src/preferences.cpp:361
 msgid "Global autoload scripts"
 msgstr "Globální automaticky načítané skripty"
 
-#: ../src/preferences.cpp:353
+#: ../src/preferences.cpp:361
 msgid "No scripts"
 msgstr "Bez skriptů"
 
-#: ../src/preferences.cpp:353
+#: ../src/preferences.cpp:361
 msgid "Subtitle-local scripts"
 msgstr "Lokální titulkové skripty"
 
-#: ../src/preferences.cpp:355
+#: ../src/preferences.cpp:363
 msgid "Autoreload on Export"
 msgstr "Znovunačtení při exportu"
 
-#: ../src/preferences.cpp:362
+#: ../src/preferences.cpp:370
 msgid "Advanced"
 msgstr "Pokročilé"
 
-#: ../src/preferences.cpp:366
+#: ../src/preferences.cpp:374
 msgid ""
 "Changing these settings might result in bugs and/or crashes.  Do not touch "
 "these unless you know what you're doing."
@@ -6206,213 +6233,221 @@ msgstr ""
 "VAROVÁNÍ: Změna těchto nastavení může způsobit chyby, závady či pády "
 "aplikace. Pokud si nejste jisti, nesahejte na ně."
 
-#: ../src/preferences.cpp:379 ../src/preferences.cpp:455
+#: ../src/preferences.cpp:387 ../src/preferences.cpp:463
 msgid "Expert"
 msgstr "Expert"
 
-#: ../src/preferences.cpp:382
+#: ../src/preferences.cpp:390
 msgid "Audio provider"
 msgstr "Načtení audia"
 
-#: ../src/preferences.cpp:385
+#: ../src/preferences.cpp:393
 msgid "Audio player"
 msgstr "Přehrávání audia"
 
-#: ../src/preferences.cpp:387
+#: ../src/preferences.cpp:395
 msgid "Cache"
 msgstr "Vyrovnávací paměť"
 
-#: ../src/preferences.cpp:388
+#: ../src/preferences.cpp:396
 msgid "Hard Disk"
 msgstr "Pevný disk"
 
-#: ../src/preferences.cpp:388
+#: ../src/preferences.cpp:396
 msgid "None (NOT RECOMMENDED)"
 msgstr "Žádný (NEDOPORUČUJE SE)"
 
-#: ../src/preferences.cpp:388
+#: ../src/preferences.cpp:396
 msgid "RAM"
 msgstr "RAM"
 
-#: ../src/preferences.cpp:390
+#: ../src/preferences.cpp:398
 msgid "Cache type"
 msgstr "Typ vyrovnávací paměti"
 
-#: ../src/preferences.cpp:395
+#: ../src/preferences.cpp:403
 msgid "Better quality"
 msgstr "Vyšší kvalita"
 
-#: ../src/preferences.cpp:395
+#: ../src/preferences.cpp:403
 msgid "High quality"
 msgstr "Vysoká kvalita"
 
-#: ../src/preferences.cpp:395
+#: ../src/preferences.cpp:403
 msgid "Insane quality"
 msgstr "Nejvyšší kvalita"
 
-#: ../src/preferences.cpp:395
+#: ../src/preferences.cpp:403
 msgid "Regular quality"
 msgstr "Běžná kvalita"
 
-#: ../src/preferences.cpp:397
+#: ../src/preferences.cpp:405
 msgid "Quality"
 msgstr "Kvalita"
 
-#: ../src/preferences.cpp:399
+#: ../src/preferences.cpp:407
 msgid "Compressed"
 msgstr ""
 
-#: ../src/preferences.cpp:399
+#: ../src/preferences.cpp:407
 msgid "Extended"
 msgstr ""
 
-#: ../src/preferences.cpp:399
+#: ../src/preferences.cpp:407
 msgid "Linear"
 msgstr ""
 
-#: ../src/preferences.cpp:399
+#: ../src/preferences.cpp:407
 msgid "Logarithmic"
 msgstr ""
 
-#: ../src/preferences.cpp:399
+#: ../src/preferences.cpp:407
 msgid "Medium"
 msgstr ""
 
-#: ../src/preferences.cpp:401
+#: ../src/preferences.cpp:409
 msgid "Frequency mapping"
 msgstr ""
 
-#: ../src/preferences.cpp:403
+#: ../src/preferences.cpp:411
 msgid "Cache memory max (MB)"
 msgstr "Maximální velikost vyrovnávací paměti (MB)"
 
-#: ../src/preferences.cpp:409
+#: ../src/preferences.cpp:417
 msgid "Avisynth down-mixer"
 msgstr "Směšovač Avisynthu"
 
-#: ../src/preferences.cpp:410
+#: ../src/preferences.cpp:418
 msgid "Force sample rate"
 msgstr "Vnutit sample rate"
 
-#: ../src/preferences.cpp:416
+#: ../src/preferences.cpp:424
 msgid "Abort"
 msgstr "Zrušit"
 
-#: ../src/preferences.cpp:416
+#: ../src/preferences.cpp:424
 msgid "Ignore"
 msgstr "Přeskočit"
 
-#: ../src/preferences.cpp:416
+#: ../src/preferences.cpp:424
 msgid "Stop"
 msgstr "Zastavit"
 
-#: ../src/preferences.cpp:418
+#: ../src/preferences.cpp:426
 msgid "Audio indexing error handling mode"
 msgstr "Režim zpracování chyb při indexaci audia"
 
-#: ../src/preferences.cpp:420
+#: ../src/preferences.cpp:428
 msgid "Always index all audio tracks"
 msgstr "Vždy indexovat všechny audio stopy"
 
-#: ../src/preferences.cpp:421
+#: ../src/preferences.cpp:429
 msgid "Downmix to stereo"
 msgstr ""
 
-#: ../src/preferences.cpp:427
+#: ../src/preferences.cpp:435
 msgid "Max BS cache size (MB)"
 msgstr ""
 
-#: ../src/preferences.cpp:428
+#: ../src/preferences.cpp:436
 msgid "Use Aegisub's Cache"
 msgstr ""
 
-#: ../src/preferences.cpp:434
+#: ../src/preferences.cpp:442
 msgid "Portaudio device"
 msgstr "Zařízení portaudio"
 
-#: ../src/preferences.cpp:439
+#: ../src/preferences.cpp:447
 msgid "OSS Device"
 msgstr "Zařízení OSS"
 
-#: ../src/preferences.cpp:444
+#: ../src/preferences.cpp:452
 msgid "Buffer latency"
 msgstr "Zpoždění bufferu"
 
-#: ../src/preferences.cpp:445
+#: ../src/preferences.cpp:453
 msgid "Buffer length"
 msgstr "Délka bufferu"
 
-#: ../src/preferences.cpp:458
+#: ../src/preferences.cpp:466
 msgid "Video provider"
 msgstr "Načtení videa"
 
-#: ../src/preferences.cpp:461
+#: ../src/preferences.cpp:469
 msgid "Subtitles provider"
 msgstr "Načtení titulků"
 
-#: ../src/preferences.cpp:466
+#: ../src/preferences.cpp:474
 msgid "Avisynth memory limit"
 msgstr "Limit paměti pro Avisynth"
 
-#: ../src/preferences.cpp:474
+#: ../src/preferences.cpp:482
 msgid "Debug log verbosity"
 msgstr "Ukecanost debug logu"
 
-#: ../src/preferences.cpp:476
+#: ../src/preferences.cpp:484
 msgid "Decoding threads"
 msgstr "Dekódovací vlákna"
 
-#: ../src/preferences.cpp:477
+#: ../src/preferences.cpp:485
 msgid "Enable unsafe seeking"
 msgstr "Povolit nebezpečné posouvání"
 
-#: ../src/preferences.cpp:482
+#: ../src/preferences.cpp:490
 msgid "Max cache size (MB)"
 msgstr ""
 
-#: ../src/preferences.cpp:483
+#: ../src/preferences.cpp:491
 msgid "Decoder Threads (0 to autodetect)"
 msgstr ""
 
-#: ../src/preferences.cpp:484
+#: ../src/preferences.cpp:492
 msgid "Seek preroll (Frames)"
 msgstr ""
 
-#: ../src/preferences.cpp:492
+#: ../src/preferences.cpp:500
 msgid "VapourSynth"
 msgstr ""
 
-#: ../src/preferences.cpp:497
-msgid "Log Level"
+#: ../src/preferences.cpp:505
+msgid "Log level"
 msgstr ""
 
-#: ../src/preferences.cpp:499
+#: ../src/preferences.cpp:507
+msgid "Load user plugins"
+msgstr ""
+
+#: ../src/preferences.cpp:509
 msgid "Default Video Script"
 msgstr ""
 
-#: ../src/preferences.cpp:501
+#: ../src/preferences.cpp:512
+msgid "Set to Default"
+msgstr ""
+
+#: ../src/preferences.cpp:519
 msgid ""
 "This script will be executed to load video files that aren't\n"
 "VapourSynth scripts (i.e. end in .py or .vpy).\n"
 "The filename variable stores the path to the file."
 msgstr ""
 
-#: ../src/preferences.cpp:509
+#: ../src/preferences.cpp:530
 msgid "Default Audio Script"
 msgstr ""
 
-#: ../src/preferences.cpp:510
+#: ../src/preferences.cpp:531
 msgid ""
 "This script will be executed to load audio files that aren't\n"
 "VapourSynth scripts (i.e. end in .py or .vpy).\n"
 "The filename variable stores the path to the file."
 msgstr ""
 
-#: ../src/preferences.cpp:648
+#: ../src/preferences.cpp:672
 msgid "Hotkeys"
 msgstr "Klávesové zkratky"
 
-#: ../src/preferences.cpp:746
+#: ../src/preferences.cpp:770
 msgid ""
 "Are you sure that you want to restore the defaults? All your settings will "
 "be overridden."
@@ -6420,15 +6455,15 @@ msgstr ""
 "Skutečně chcete obnovit výchozí nastavení? Všechny vaše úpravy budou "
 "přepsány."
 
-#: ../src/preferences.cpp:746
+#: ../src/preferences.cpp:770
 msgid "Restore defaults?"
 msgstr "Obnovit výchozí?"
 
-#: ../src/preferences.cpp:764
+#: ../src/preferences.cpp:788
 msgid "Preferences"
 msgstr "Předvolby"
 
-#: ../src/preferences.cpp:793
+#: ../src/preferences.cpp:817
 msgid "&Restore Defaults"
 msgstr "Obnovit výchozí"
 
@@ -6499,17 +6534,15 @@ msgstr ""
 #: ../src/project.cpp:263
 msgid ""
 "None of the available audio providers recognised the selected file as "
-"containing audio data.\n"
+"containing audio data:\n"
 "\n"
-"The following providers were tried:\n"
 msgstr ""
 
 #: ../src/project.cpp:266
 msgid ""
 "None of the available audio providers have a codec available to handle the "
-"selected file.\n"
+"selected file:\n"
 "\n"
-"The following providers were tried:\n"
 msgstr ""
 
 #: ../src/resolution_resampler.cpp:289
@@ -6554,30 +6587,30 @@ msgstr "Bez názvu"
 msgid "untitled"
 msgstr "bez názvu"
 
-#: ../src/subs_edit_box.cpp:117
+#: ../src/subs_edit_box.cpp:120
 msgid "&Comment"
 msgstr "Komentář"
 
-#: ../src/subs_edit_box.cpp:118
+#: ../src/subs_edit_box.cpp:121
 msgid "Comment this line out. Commented lines don't show up on screen."
 msgstr "Udělá z řádku komentář. Komentářové řádky se nezobrazují."
 
-#: ../src/subs_edit_box.cpp:125
+#: ../src/subs_edit_box.cpp:128
 msgid "Style for this line"
 msgstr "Styl tohoto řádku"
 
-#: ../src/subs_edit_box.cpp:127
+#: ../src/subs_edit_box.cpp:130
 msgid "Edit"
 msgstr "Upravit"
 
-#: ../src/subs_edit_box.cpp:137
+#: ../src/subs_edit_box.cpp:142 ../src/subs_edit_box.cpp:145
 msgid ""
 "Actor name for this speech. This is only for reference, and is mainly "
 "useless."
 msgstr ""
 "Jméno mluvčího tohoto titulku. Zpřesňující informace, většinou zbytečná."
 
-#: ../src/subs_edit_box.cpp:142
+#: ../src/subs_edit_box.cpp:153 ../src/subs_edit_box.cpp:156
 msgid ""
 "Effect for this line. This can be used to store extra information for "
 "karaoke scripts, or for the effects supported by the renderer."
@@ -6585,150 +6618,150 @@ msgstr ""
 "Efekt řádku. Tato položka může být použita pro odložení speciálních "
 "informací pro karaoke skripty nebo efekty podporované rendererem."
 
-#: ../src/subs_edit_box.cpp:149
+#: ../src/subs_edit_box.cpp:164
 msgid "Number of characters in the longest line of this subtitle."
 msgstr ""
 
-#: ../src/subs_edit_box.cpp:162
+#: ../src/subs_edit_box.cpp:177
 msgid "Layer number"
 msgstr "Číslo vrstvy"
 
-#: ../src/subs_edit_box.cpp:166
+#: ../src/subs_edit_box.cpp:181
 msgid "Start time"
 msgstr "Počátek"
 
-#: ../src/subs_edit_box.cpp:167
+#: ../src/subs_edit_box.cpp:182
 msgid "End time"
 msgstr "Konec"
 
-#: ../src/subs_edit_box.cpp:169
+#: ../src/subs_edit_box.cpp:184
 msgid "Line duration"
 msgstr "Trvání"
 
-#: ../src/subs_edit_box.cpp:172
+#: ../src/subs_edit_box.cpp:187
 msgid "Left Margin (0 = default from style)"
 msgstr ""
 
-#: ../src/subs_edit_box.cpp:172
+#: ../src/subs_edit_box.cpp:187
 msgid "left margin change"
 msgstr ""
 
-#: ../src/subs_edit_box.cpp:173
+#: ../src/subs_edit_box.cpp:188
 msgid "Right Margin (0 = default from style)"
 msgstr ""
 
-#: ../src/subs_edit_box.cpp:173
+#: ../src/subs_edit_box.cpp:188
 msgid "right margin change"
 msgstr ""
 
-#: ../src/subs_edit_box.cpp:174
+#: ../src/subs_edit_box.cpp:189
 msgid "Vertical Margin (0 = default from style)"
 msgstr ""
 
-#: ../src/subs_edit_box.cpp:174
+#: ../src/subs_edit_box.cpp:189
 msgid "vertical margin change"
 msgstr ""
 
-#: ../src/subs_edit_box.cpp:193
+#: ../src/subs_edit_box.cpp:208
 msgid "T&ime"
 msgstr "Čas"
 
-#: ../src/subs_edit_box.cpp:193
+#: ../src/subs_edit_box.cpp:208
 msgid "Time by h:mm:ss.cs"
 msgstr "Čas v h:mm:ss.cs"
 
-#: ../src/subs_edit_box.cpp:194
+#: ../src/subs_edit_box.cpp:209
 msgid "F&rame"
 msgstr "Snímek"
 
-#: ../src/subs_edit_box.cpp:194
+#: ../src/subs_edit_box.cpp:209
 msgid "Time by frame number"
 msgstr "Čas podle čísla snímku"
 
-#: ../src/subs_edit_box.cpp:197
+#: ../src/subs_edit_box.cpp:212
 msgid "Show Original"
 msgstr ""
 
-#: ../src/subs_edit_box.cpp:198
+#: ../src/subs_edit_box.cpp:213
 msgid ""
 "Show the contents of the subtitle line when it was first selected above the "
 "edit box. This is sometimes useful when editing subtitles or translating "
 "subtitles into another language."
 msgstr ""
 
-#: ../src/subs_edit_box.cpp:458
+#: ../src/subs_edit_box.cpp:474
 msgid "modify text"
 msgstr "upravit text"
 
-#: ../src/subs_edit_box.cpp:536
+#: ../src/subs_edit_box.cpp:552
 msgid "modify times"
 msgstr "Upravit čas"
 
-#: ../src/subs_edit_box.cpp:623
+#: ../src/subs_edit_box.cpp:639
 msgid "actor change"
 msgstr "Změna postavy"
 
-#: ../src/subs_edit_box.cpp:628
+#: ../src/subs_edit_box.cpp:644
 msgid "layer change"
 msgstr "Změna vrstvy"
 
-#: ../src/subs_edit_box.cpp:633
+#: ../src/subs_edit_box.cpp:649
 msgid "effect change"
 msgstr "Změna efektu"
 
-#: ../src/subs_edit_box.cpp:638
+#: ../src/subs_edit_box.cpp:654
 msgid "comment change"
 msgstr "Změna komentáře"
 
-#: ../src/subs_edit_ctrl.cpp:382
+#: ../src/subs_edit_ctrl.cpp:406
 msgid "Spell checker language"
 msgstr "Jazyk kontroly pravopisu"
 
-#: ../src/subs_edit_ctrl.cpp:392
+#: ../src/subs_edit_ctrl.cpp:416
 msgid "Cu&t"
 msgstr "Vyjmout"
 
-#: ../src/subs_edit_ctrl.cpp:394 ../src/timeedit_ctrl.cpp:209
+#: ../src/subs_edit_ctrl.cpp:418 ../src/timeedit_ctrl.cpp:210
 msgid "&Paste"
 msgstr "Vložit"
 
-#: ../src/subs_edit_ctrl.cpp:429
+#: ../src/subs_edit_ctrl.cpp:453
 #, c-format
 msgid "Remove \"%s\" from dictionary"
 msgstr ""
 
-#: ../src/subs_edit_ctrl.cpp:434
+#: ../src/subs_edit_ctrl.cpp:458
 msgid "No spell checker suggestions"
 msgstr "Žádné návrhy kontroly pravopisu"
 
-#: ../src/subs_edit_ctrl.cpp:440
+#: ../src/subs_edit_ctrl.cpp:464
 #, c-format
 msgid "Spell checker suggestions for \"%s\""
 msgstr "Návrhy kontroly pravopisu pro  \"%s\""
 
-#: ../src/subs_edit_ctrl.cpp:445
+#: ../src/subs_edit_ctrl.cpp:469
 msgid "No correction suggestions"
 msgstr "Žádné návrhy na opravu"
 
-#: ../src/subs_edit_ctrl.cpp:451
+#: ../src/subs_edit_ctrl.cpp:475
 #, c-format
 msgid "Add \"%s\" to dictionary"
 msgstr "Přidat \"%s\"  do slovníku"
 
-#: ../src/subs_edit_ctrl.cpp:486
+#: ../src/subs_edit_ctrl.cpp:510
 #, c-format
 msgid "Thesaurus suggestions for \"%s\""
 msgstr "Návrhy slovníku synonym pro  \"%s\""
 
-#: ../src/subs_edit_ctrl.cpp:489
+#: ../src/subs_edit_ctrl.cpp:513
 msgid "No thesaurus suggestions"
 msgstr "Žádné návrhy slovníku synonym"
 
-#: ../src/subs_edit_ctrl.cpp:492
+#: ../src/subs_edit_ctrl.cpp:516
 msgid "Thesaurus language"
 msgstr "Jazyk slovníku synonym"
 
-#: ../src/subs_edit_ctrl.cpp:501
+#: ../src/subs_edit_ctrl.cpp:525
 msgid "Disable"
 msgstr "Zakázat"
 
@@ -6826,6 +6859,10 @@ msgstr "Čas snímku vůči počátku a konci aktuálních titulků"
 msgid "Scanning"
 msgstr ""
 
+#: ../src/video_provider_manager.cpp:141
+msgid "Error loading video"
+msgstr ""
+
 #: ../src/video_provider_vs.cpp:137
 msgid "Executing VapourSynth Script"
 msgstr ""
@@ -6846,7 +6883,7 @@ msgstr "posouvání do polohy"
 msgid "Toggle between \\move and \\pos"
 msgstr "Přepnout mezi \\move a \\pos"
 
-#: ../src/visual_tool_vector_clip.cpp:277
+#: ../src/visual_tool_vector_clip.cpp:278
 msgid "delete control point"
 msgstr "smazat řídící bod"
 
