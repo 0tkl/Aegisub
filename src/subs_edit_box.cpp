@@ -45,7 +45,9 @@
 #include "include/aegisub/hotkey.h"
 #include "initial_line_state.h"
 #include "options.h"
+#if !wxCHECK_VERSION(3, 1, 0)
 #include "placeholder_ctrl.h"
+#endif
 #include "project.h"
 #include "retina_helper.h"
 #include "selection_controller.h"
@@ -135,12 +137,24 @@ SubsEditBox::SubsEditBox(wxWindow *parent, agi::Context *context)
 	});
 	top_sizer->Add(style_edit_button, wxSizerFlags().Expand().Border(wxRIGHT));
 
+#if wxCHECK_VERSION(3, 1, 0)
+	actor_box = new wxComboBox(this, -1, _("Actor"), wxDefaultPosition, wxDefaultSize, 0, nullptr, wxCB_DROPDOWN | wxTE_PROCESS_ENTER);
+	actor_box->SetToolTip(_("Actor name for this speech. This is only for reference, and is mainly useless."));
+	actor_box->SetHint(_("Actor"));
+#else
 	actor_box = new Placeholder<wxComboBox>(this, _("Actor"), wxDefaultSize, wxCB_DROPDOWN | wxTE_PROCESS_ENTER, _("Actor name for this speech. This is only for reference, and is mainly useless."));
+#endif
 	Bind(wxEVT_TEXT, &SubsEditBox::OnActorChange, this, actor_box->GetId());
 	Bind(wxEVT_COMBOBOX, &SubsEditBox::OnActorChange, this, actor_box->GetId());
 	top_sizer->Add(actor_box, wxSizerFlags(2).Expand().Border(wxRIGHT));
 
+#if wxCHECK_VERSION(3, 1, 0)
+	effect_box = new wxComboBox(this, -1, _("Effect"), wxDefaultPosition, wxDefaultSize, 0, nullptr, wxCB_DROPDOWN | wxTE_PROCESS_ENTER);
+	effect_box->SetToolTip(_("Effect for this line. This can be used to store extra information for karaoke scripts, or for the effects supported by the renderer."));
+	effect_box->SetHint(_("Effect"));
+#else
 	effect_box = new Placeholder<wxComboBox>(this, _("Effect"), wxDefaultSize, wxCB_DROPDOWN | wxTE_PROCESS_ENTER, _("Effect for this line. This can be used to store extra information for karaoke scripts, or for the effects supported by the renderer."));
+#endif
 	Bind(wxEVT_TEXT, &SubsEditBox::OnEffectChange, this, effect_box->GetId());
 	Bind(wxEVT_COMBOBOX, &SubsEditBox::OnEffectChange, this, effect_box->GetId());
 	top_sizer->Add(effect_box, wxSizerFlags(3).Expand());

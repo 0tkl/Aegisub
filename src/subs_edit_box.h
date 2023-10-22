@@ -35,6 +35,7 @@
 #include <wx/combobox.h>
 #include <wx/panel.h>
 #include <wx/timer.h>
+#include <wx/version.h>
 
 #include <libaegisub/signal.h>
 
@@ -87,13 +88,21 @@ class SubsEditBox final : public wxPanel {
 	wxCheckBox *comment_box;
 	wxComboBox *style_box;
 	wxButton *style_edit_button;
+#if wxCHECK_VERSION(3, 1, 0)
+	wxComboBox *actor_box;
+#else
 	Placeholder<wxComboBox> *actor_box;
+#endif
 	TimeEdit *start_time;
 	TimeEdit *end_time;
 	TimeEdit *duration;
 	wxSpinCtrl *layer;
 	std::array<wxTextCtrl *, 3> margin;
+#if wxCHECK_VERSION(3, 1, 0)
+	wxComboBox *effect_box;
+#else
 	Placeholder<wxComboBox> *effect_box;
+#endif
 	wxRadioButton *by_time;
 	wxRadioButton *by_frame;
 	wxTextCtrl *char_count;
