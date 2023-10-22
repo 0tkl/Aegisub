@@ -1,6 +1,6 @@
 project('icu', 'c', 'cpp',
   version: '67.1',
-  meson_version: '>=0.55.0',
+  meson_version: '>=1.0.0',
   default_options: 'cpp_std=c++17')
 
 cpp = meson.get_compiler('cpp')
