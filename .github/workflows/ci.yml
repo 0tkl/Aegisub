@@ -30,6 +30,7 @@ jobs:
             msvc: true
             buildtype: release
             args: >-
+              -Dcpp_std=c++20
               -Ddefault_library=static 
               --force-fallback-for=zlib,harfbuzz,freetype2,fribidi,libpng 
               -Dfreetype2:harfbuzz=disabled 
@@ -52,6 +53,7 @@ jobs:
             msvc: true
             buildtype: release
             args: >-
+              -Dcpp_std=c++20
               -Ddefault_library=static 
               --force-fallback-for=zlib,harfbuzz,freetype2,fribidi,libpng 
               -Dfreetype2:harfbuzz=disabled 
@@ -73,18 +75,19 @@ jobs:
           - name: Ubuntu Debug
             os: ubuntu-latest
             buildtype: debugoptimized
-            args: ''
+            args: '-Dcpp_std=c++20'
 
           - name: Ubuntu Release
             os: ubuntu-latest
             buildtype: release
-            args: ''
+            args: '-Dcpp_std=c++20'
 
           - name: Ubuntu AppImage
             os: ubuntu-latest
             buildtype: release
             appimage: true
             args: >-
+              -Dcpp_std=c++20
               --prefix=/usr
               -Dbuild_appimage=true
               -Ddefault_library=static
@@ -97,6 +100,7 @@ jobs:
             os: macos-latest
             buildtype: release
             args: >-
+              -Dcpp_std=c++20
               -Ddefault_library=static
               -Dbuild_osx_bundle=true
               -Dlocal_boost=true
