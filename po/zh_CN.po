@@ -1600,7 +1600,7 @@ msgstr "互换行"
 
 #: ../src/command/grid.cpp:452 ../src/command/grid.cpp:453
 msgid "Create new Fold"
-msgstr ""
+msgstr "创建折叠块"
 
 #: ../src/command/grid.cpp:454
 msgid "Create a new fold collapsing the selected lines into a group"
@@ -1608,7 +1608,7 @@ msgstr ""
 
 #: ../src/command/grid.cpp:472 ../src/command/grid.cpp:473
 msgid "Open Folds"
-msgstr ""
+msgstr "展开折叠行"
 
 #: ../src/command/grid.cpp:474
 msgid "Expand the folds under the selected lines"
@@ -1616,7 +1616,7 @@ msgstr ""
 
 #: ../src/command/grid.cpp:488 ../src/command/grid.cpp:489
 msgid "Close Folds"
-msgstr ""
+msgstr "关闭折叠块"
 
 #: ../src/command/grid.cpp:490
 msgid "Collapse the folds around the selected lines"
@@ -1624,7 +1624,7 @@ msgstr ""
 
 #: ../src/command/grid.cpp:504 ../src/command/grid.cpp:505
 msgid "Clear Folds"
-msgstr ""
+msgstr "取消折叠块"
 
 #: ../src/command/grid.cpp:506
 msgid "Remove the folds around the selected lines"
@@ -1632,7 +1632,7 @@ msgstr ""
 
 #: ../src/command/grid.cpp:520 ../src/command/grid.cpp:521
 msgid "Toggle Folds"
-msgstr ""
+msgstr "切换折叠状态"
 
 #: ../src/command/grid.cpp:522
 msgid "Open or close the folds around the selected lines"
@@ -1641,16 +1641,16 @@ msgstr ""
 #: ../src/command/grid.cpp:536 ../src/command/grid.cpp:537
 #: ../src/command/grid.cpp:538
 msgid "Open all Folds"
-msgstr ""
+msgstr "展开所有折叠"
 
 #: ../src/command/grid.cpp:547 ../src/command/grid.cpp:548
 #: ../src/command/grid.cpp:549
 msgid "Close all Folds"
-msgstr ""
+msgstr "关闭所有折叠"
 
 #: ../src/command/grid.cpp:558 ../src/command/grid.cpp:559
 msgid "Clear all Folds"
-msgstr ""
+msgstr "取消所有折叠"
 
 #: ../src/command/grid.cpp:560
 msgid "Remove all Folds"
@@ -1666,7 +1666,7 @@ msgstr "Bug跟踪系统"
 
 #: ../src/command/help.cpp:50
 msgid "Visit Aegisub's bug tracker to report bugs and request new features"
-msgstr "访问Aegisub的Bug跟踪系统来报告bug和要求新增功能"
+msgstr "访问 Aegisub 的 Bug 跟踪系统来报告 bug 和要求新增功能"
 
 #: ../src/command/help.cpp:60
 msgid "&Contents"
@@ -1690,7 +1690,7 @@ msgstr "IRC 频道"
 
 #: ../src/command/help.cpp:74
 msgid "Visit Aegisub's official IRC channel"
-msgstr "访问Aegisub的官方IRC频道"
+msgstr "访问 Aegisub 的官方 IRC 频道"
 
 #: ../src/command/help.cpp:84
 msgid "&Visual Typesetting"
@@ -2667,7 +2667,7 @@ msgstr "保存 PNG 截图"
 #: ../src/command/video.cpp:533
 msgid ""
 "Save the currently displayed frame to a PNG file in the video's directory"
-msgstr "保存当前显示帧为PNG格式到视频所在目录"
+msgstr "将当前显示帧用 PNG 格式  保存到视频所在目录"
 
 #: ../src/command/video.cpp:542 ../src/command/video.cpp:543
 msgid "Save PNG snapshot (no subtitles)"
@@ -2677,17 +2677,17 @@ msgstr "储存 PNG 截图（不带字幕）"
 msgid ""
 "Save the currently displayed frame without the subtitles to a PNG file in "
 "the video's directory"
-msgstr "保存当前显示帧（不带字幕）为PNG格式到视频所在目录"
+msgstr "将当前显示帧（不带字幕）用 PNG 格式  保存到视频所在目录"
 
 #: ../src/command/video.cpp:553 ../src/command/video.cpp:554
 msgid "Save PNG snapshot (only subtitles)"
-msgstr ""
+msgstr "储存 PNG 截图（仅字幕）"
 
 #: ../src/command/video.cpp:555
 msgid ""
 "Save the currently displayed subtitles with transparent background to a PNG "
 "file in the video's directory"
-msgstr ""
+msgstr "将当前显示帧（仅字幕）用 PNG 格式  保存到视频所在目录"
 
 #: ../src/command/video.cpp:565
 msgid "&Jump to..."
@@ -2755,7 +2755,7 @@ msgstr "打开一个纯色的空白视频片段"
 
 #: ../src/command/video.cpp:634 ../src/command/video.cpp:635
 msgid "Reload Video"
-msgstr ""
+msgstr "重新加载视频"
 
 #: ../src/command/video.cpp:636
 msgid "Reload the current video file"
@@ -2771,7 +2771,7 @@ msgstr "自动将视频移至所选字幕的开始时间"
 
 #: ../src/command/video.cpp:662 ../src/command/video.cpp:663
 msgid "Reset Video Pan"
-msgstr ""
+msgstr "重置视频平移"
 
 #: ../src/command/video.cpp:664
 msgid "Reset the video pan to the original value"
@@ -2898,11 +2898,11 @@ msgstr "绕X轴和Y轴旋转字幕"
 
 #: ../src/command/vis_tool.cpp:134 ../src/command/vis_tool.cpp:135
 msgid "Apply 3D Perspective"
-msgstr ""
+msgstr "应用三维视角"
 
 #: ../src/command/vis_tool.cpp:136
 msgid "Rotate and shear subtitles to make them fit a given quad's perspective"
-msgstr ""
+msgstr "将字幕旋转剪切，使其贴合给定的四边形框"
 
 #: ../src/command/vis_tool.cpp:142 ../src/command/vis_tool.cpp:143
 msgid "Scale"
@@ -5855,7 +5855,7 @@ msgstr "隐藏特效标签"
 
 #: ../src/preferences.cpp:233
 msgid "Skip over whitespace"
-msgstr ""
+msgstr "跳过空格"
 
 #: ../src/preferences.cpp:235
 msgid "Visual Tools"
@@ -5867,7 +5867,7 @@ msgstr ""
 
 #: ../src/preferences.cpp:238
 msgid "Colour Picker"
-msgstr ""
+msgstr "取色器"
 
 #: ../src/preferences.cpp:239
 msgid "Restrict Screen Picker to Window"
@@ -5875,11 +5875,11 @@ msgstr ""
 
 #: ../src/preferences.cpp:242
 msgid "Dark Mode"
-msgstr ""
+msgstr "深色模式"
 
 #: ../src/preferences.cpp:243
 msgid "Enable experimental dark mode (restart required)"
-msgstr ""
+msgstr "开启深色模式（实验性；需重启）"
 
 #: ../src/preferences.cpp:259
 msgid "Audio Display"
@@ -5923,19 +5923,19 @@ msgstr "注释"
 
 #: ../src/preferences.cpp:271
 msgid "Drawing Commands"
-msgstr ""
+msgstr "绘图指令"
 
 #: ../src/preferences.cpp:272
 msgid "Drawing X Coords"
-msgstr ""
+msgstr "绘图：X坐标"
 
 #: ../src/preferences.cpp:273
 msgid "Drawing Y Coords"
-msgstr ""
+msgstr "绘图：Y坐标"
 
 #: ../src/preferences.cpp:274
 msgid "Underline Spline Endpoints"
-msgstr ""
+msgstr "用下划线标出样条端点"
 
 #: ../src/preferences.cpp:276
 msgid "Brackets"
@@ -6019,11 +6019,11 @@ msgstr "选中注释行背景色"
 
 #: ../src/preferences.cpp:304
 msgid "Open fold background"
-msgstr ""
+msgstr "折叠行背景色（展开时）"
 
 #: ../src/preferences.cpp:305
 msgid "Closed fold background"
-msgstr ""
+msgstr "折叠行背景色（折叠时）"
 
 #: ../src/preferences.cpp:306
 msgid "Header background"
@@ -6284,15 +6284,15 @@ msgstr "总是索引所有音轨"
 
 #: ../src/preferences.cpp:429
 msgid "Downmix to stereo"
-msgstr ""
+msgstr "混缩至双声道"
 
 #: ../src/preferences.cpp:435
 msgid "Max BS cache size (MB)"
-msgstr ""
+msgstr "BS 缓存大小上限（MB）"
 
 #: ../src/preferences.cpp:436
 msgid "Use Aegisub's Cache"
-msgstr ""
+msgstr "使用 Aegisub 的缓存"
 
 #: ../src/preferences.cpp:442
 msgid "Portaudio device"
@@ -6340,7 +6340,7 @@ msgstr ""
 
 #: ../src/preferences.cpp:491
 msgid "Decoder Threads (0 to autodetect)"
-msgstr ""
+msgstr "解码线程数（为0则自动探测线程数）"
 
 #: ../src/preferences.cpp:492
 msgid "Seek preroll (Frames)"
@@ -6352,19 +6352,19 @@ msgstr ""
 
 #: ../src/preferences.cpp:505
 msgid "Log level"
-msgstr ""
+msgstr "日志级别"
 
 #: ../src/preferences.cpp:507
 msgid "Load user plugins"
-msgstr ""
+msgstr "加载用户插件"
 
 #: ../src/preferences.cpp:509
 msgid "Default Video Script"
-msgstr ""
+msgstr "默认视频脚本"
 
 #: ../src/preferences.cpp:512
 msgid "Set to Default"
-msgstr ""
+msgstr "设为默认"
 
 #: ../src/preferences.cpp:519
 msgid ""
@@ -6372,10 +6372,13 @@ msgid ""
 "VapourSynth scripts (i.e. end in .py or .vpy).\n"
 "The filename variable stores the path to the file."
 msgstr ""
+"Aegisub 加载不是 VS 脚本的视频文件时\n"
+"（如扩展名是 .py 和 .vpy 的程序）就会\n"
+"执行该脚本。文件名变量存储了文件路径。"
 
 #: ../src/preferences.cpp:530
 msgid "Default Audio Script"
-msgstr ""
+msgstr "默认音频脚本"
 
 #: ../src/preferences.cpp:531
 msgid ""
@@ -6383,6 +6386,9 @@ msgid ""
 "VapourSynth scripts (i.e. end in .py or .vpy).\n"
 "The filename variable stores the path to the file."
 msgstr ""
+"Aegisub 加载不是 VS 脚本的音频文件时\n"
+"（如扩展名是 .py 和 .vpy 的程序）就会\n"
+"执行该脚本。文件名变量存储了文件路径。"
 
 #: ../src/preferences.cpp:672
 msgid "Hotkeys"
@@ -6551,7 +6557,8 @@ msgid ""
 "Effect for this line. This can be used to store extra information for "
 "karaoke scripts, or for the effects supported by the renderer."
 msgstr ""
-"该行的特效。这栏可以用来储存额外信息，针对卡拉 OK 脚本或渲染器支持的特效。"
+"该行的特效。这栏可以用来储存额外信息，"
+"针对卡拉 OK 脚本或渲染器支持的特效。"
 
 #: ../src/subs_edit_box.cpp:164
 msgid "Number of characters in the longest line of this subtitle."
@@ -6623,8 +6630,8 @@ msgid ""
 "edit box. This is sometimes useful when editing subtitles or translating "
 "subtitles into another language."
 msgstr ""
-"在编辑框上方显示当前行被第一次选中时的原始内容。这个功能当你在编辑或翻译字幕"
-"时可能会非常实用。"
+"在编辑框上方显示当前行被第一次选中时的原始内容。"
+"这个功能当你在编辑或翻译字幕时可能会非常实用。"
 
 #: ../src/subs_edit_box.cpp:474
 msgid "modify text"
@@ -6733,7 +6740,7 @@ msgstr "29.970 FPS (NTSC)"
 
 #: ../src/subtitle_format.cpp:116
 msgid "29.970 FPS (NTSC with SMPTE dropframe)"
-msgstr "29.970 FPS (NTSC 有 SMPTE 丢帧)"
+msgstr "29.970 FPS (带 SMPTE 丢帧的 NTSC)"
 
 #: ../src/subtitle_format.cpp:117
 msgid "30.000 FPS"
@@ -6790,7 +6797,7 @@ msgstr "当前帧时间和序号"
 
 #: ../src/video_box.cpp:65
 msgid "Time of this frame relative to start and end of current subs"
-msgstr "该帧时间，相对于当前字幕的开始与结束时间"
+msgstr "该帧时间，到当前行头尾的结果"
 
 #: ../src/video_provider_bestsource.cpp:128
 msgid "Scanning"
