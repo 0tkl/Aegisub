@@ -392,12 +392,9 @@ if not dep_gl.found()
         dep_gl = cc.find_library('GL', required: false)
     endif
 
-    if not cc.has_header('GL/gl.h')
+    if not cc.has_header('GL/glcorearb.h')
         dep_gl = dependency('', required: false)
     endif
-endif
-if host_system == 'darwin'
-    conf.set('HAVE_OPENGL_GL_H', 1)
 endif
 
 if not dep_gl.found()
