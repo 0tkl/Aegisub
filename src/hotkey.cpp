@@ -23,6 +23,7 @@
 
 #include <libaegisub/path.h>
 
+#include <array>
 #include <boost/range/algorithm/find.hpp>
 #include <boost/range/iterator_range.hpp>
 #include <wx/intl.h>
@@ -30,26 +31,27 @@
 
 namespace {
 	using agi::hotkey::Combo;
-	const std::vector<Combo> added_hotkeys_cj {
+	static const std::array<Combo, 1> added_hotkeys_cj = {
 		Combo("Video", "time/align", "KP_TAB"),
-	},
-	added_hotkeys_7035 {
+	};
+	static const std::array<Combo, 1> added_hotkeys_7035 = {
 		Combo("Audio", "audio/play/line", "R"),
-	},
-	added_hotkeys_7070 {
+	};
+	static const std::array<Combo, 4> added_hotkeys_7070 = {
 		Combo("Subtitle Edit Box", "edit/color/primary", "Alt-1"),
 		Combo("Subtitle Edit Box", "edit/color/secondary", "Alt-2"),
 		Combo("Subtitle Edit Box", "edit/color/outline", "Alt-3"),
 		Combo("Subtitle Edit Box", "edit/color/shadow", "Alt-4"),
-	},
-	added_hotkeys_shift_back {
+	};
+	static const std::array<Combo, 1> added_hotkeys_shift_back = {
 		Combo("Default", "edit/line/duplicate/shift_back", "Ctrl-Shift-D"),
-	},
-	added_hotkeys_minimize {
+	};
+	static const std::array<Combo, 1> added_hotkeys_minimize = {
 		Combo("Default", "app/minimize", "Ctrl-M"),
 	};
 
-	void migrate_hotkeys(const std::vector<Combo> &added) {
+	template<std::size_t SIZ>
+	void migrate_hotkeys(const std::array<Combo, SIZ> &added) {
 		auto hk_map = hotkey::inst->GetHotkeyMap();
 		bool changed = false;
 
