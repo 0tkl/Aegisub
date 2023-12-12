@@ -31,7 +31,7 @@ foreach def: checkdefs
     endif
 endforeach
 
-if host_machine.system() == 'windows'
+if host_system == 'windows'
   dasm += ['-D', 'WIN']
 endif
 

@@ -6,7 +6,9 @@ project('Aegisub', ['c', 'cpp'],
 
 cmake = import('cmake')
 
-if host_machine.system() == 'windows'
+host_system = host_machine.system()
+
+if host_system == 'windows'
     add_project_arguments('-DNOMINMAX', language: 'cpp')
     add_project_arguments('-DUNICODE', language: 'cpp')
 
@@ -21,7 +23,7 @@ if host_machine.system() == 'windows'
     endif
 endif
 
-if host_machine.system() == 'windows'
+if host_system == 'windows'
     version_sh = find_program('tools/version.ps1')
 else
     version_sh = find_program('tools/version.sh')
@@ -33,7 +35,7 @@ version_h = custom_target('git_version.h',
                           build_always_stale: true, # has internal check whether target file will be refreshed
                           output: ['git_version.h'])
 
-if host_machine.system() == 'darwin' and get_option('build_osx_bundle')
+if host_system == 'darwin' and get_option('build_osx_bundle')
     prefix = meson.current_build_dir() / 'Aegisub.app' / 'Contents'
     bindir = prefix / 'MacOS'
     datadir = prefix / 'SharedSupport'
@@ -49,7 +51,7 @@ endif
 docdir = prefix / 'doc'
 
 # MSVC sets this automatically with -MDd, but it has a different meaning on other platforms
-if get_option('debug') and host_machine.system() != 'windows'
+if get_option('debug') and host_system != 'windows'
     add_project_arguments('-D_DEBUG', language: 'cpp')
 endif
 
@@ -72,9 +74,9 @@ conf.set('WITH_UPDATE_CHECKER', get_option('enable_update_checker'))
 deps = []
 deps_inc = []
 
-if host_machine.system() == 'darwin'
+if host_system == 'darwin'
     add_languages('objc', 'objcpp', native: false, required: true)
-elif host_machine.system() != 'windows'
+elif host_system != 'windows'
     conf.set('WITH_FONTCONFIG', 1)
     deps += dependency('fontconfig')
 endif
@@ -115,14 +117,14 @@ if get_option('local_boost') or not boost_dep.found()
 endif
 
 deps += boost_dep
-if host_machine.system() == 'windows'
+if host_system == 'windows'
     conf.set('BOOST_USE_WINDOWS_H', 1)
 endif
 
 deps += dependency('zlib')
 
 wx_minver = '>=' + get_option('wx_version')
-if host_machine.system() == 'darwin'
+if host_system == 'darwin'
     wx_minver = '>=3.1.0'
 endif
 wx_dep = dependency('wxWidgets', version: wx_minver,
@@ -172,13 +174,13 @@ else
         ]
     endif
 
-    if host_machine.system() == 'windows' or host_machine.system() == 'darwin'
+    if host_system == 'windows' or host_system == 'darwin'
         deps += [
             wx.dependency('wxpng'),
         ]
     endif
 
-    if host_machine.system() == 'windows'
+    if host_system == 'windows'
         deps += [
             wx.dependency('wxzlib'),
             wx.dependency('wxexpat'),
@@ -227,7 +229,7 @@ foreach dep: [
             d = dependency(dep[0], version: dep[1], required: false)
         endif
 
-        if not d.found() and dep[4].length() > 0 and host_machine.system() == 'darwin'
+        if not d.found() and dep[4].length() > 0 and host_system == 'darwin'
             d = dependency('appleframeworks', modules: dep[4], required: false)
         endif
 
@@ -271,7 +273,7 @@ if get_option('avisynth').enabled()
     avs = cmake.subproject('avisynth', options: avs_opt)
     deps_inc += avs.include_directories('AviSynth-Headers')
 
-    if host_machine.system() == 'windows'
+    if host_system == 'windows'
       deps += cc.find_library('avifil32', required: true)
     endif
 endif
@@ -282,7 +284,7 @@ if get_option('vapoursynth').enabled()
     dep_avail += 'VapourSynth'
 endif
 
-if host_machine.system() == 'windows'
+if host_system == 'windows'
     if not get_option('directsound').disabled()
         dsound_dep = cc.find_library('dsound', required: get_option('directsound'))
         winmm_dep = cc.find_library('winmm', required: get_option('directsound'))
@@ -323,11 +325,11 @@ if host_machine.system() == 'windows'
     endif
 endif
 
-if host_machine.system() == 'windows' and cc.has_header('dwrite_3.h')
+if host_system == 'windows' and cc.has_header('dwrite_3.h')
     conf.set('HAVE_DWRITE_3', 1)
 endif
 
-if host_machine.system() == 'darwin'
+if host_system == 'darwin'
     frameworks_dep = dependency('appleframeworks', modules : ['CoreText', 'CoreFoundation', 'AppKit', 'Carbon', 'IOKit', 'QuartzCore'])
     deps += frameworks_dep
 endif
@@ -384,7 +386,7 @@ subdir('vendor/luabins/src')
 
 dep_gl = dependency('gl', required: false)
 if not dep_gl.found()
-    if host_machine.system() == 'windows'
+    if host_system == 'windows'
         dep_gl = cc.find_library('opengl32', required: false)
     else
         dep_gl = cc.find_library('GL', required: false)
@@ -394,7 +396,7 @@ if not dep_gl.found()
         dep_gl = dependency('', required: false)
     endif
 endif
-if host_machine.system() == 'darwin'
+if host_system == 'darwin'
     conf.set('HAVE_OPENGL_GL_H', 1)
 endif
 
@@ -404,7 +406,7 @@ endif
 
 deps += dep_gl
 
-if not get_option('csri').disabled() and host_machine.system() == 'windows'
+if not get_option('csri').disabled() and host_system == 'windows'
     conf.set('WITH_CSRI', 1)
 
     csri_sp = subproject('csri')
@@ -428,7 +430,7 @@ aegisub_c_pch = ['src/include/agi_pre_c.h']
 
 link_args = []
 link_depends = []
-if host_machine.system() == 'windows'
+if host_system == 'windows'
     manifest_file = configure_file(copy: true, input: 'src/res/aegisub.exe.manifest', output: 'aegisub.exe.manifest')
     link_args += ['/MANIFEST:EMBED', '/MANIFESTINPUT:@0@'.format(manifest_file)]
     link_depends += manifest_file

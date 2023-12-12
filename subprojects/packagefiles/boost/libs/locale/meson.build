@@ -43,7 +43,7 @@ if not is_static
     locale_args += '-DBOOST_LOCALE_DYN_LINK=1'
 endif
 
-if host_machine.system() == 'windows'
+if host_system == 'windows'
     locale_sources += files([
         'src/boost/locale/win32/collate.cpp',
         'src/boost/locale/win32/converter.cpp',

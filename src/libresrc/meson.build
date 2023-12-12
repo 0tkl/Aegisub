@@ -19,7 +19,7 @@ resrc = [
                   output: ['bitmap.cpp', 'bitmap.h'])
 ]
 
-if host_machine.system() == 'windows'
+if host_system == 'windows'
   conf_platform_json = configure_file(input: 'default_config_win.json',
                                       output: 'default_config_platform.json',
                                       copy: true)
@@ -29,7 +29,7 @@ else
                                       configuration: conf_platform)
 endif
 
-if host_machine.system() == 'darwin'
+if host_system == 'darwin'
     resmanifest = 'manifest_osx.respack'
 else
     resmanifest = 'manifest.respack'

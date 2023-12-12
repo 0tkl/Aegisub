@@ -55,7 +55,7 @@ all_test_sources += [
 test_inc = include_directories('support')
 
 # force UTF8 for MSVC
-if host_machine.system() == 'windows'
+if host_system == 'windows'
     extra_args = ['/utf-8']
 else
     extra_args = []
@@ -73,7 +73,7 @@ test('gtest main', runner)
 
 
 # setup test env
-if host_machine.system() == 'windows'
+if host_system == 'windows'
     setup_sh = find_program('setup.bat')
 else
     setup_sh = find_program('setup.sh')

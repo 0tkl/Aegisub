@@ -15,7 +15,7 @@ filesystem_args = ['-DBOOST_FILESYSTEM_SOURCE', '-DBOOST_FILESYSTEM_NO_CXX20_ATO
                    is_static ? '-DBOOST_FILESYSTEM_STATIC_LINK=1' : '-DBOOST_FILESYSTEM_DYN_LINK=1']
 
 filesystem_deps = []
-if host_machine.system() == 'windows'
+if host_system == 'windows'
     bcrypt_dep = dependency('bcrypt', required: false)
     if bcrypt_dep.found()
         filesystem_deps += bcrypt_dep

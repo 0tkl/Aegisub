@@ -8,7 +8,8 @@ csri_sources = [
 
 csri_inc = [include_directories('include')]
 
-if host_machine.system() == 'windows'
+host_system = host_machine.system()
+if host_system == 'windows'
     csri_inc += include_directories('lib/win32')
     csri_sources += ['lib/win32/enumerate.c', 'subhelp/win32/openfile.c']
 else

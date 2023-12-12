@@ -50,7 +50,7 @@ libaegisub_src = [
     'lua/modules/lpeg.c',
 ]
 
-if host_machine.system() == 'darwin'
+if host_system == 'darwin'
     libaegisub_src += [
         'osx/dispatch.mm',
         'osx/spellchecker.mm',
@@ -60,7 +60,7 @@ else
     libaegisub_src += 'common/dispatch.cpp'
 endif
 
-if host_machine.system() == 'windows'
+if host_system == 'windows'
     libaegisub_src += [
         'windows/access.cpp',
         'windows/charset_conv_win.cpp',

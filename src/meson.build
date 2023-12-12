@@ -167,14 +167,14 @@ aegisub_src = files(
     'visual_tool_vector_clip.cpp',
 )
 
-if host_machine.system() == 'darwin'
+if host_system == 'darwin'
     aegisub_src += files(
         'font_file_lister_coretext.mm',
         'osx/osx_utils.mm',
         'osx/retina_helper.mm',
         'osx/scintilla_ime.mm',
     )
-elif host_machine.system() == 'windows'
+elif host_system == 'windows'
     aegisub_src += files(
         'avisynth_wrap.cpp',
         'crash_writer_minidump.cpp',
@@ -222,7 +222,7 @@ elif host_machine.system() == 'windows'
     aegisub_src += windows.compile_resources('res/strings.rc')
 endif
 
-if host_machine.system() != 'windows'
+if host_system != 'windows'
     aegisub_src += files(
         'crash_writer.cpp'
     )

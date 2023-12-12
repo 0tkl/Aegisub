@@ -1,6 +1,6 @@
 thread_args = [is_static ? '-DBOOST_THREAD_BUILD_LIB=1' : '-DBOOST_THREAD_BUILD_DLL=1']
 
-if host_machine.system() == 'windows'
+if host_system == 'windows'
     thread_sources = files([
         'src/win32/thread.cpp',
         'src/win32/tss_dll.cpp',

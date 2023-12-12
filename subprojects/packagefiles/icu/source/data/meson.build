@@ -7,14 +7,14 @@ icudata_lst = custom_target('icudata.lst',
 
 is_static = get_option('default_library') == 'static'
 
-if host_machine.system() == 'windows' # only msvc supported
+if host_system == 'windows' # only msvc supported
     data_lib_static = custom_target(
         'icudata_static', command: [pkgdata, '-q', '-c', '-e', 'icudt67', '-L', 'icudata_static',
                                     '-d', '@OUTDIR@', '-s', '@OUTDIR@', '-p', 'icudt67l',
                                     '-m', 'static', '@INPUT@'],
         input: icudata_lst, output: 'icudata_static.lib')
 else
-    if host_machine.system() == 'darwin'
+    if host_system == 'darwin'
         suffix = is_static ? '.a' : '.dylib'
     else
         suffix = is_static ? '.a' : '.so'
@@ -22,7 +22,7 @@ else
     suffix = '.a'
 
     icupkg_inc = custom_target('icupkg.inc',
-                               command: [python3, '@INPUT@', host_machine.system(),
+                               command: [python3, '@INPUT@', host_system,
                                          host_machine.cpu_family(), '@OUTPUT@'],
                                input: 'generate_icupkg_inc.py',
                                output: 'icupkg.inc')
