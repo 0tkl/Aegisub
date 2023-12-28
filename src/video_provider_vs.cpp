@@ -138,7 +138,7 @@ VapourSynthVideoProvider::VapourSynthVideoProvider(agi::fs::path const& filename
 		ps->SetMessage("");
 		ps->SetIndeterminate();
 
-		VSLogHandle *logger = vs.GetAPI()->addLogHandler(VSLogToProgressSink, nullptr, ps, core);
+		VSLogHandle *logger = vs.GetAPI()->addLogHandler((VSLogHandler)VSLogToProgressSink, nullptr, ps, core);
 		err1 = OpenScriptOrVideo(vs.GetAPI(), vs.GetScriptAPI(), script, filename, OPT_GET("Provider/Video/VapourSynth/Default Script")->GetString());
 		vs.GetAPI()->removeLogHandler(logger, core);
 
