@@ -89,8 +89,8 @@ void General_DefaultStyles(wxTreebook *book, Preferences *parent) {
 	p->sizer->AddSpacer(8);
 
 	auto instructions = new wxStaticText(p, wxID_ANY, _("The chosen style catalogs will be loaded when you start a new file or import files in the various formats.\n\nYou can set up style catalogs in the Style Manager."));
+	instructions->Wrap(book->FromDIP(400));
 	p->sizer->Fit(p);
-	instructions->Wrap(400);
 	staticbox->Add(instructions, 0, wxALL, 5);
 	staticbox->AddSpacer(16);
 
@@ -360,7 +360,7 @@ void Advanced(wxTreebook *book, Preferences *parent) {
 	font.SetPointSize(12);
 	warning->SetFont(font);
 	p->sizer->Fit(p);
-	warning->Wrap(400);
+	warning->Wrap(book->FromDIP(400));
 	general->Add(warning, 0, wxALL, 5);
 
 	p->SetSizerAndFit(p->sizer);
@@ -614,8 +614,8 @@ Interface_Hotkeys::Interface_Hotkeys(wxTreebook *book, Preferences *parent)
 	dvc = new wxDataViewCtrl(this, -1);
 	dvc->AssociateModel(model.get());
 #ifndef __APPLE__
-	dvc->AppendColumn(new wxDataViewColumn("Hotkey", new HotkeyRenderer, 0, 125, wxALIGN_LEFT, wxCOL_SORTABLE | wxCOL_RESIZABLE));
-	dvc->AppendColumn(new wxDataViewColumn("Command", new CommandRenderer, 1, 250, wxALIGN_LEFT, wxCOL_SORTABLE | wxCOL_RESIZABLE));
+	dvc->AppendColumn(new wxDataViewColumn("Hotkey", new HotkeyRenderer, 0, book->FromDIP(125), wxALIGN_LEFT, wxCOL_SORTABLE | wxCOL_RESIZABLE));
+	dvc->AppendColumn(new wxDataViewColumn("Command", new CommandRenderer, 1, book->FromDIP(250), wxALIGN_LEFT, wxCOL_SORTABLE | wxCOL_RESIZABLE));
 #else
 	auto col = new wxDataViewColumn("Hotkey", new wxDataViewTextRenderer("string", wxDATAVIEW_CELL_EDITABLE), 0, 150, wxALIGN_LEFT, wxCOL_SORTABLE | wxCOL_RESIZABLE);
 	col->SetMinWidth(150);
@@ -712,7 +712,7 @@ void Preferences::OnResetDefault(wxCommandEvent&) {
 	EndModal(-1);
 }
 
-Preferences::Preferences(wxWindow *parent): wxDialog(parent, -1, _("Preferences"), wxDefaultPosition, wxSize(-1, -1), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER) {
+Preferences::Preferences(wxWindow *parent): wxDialog(parent, -1, _("Preferences"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER) {
 	SetIcons(GETICONS(options_button));
 
 	book = new wxTreebook(this, -1, wxDefaultPosition, wxDefaultSize);

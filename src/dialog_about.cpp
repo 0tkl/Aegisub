@@ -135,14 +135,14 @@ void ShowAboutDialog(wxWindow *parent) {
 	wxChar copySymbol = 0xA9;
 	aboutString.Replace("(c)", wxString(copySymbol));
 
-	wxTextCtrl *textctrl = new wxTextCtrl(&d, -1, aboutString, wxDefaultPosition, wxSize(-1, 200), wxTE_MULTILINE | wxTE_READONLY | wxBORDER_NONE);
+	wxTextCtrl *textctrl = new wxTextCtrl(&d, -1, aboutString, wxDefaultPosition, d.FromDIP(wxSize(-1, 200)), wxTE_MULTILINE | wxTE_READONLY | wxBORDER_NONE);
 
 	wxSizer *MainSizer = new wxBoxSizer(wxVERTICAL);
 	MainSizer->Add(new wxStaticBitmap(&d, -1, GETIMAGE(splash)), 0, wxCENTER, 0);
 	MainSizer->Add(new wxStaticLine(&d, wxID_ANY), 0, wxEXPAND | wxALL, 0);
 	MainSizer->Add(textctrl, 0, wxEXPAND | wxALL, 0);
 	MainSizer->Add(new wxStaticLine(&d, wxID_ANY), 0, wxEXPAND | wxALL, 0);
-	MainSizer->Add(d.CreateButtonSizer(wxOK), 0, wxEXPAND | wxALL, 6);
+	MainSizer->Add(d.CreateButtonSizer(wxOK), 0, wxEXPAND | wxALL, d.FromDIP(6));
 
 	d.SetSizerAndFit(MainSizer);
 	d.CentreOnParent();
