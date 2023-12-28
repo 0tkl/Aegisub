@@ -109,8 +109,8 @@ class SubsEditBox final : public wxPanel {
 	wxCheckBox *split_box;
 
 	wxSizer *top_sizer;
-	wxSizer *middle_right_sizer;
 	wxSizer *middle_left_sizer;
+	wxSizer *middle_right_sizer;
 	wxSizer *bottom_sizer;
 
 	std::unique_ptr<RetinaHelper> retina_helper;
