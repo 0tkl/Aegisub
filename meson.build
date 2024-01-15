@@ -285,6 +285,7 @@ if get_option('vapoursynth').enabled()
 endif
 
 if host_system == 'windows'
+    add_project_arguments('-D_WIN32_WINNT=0x0A00', language: 'cpp')
     if not get_option('directsound').disabled()
         dsound_dep = cc.find_library('dsound', required: get_option('directsound'))
         winmm_dep = cc.find_library('winmm', required: get_option('directsound'))
@@ -302,6 +303,7 @@ if host_system == 'windows'
         endif
     endif
 
+    # XAudio2 needs Windows 8 or newer
     if not get_option('xaudio2').disabled()
         have_xaudio_h = cc.has_header('xaudio2.h')
         xaudio2_dep = cc.find_library('xaudio2', required: true)
@@ -309,19 +311,11 @@ if host_system == 'windows'
             deps += [xaudio2_dep]
             conf.set('WITH_XAUDIO2', 1)
             dep_avail += 'XAudio2'
-            # XAudio2 needs Windows 8 or newer, so we tell meson not to define an older windows or else it can break things.
-            add_project_arguments('-D_WIN32_WINNT=0x0602', language: 'cpp')
-        else
-            # Windows 8 not required if XAudio2 fails to be found. revert for compat.
-            add_project_arguments('-D_WIN32_WINNT=0x0601', language: 'cpp')
         endif
         
         if not have_dsound_h and get_option('xaudio2').enabled()
             error('xaudio2 enabled but xaudio2.h not found')
         endif
-    else
-        # Windows 8 not required if XAudio2 is disabled. revert for compat.
-        add_project_arguments('-D_WIN32_WINNT=0x0601', language: 'cpp')
     endif
 endif
 
