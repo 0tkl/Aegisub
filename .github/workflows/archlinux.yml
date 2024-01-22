@@ -1,4 +1,4 @@
-name: Meson CI for Archlinux
+name: Meson CI for Non-Ubuntu Distros
 
 on:
   push:
@@ -17,30 +17,56 @@ on:
 
 jobs:
   build:
-    name: ${{ matrix.config.name }}
-    runs-on: ${{ matrix.config.os }}
+    runs-on: ubuntu-latest
     container:
-      image: ${{ matrix.config.container }}
+      image: ${{ matrix.container }}
 
     strategy:
       fail-fast: false
       matrix:
-        config:
-          - name: Archlinux Release
-            os: ubuntu-latest
-            container: archlinux:base-devel
-            buildtype: release
-            args: >-
-                --prefix=/usr
-                -Ddefault_audio_output=PulseAudio
-                -Davisynth=enabled
-                -Dbestsource=enabled
-                -Dffms2=enabled
-                -Dvapoursynth=enabled
+        container: ["archlinux:base-devel", "debian:bookworm-slim", "debian:trixie-slim", "ubuntu:rolling", "fedora:latest", "fedora:rawhide"]
+        buildtype: [release, debug]
+        include:
+          - group: deb
+            container: debian:bookworm-slim
+          - group: deb
+            container: debian:trixie-slim
+          - group: deb
+            container: ubuntu:rolling
+          - group: rh
+            container: fedora:latest
+          - group: rh
+            container: fedora:rawhide
+          - args: >-
+              --prefix=/usr
+              -Ddefault_audio_output=PulseAudio
+              -Davisynth=enabled
+              -Dbestsource=enabled
+              -Dffms2=enabled
+              -Dvapoursynth=enabled
 
     steps:
-      - name: Prerequisites 1
+      - name: Prerequisites 1 (Arch Linux)
+        if: contains(matrix.container, 'archlinux')
         run: pacman --noconfirm -Syu cmake git
+      
+      - name: Prerequisites 1 (Debian & Ubuntu)
+        if: matrix.group == 'deb'
+        run: |
+          apt-get update
+          apt-get install --no-install-recommends -y \
+          cmake git curl ca-certificates sudo \
+          build-essential \
+          autoconf automake libtool gettext libgettextpo-dev
+      
+      - name: Prerequisites 1 (Fedora)
+        if: matrix.group == 'rh'
+        run: |
+          dnf -y clean all
+          dnf -y update
+          dnf -y group install --skip-broken \
+          "C Development Tools and Libraries"
+          dnf -y install cmake git curl sudo libtool gettext
 
       - uses: actions/checkout@v4
         with:
@@ -49,16 +75,42 @@ jobs:
       - name: Prerequisites 2
         run: git config --global --add safe.directory '/__w/Aegisub/Aegisub'
 
-      - name: Install dependencies
+      - name: Install dependencies (Arch Linux)
+        if: contains(matrix.container, 'archlinux')
         run: |
           pacman --noconfirm -Syu wireplumber
           pacman --noconfirm -Sy pipewire-jack
-          pacman --noconfirm -Sy avisynthplus boost ffmpeg \
+          pacman --noconfirm -Sy avisynthplus boost ffmpeg fftw \
           fontconfig hunspell libass libglvnd meson openal portaudio \
           python pulseaudio uchardet vapoursynth wxwidgets-gtk3
+      
+      - name: Install dependencies (Debian & Ubuntu)
+        if: matrix.group == 'deb'
+        run: |
+          apt-get install -y pkg-config
+          apt-get install --no-install-recommends -y meson ninja-build \
+          libx11-dev libfreetype6-dev libfontconfig1-dev \
+          libnotify-dev libass-dev libasound2-dev intltool \
+          libboost-all-dev libhunspell-dev libuchardet-dev \
+          libpulse-dev libopenal-dev libjansson-dev libfftw3-dev nasm \
+          libavcodec-dev libavdevice-dev libavfilter-dev libavformat-dev \
+          libavutil-dev libpostproc-dev libswresample-dev libswscale-dev \
+          libwxbase3.2-1 libwxgtk-gl3.2-1 libwxgtk3.2-1 libwxgtk3.2-dev \
+          wx-common wx3.2-headers wx3.2-i18n
+
+      - name: Install dependencies (Fedora)
+        if: matrix.group == 'rh'
+        run: |
+          dnf -y install pkgconf-pkg-config
+          dnf -y install --skip-broken meson ninja-build libX11 freetype nasm \
+          fontconfig-devel libnotify-devel libass-devel intltool zlib-devel \
+          boost-devel hunspell-devel uchardet-devel pulseaudio-libs-devel \
+          fftw-devel openal-soft jansson-devel luajit-devel wxGTK-devel \
+          ffmpeg-free-devel
 
       - name: Add non-root user
         run: |
+          cat /etc/passwd
           USERNAME=user1
           USER_UID=1001
           USER_GID=$USER_UID
@@ -67,8 +119,19 @@ jobs:
           echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME
           chmod 0440 /etc/sudoers.d/$USERNAME
           chown -R $USERNAME:$USER_GID /__w/Aegisub/Aegisub
+      
+      - name: Setup AviSynthPlus (Debian, Ubuntu & Fedora)
+        if: matrix.group == 'deb' || matrix.group == 'rh'
+        run: |
+          git clone --depth=1 -b 3.7 https://github.com/AviSynth/AviSynthPlus.git
+          cd AviSynthPlus
+          mkdir aspbuild && cd aspbuild
+          cmake ../ -DCMAKE_INSTALL_PREFIX=/usr -DHEADERS_ONLY:bool=off
+          sudo make VersionGen install
+          cd ../..
+          rm -rf AviSynthPlus
 
-      - name: Compile ffms2
+      - name: Setup ffms2
         run: |
           sudo -u user1 git clone --depth=1 https://github.com/FFMS/ffms2.git
           cd ffms2
@@ -96,7 +159,7 @@ jobs:
         run: |
           C_FLAGS="-Wall -Wextra -Wpedantic"
           CXX_FLAGS="-Wall -Wextra -Wpedantic"
-          sudo -u user1 meson setup build ${{ matrix.config.args }} -Dcpp_std=c++2a -Dbuildtype=${{ matrix.config.buildtype }}
+          sudo -u user1 meson setup build ${{ matrix.args }} -Dcpp_std=c++2a -Dbuildtype=${{ matrix.buildtype }}
 
       - name: Build
         run: sudo -u user1 meson compile -C build
