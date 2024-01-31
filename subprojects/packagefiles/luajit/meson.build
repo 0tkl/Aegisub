@@ -38,4 +38,9 @@ endif
 
 subdir('src')
 
-luajit_dep = declare_dependency(link_with: luajit_lib, include_directories: src_inc)
+incl_dirs = [src_inc]
+if host_system == 'darwin'
+    incl_dirs += include_directories('/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/')
+endif
+
+luajit_dep = declare_dependency(link_with: luajit_lib, include_directories: incl_dirs)

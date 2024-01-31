@@ -96,27 +96,54 @@ jobs:
               -Dffms2=enabled
               -Dvapoursynth=enabled
 
-          - name: macOS Release
-            os: macos-latest
+          - name: macOS 12 Release
+            os: macos-12
             buildtype: release
+            prefix: "/usr/local/Cellar"
             args: >-
               -Dcpp_std=c++20
               -Ddefault_library=static
               -Dbuild_osx_bundle=true
-              -Dlocal_boost=true
               -Dbestsource=enabled
               -Dvapoursynth=enabled
               -Dffms2=enabled
               --force-fallback-for=ffms2
 
-          - name: macOS Release (wx master)
-            os: macos-latest
+          - name: macOS Release
+            os: macos-14
             buildtype: release
+            prefix: "/opt/homebrew/Cellar"
             args: >-
               -Dcpp_std=c++20
               -Ddefault_library=static
               -Dbuild_osx_bundle=true
-              -Dlocal_boost=true
+              -Dbestsource=enabled
+              -Dvapoursynth=enabled
+              -Dffms2=enabled
+              --force-fallback-for=ffms2
+
+          - name: macOS 12 Release (wx master)
+            os: macos-12
+            buildtype: release
+            prefix: "/usr/local/Cellar"
+            args: >-
+              -Dcpp_std=c++20
+              -Ddefault_library=static
+              -Dbuild_osx_bundle=true
+              -Dbestsource=enabled
+              -Dvapoursynth=enabled
+              -Dffms2=enabled
+              --force-fallback-for=ffms2
+              -Dwx_version='3.3.0'
+
+          - name: macOS Release (wx master)
+            os: macos-14
+            buildtype: release
+            prefix: "/opt/homebrew/Cellar"
+            args: >-
+              -Dcpp_std=c++20
+              -Ddefault_library=static
+              -Dbuild_osx_bundle=true
               -Dbestsource=enabled
               -Dvapoursynth=enabled
               -Dffms2=enabled
@@ -161,18 +188,27 @@ jobs:
           Get-Location | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
           popd
 
-      - name: Install dependencies (MacOS)
-        if: matrix.config.os == 'macos-latest'
+      - name: Install Moonscript (MacOS)
+        if: startsWith(matrix.config.os, 'macos')
         run: |
           export HOMEBREW_NO_INSTALL_CLEANUP=1
           export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
           # Skip brew update for now, see https://github.com/actions/setup-python/issues/577
           # brew update
-          brew install luarocks ninja
-          luarocks install luafilesystem --dev
-          luarocks install moonscript --dev
-          brew install --HEAD libass ffms2
-          brew install zlib fftw hunspell
+          brew install luarocks
+          sudo luarocks install moonscript --dev
+
+      - name: Install dependencies (MacOS)
+        if: startsWith(matrix.config.os, 'macos')
+        run: |
+          export HOMEBREW_NO_INSTALL_CLEANUP=1
+          export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
+          # Skip brew update for now, see https://github.com/actions/setup-python/issues/577
+          # brew update
+          brew install ninja boost
+          brew install --HEAD libass
+          brew install --HEAD ffms2
+          brew install ffmpeg zlib fftw hunspell
           brew install pulseaudio  # NO OpenAL in github CI
 
       - name: Setup Third-Party wxWidgets 3.2 (Ubuntu 22.04-, Debian 11-)
@@ -227,18 +263,23 @@ jobs:
           cd ..
           rm -rf ffms2
 
+      - name: set up MacOS env
+        if: startsWith( matrix.config.os, 'macos-' )
+        run: |
+          # Changes are only available in the following steps, not the current one
+          echo 'CPPFLAGS=-I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I${{matrix.config.prefix}}/gettext/0.22.5/include' >> $GITHUB_ENV
+          echo 'LDFLAGS=-L${{matrix.config.prefix}}/gettext/0.22.5/lib' >> $GITHUB_ENV
+          echo 'PKG_CONFIG_PATH=${{matrix.config.prefix}}/icu4c/74.2/lib/pkgconfig' >> $GITHUB_ENV
+          echo 'ACLOCAL_PATH=${{matrix.config.prefix}}/gettext/0.22.5/share/aclocal'  >> $GITHUB_ENV
+          # Prepend to $PATH
+          echo "${{matrix.config.prefix}}/icu4c/74.2/bin"   >> $GITHUB_PATH
+          echo "${{matrix.config.prefix}}/icu4c/74.2/sbin"  >> $GITHUB_PATH
+          echo "${{matrix.config.prefix}}/gettext/0.22.5/bin" >> $GITHUB_PATH
+
       - name: Configure
-        if: matrix.config.os != 'macos-latest'
         run: |
           meson setup build ${{ matrix.config.args }} -Dbuildtype=${{ matrix.config.buildtype }}
           meson configure build
-
-      - name: Configure (MacOS)
-        if: matrix.config.os == 'macos-latest'
-        run: |
-          export PKG_CONFIG_PATH="/usr/local/opt/icu4c/lib/pkgconfig"
-          meson setup build ${{ matrix.config.args }} -Dbuildtype=${{ matrix.config.buildtype }}
-          meson configure
 
       - name: Build
         run: meson compile -C build
@@ -275,14 +316,14 @@ jobs:
       
       # macOS artifacts
       - name: Generate macOS installer
-        if: matrix.config.os == 'macos-latest'
+        if: startsWith(matrix.config.os, 'macos')
         run: |
           meson compile osx-bundle -C build
           meson compile osx-build-dmg -C build
 
       - name: Upload artifacts - macOS dmg
         uses: actions/upload-artifact@v4
-        if: matrix.config.os == 'macos-latest'
+        if: startsWith(matrix.config.os, 'macos')
         with:
           name: ${{ matrix.config.name }} - installer
           path: build/Aegisub-*.dmg
