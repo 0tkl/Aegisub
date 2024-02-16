@@ -356,7 +356,7 @@ public:
 		return wxS("");
 	}
 
-	int CPS(const AssDialogue *d) const {
+	double CPS(const AssDialogue *d) const {
 		int duration = d->End - d->Start;
 		auto const& text = d->Text.get();
 
@@ -369,25 +369,34 @@ public:
 		if (ignore_punctuation->GetBool())
 			ignore |= agi::IGNORE_PUNCTUATION;
 
-		return agi::CharacterCount(text, ignore) * 1000 / duration;
+		return agi::CharacterCount(text, ignore) * 1000. / duration;
 	}
 
 	int Width(const agi::Context *c, WidthHelper &helper) const override {
-		return helper(wxS("999"));
+		return helper(wxS("99.9"));
 	}
 
 	void Paint(wxDC &dc, int x, int y, const AssDialogue *d, const agi::Context *) const override {
-		int cps = CPS(d);
+		double cps = CPS(d);
 		if (cps < 0 || cps > 100) return;
 
-		wxString str = std::to_wstring(cps);
-		wxSize ext = dc.GetTextExtent(str);
+		wxString str, str_0, str_sp;
+		if (cps >= 10) {
+			str = std::to_wstring(std::lround(cps));
+			str_0 = L".0";
+			str_sp = str + str_0;
+		} else {
+			str = std::to_wstring(std::round(cps*10)/10.0).substr(0,3);
+			str_0 = L"0";
+			str_sp = str_0 + str;
+		}
+		wxSize ext = dc.GetTextExtent(str_sp), ext0 = dc.GetTextExtent(str_0);
 		auto tc = dc.GetTextForeground();
 
-		int cps_min = cps_warn->GetInt();
-		int cps_max = std::max<int>(cps_min, cps_error->GetInt());
+		double cps_min = cps_warn->GetDouble();
+		double cps_max = std::max<float>(cps_min, cps_error->GetDouble());
 		if (cps > cps_min) {
-			double alpha = std::min((double)(cps - cps_min + 1) / (cps_max - cps_min + 1), 1.0);
+			double alpha = std::min((cps - cps_min + 1) / (cps_max - cps_min + 1), 1.0);
 			dc.SetBrush(wxBrush(blend(to_wx(bg_color->GetColor()), dc.GetBrush().GetColour(), alpha)));
 			dc.SetPen(*wxTRANSPARENT_PEN);
 			dc.DrawRectangle(x, y + 1, width, ext.GetHeight() + 3);
@@ -395,6 +404,7 @@ public:
 		}
 
 		x += (width + 2 - ext.GetWidth()) / 2;
+		if (cps < 10) x += ext0.GetWidth();
 		dc.DrawText(str, x, y + 2);
 		dc.SetTextForeground(tc);
 	}

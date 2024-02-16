@@ -55,10 +55,9 @@ all_test_sources += [
 test_inc = include_directories('support')
 
 # force UTF8 for MSVC
-if host_machine.system() == 'windows'
+extra_args = []
+if host_machine.system() == 'windows' and cxx.get_id() in ['msvc', 'clang-cl']
     extra_args = ['/utf-8']
-else
-    extra_args = []
 endif
 
 runner = executable(
