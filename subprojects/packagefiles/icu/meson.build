@@ -7,8 +7,12 @@ cpp = meson.get_compiler('cpp')
 host_system = host_machine.system()
 
 if host_system == 'windows'
-   add_project_arguments('-DWIN32', '-DWIN64', '-D_MBCS', '/utf-8', language : 'cpp')
-   add_project_arguments('-DWIN32', '-DWIN64', '-D_MBCS', '/utf-8', language : 'c')
+   add_project_arguments('-DWIN32', '-DWIN64', '-D_MBCS', language : 'cpp')
+   add_project_arguments('-DWIN32', '-DWIN64', '-D_MBCS', language : 'c')
+   if cpp.get_id() in ['msvc', 'clang-cl']
+      add_project_arguments('/utf-8', language : 'cpp')
+      add_project_arguments('/utf-8', language : 'c')
+   endif
 endif
 
 if cpp.has_header('elf.h')
