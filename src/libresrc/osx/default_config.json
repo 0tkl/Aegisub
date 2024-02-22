@@ -405,7 +405,9 @@
 			"Ignore Whitespace" : true,
 			"Ignore Punctuation" : true,
 			"CPS Warning Threshold" : 15.0,
-			"CPS Error Threshold" : 30.0
+			"CPS Error Threshold" : 30.0,
+			"Display Format" : 2,
+			"Column Alignment": 0
 		},
 		"Character Limit" : 40,
 		"Default Resolution" : {
