@@ -345,6 +345,8 @@ class GridColumnCPS final : public GridColumn {
 	const agi::OptionValue *cps_warn = OPT_GET("Subtitle/Character Counter/CPS Warning Threshold");
 	const agi::OptionValue *cps_error = OPT_GET("Subtitle/Character Counter/CPS Error Threshold");
 	const agi::OptionValue *bg_color = OPT_GET("Colour/Subtitle Grid/CPS Error");
+	const agi::OptionValue *disp_fmt = OPT_GET("Subtitle/Character Counter/Display Format");
+	const agi::OptionValue *col_align = OPT_GET("Subtitle/Character Counter/Column Alignment");
 
 public:
 	COLUMN_HEADER(_("CPS"))
@@ -378,19 +380,36 @@ public:
 
 	void Paint(wxDC &dc, int x, int y, const AssDialogue *d, const agi::Context *) const override {
 		double cps = CPS(d);
-		if (cps < 0 || cps > 100) return;
+		if (cps < 0) return;
 
-		wxString str, str_0, str_sp;
-		if (cps >= 10) {
-			str = std::to_wstring(std::lround(cps));
-			str_0 = L".0";
-			str_sp = str + str_0;
+		double round_cps;
+		wxString str;
+		if (disp_fmt->GetInt() == 0 || (disp_fmt->GetInt() == 2 && cps >= 10)) {
+			round_cps = std::lround(cps);
+			if (round_cps >= 100) return;
+			str = std::to_wstring(int(round_cps));
 		} else {
-			str = std::to_wstring(std::round(cps*10)/10.0).substr(0,3);
-			str_0 = L"0";
-			str_sp = str_0 + str;
+			round_cps = std::round(cps*10) / 10.0;
+			if (round_cps >= 100) return;
+			if (round_cps >= 10)
+				str = std::to_wstring(round_cps).substr(0, 4);
+			else
+				str = std::to_wstring(round_cps).substr(0, 3);
 		}
-		wxSize ext = dc.GetTextExtent(str_sp), ext0 = dc.GetTextExtent(str_0);
+
+		wxSize ext;
+		int w0 = dc.GetTextExtent(wxString(L"0")).GetWidth();
+		if (col_align->GetInt() == 0 || (disp_fmt->GetInt() != 2 && round_cps >= 10))
+			ext = dc.GetTextExtent(str);
+		else {
+			wxString str0;
+			if (cps >= 10)
+				str0 = str + wxString(L".0");
+			else
+				str0 = wxString(L"0") + str;
+			ext = dc.GetTextExtent(str0);
+		}
+
 		auto tc = dc.GetTextForeground();
 
 		double cps_min = cps_warn->GetDouble();
@@ -404,7 +423,8 @@ public:
 		}
 
 		x += (width + 2 - ext.GetWidth()) / 2;
-		if (cps < 10) x += ext0.GetWidth();
+		if (col_align->GetInt() == 1 && round_cps < 10)
+			x += w0;
 		dc.DrawText(str, x, y + 2);
 		dc.SetTextForeground(tc);
 	}
