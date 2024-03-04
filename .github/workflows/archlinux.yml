@@ -17,6 +17,7 @@ on:
 
 jobs:
   build:
+    name: ${{ matrix.name }}, ${{ matrix.buildtype }}
     runs-on: ubuntu-latest
     container:
       image: ${{ matrix.container }}
@@ -27,22 +28,41 @@ jobs:
         container: ["archlinux:base-devel", "debian:bookworm-slim", "debian:trixie-slim", "ubuntu:rolling", "fedora:latest", "fedora:rawhide"]
         buildtype: [release, debug]
         include:
+          - name: Archlinux
+            container: archlinux:base-devel
+            ffmpeg61: true
           - group: deb
+            name: Debian Bookworm
             container: debian:bookworm-slim
+            ffmpeg61: false
           - group: deb
+            name: Debian Trixie
             container: debian:trixie-slim
+            ffmpeg61: true
           - group: deb
+            name: Ubuntu 22.10
             container: ubuntu:rolling
+            ffmpeg61: false
           - group: rh
+            name: Fedora Latest
             container: fedora:latest
+            ffmpeg61: false
           - group: rh
+            name: Fedora Rawhide
             container: fedora:rawhide
+            ffmpeg61: true
           - args: >-
               --prefix=/usr
               -Ddefault_audio_output=PulseAudio
               -Davisynth=enabled
               -Dbestsource=enabled
               -Dffms2=enabled
+              -Dffmpeg:default_library=shared
+              -Dffmpeg:gpl=enabled
+              -Dffmpeg:version3=enabled
+              -Dffmpeg:avisynth=enabled
+              -Dffmpeg:libass=enabled
+              -Dffmpeg:libopus=enabled
               -Dvapoursynth=enabled
 
     steps:
@@ -95,6 +115,7 @@ jobs:
           libpulse-dev libopenal-dev libjansson-dev libfftw3-dev nasm \
           libavcodec-dev libavdevice-dev libavfilter-dev libavformat-dev \
           libavutil-dev libpostproc-dev libswresample-dev libswscale-dev \
+          libopus-dev \
           libwxbase3.2-1 libwxgtk-gl3.2-1 libwxgtk3.2-1 libwxgtk3.2-dev \
           wx-common wx3.2-headers wx3.2-i18n
 
@@ -106,7 +127,7 @@ jobs:
           fontconfig-devel libnotify-devel libass-devel intltool zlib-devel \
           boost-devel hunspell-devel uchardet-devel pulseaudio-libs-devel \
           fftw-devel openal-soft jansson-devel luajit-devel wxGTK-devel \
-          ffmpeg-free-devel
+          ffmpeg-free-devel opus-devel
 
       - name: Add non-root user
         run: |
@@ -119,32 +140,15 @@ jobs:
           echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME
           chmod 0440 /etc/sudoers.d/$USERNAME
           chown -R $USERNAME:$USER_GID /__w/Aegisub/Aegisub
-      
-      - name: Setup AviSynthPlus (Debian, Ubuntu & Fedora)
-        if: matrix.group == 'deb' || matrix.group == 'rh'
-        run: |
-          git clone --depth=1 -b 3.7 https://github.com/AviSynth/AviSynthPlus.git
-          cd AviSynthPlus
-          mkdir aspbuild && cd aspbuild
-          cmake ../ -DCMAKE_INSTALL_PREFIX=/usr -DHEADERS_ONLY:bool=off
-          sudo make VersionGen install
-          cd ../..
-          rm -rf AviSynthPlus
-
-      - name: Setup ffms2
-        run: |
-          sudo -u user1 git clone --depth=1 https://github.com/FFMS/ffms2.git
-          cd ffms2
-          sudo -u user1 ./autogen.sh --prefix=/usr --enable-shared --disable-static --enable-avisynth
-          sudo -u user1 make V=1 CXXFLAGS='-I/usr/include/avisynth' -j2 -k
-          make install
-          cd ..
-          rm -rf ffms2
         
       - name: Download some other dependencies
         run: |
           cd subprojects
-          sudo -u user1 git clone --depth=1 https://github.com/vapoursynth/bestsource.git
+          sudo -u user1 git clone --depth=1 -b 3.7 https://github.com/AviSynth/AviSynthPlus.git
+          mv AviSynthPlus avisynth
+          sudo -u user1 git clone --recursive --depth=1 -b R1 https://github.com/vapoursynth/bestsource.git
+          patch --directory=./bestsource --forward --strip=1 < ./packagefiles/bestsource/0001.patch
+          sudo -u user1 git clone --depth=1 -b 5.0-RC3 https://github.com/FFMS/ffms2.git
           sudo -u user1 git clone --depth=1 https://github.com/LuaJIT/LuaJIT.git
           mv LuaJIT luajit
           sudo -u user1 mkdir packagecache
@@ -152,8 +156,19 @@ jobs:
           sudo -u user1 curl -o gtest-1.14.0.tar.gz -L https://github.com/google/googletest/archive/refs/tags/v1.14.0.tar.gz
           sudo -u user1 curl -o gtest_1.14.0-1_patch.zip -L https://wrapdb.mesonbuild.com/v2/gtest_1.14.0-1/get_patch
           cd ../..
+          sudo -u user1 meson subprojects packagefiles --apply avisynth
           sudo -u user1 meson subprojects packagefiles --apply bestsource
+          sudo -u user1 meson subprojects packagefiles --apply ffms2
           sudo -u user1 meson subprojects packagefiles --apply luajit
+
+      - name: Download FFmpeg
+        if: matrix.ffmpeg61 == false
+        run: |
+          cd subprojects
+          sudo -u user1 git clone --depth=1 -b meson-6.1 https://gitlab.freedesktop.org/gstreamer/meson-ports/ffmpeg.git
+          patch --directory=./ffmpeg --forward --strip=1 < ./packagefiles/ffmpeg/0001.patch
+          cd ..
+          sudo -u user1 meson subprojects packagefiles --apply ffmpeg
 
       - name: Configure
         run: |
