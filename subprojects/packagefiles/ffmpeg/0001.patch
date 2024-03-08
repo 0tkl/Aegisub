@@ -1,0 +1,14 @@
+diff --git a/meson.build b/meson.build
+index 1ac3baa2b3..ae31c53c02 100644
+--- a/meson.build
++++ b/meson.build
+@@ -3054,6 +3061,8 @@ if host_machine.system() == 'windows'
+   makedef_args += ['--os', 'win']
+ elif host_machine.system() in ['darwin', 'ios']
+   makedef_args += ['--os', 'darwin']
++else
++  makedef_args += ['--os', 'linux']
+ endif
+ 
+ final_conf = configuration_data()
+
