@@ -100,11 +100,26 @@ jobs:
           "C Development Tools and Libraries"
           dnf -y install cmake git curl sudo libtool gettext
 
+      - name: openSUSE Leap 15.5 Add Repos
+        if: matrix.container == 'opensuse/leap:latest'
+        run: |
+          zypper addrepo -f https://download.opensuse.org/repositories/devel:/libraries:/c_c++/15.5/devel:libraries:c_c++.repo
+          zypper addrepo -f https://download.opensuse.org/repositories/devel:/tools:/building/15.5/devel:tools:building.repo
+          zypper addrepo -f https://download.opensuse.org/repositories/multimedia:/libs/15.5/multimedia:libs.repo
+
+      - name: openSUSE Leap 15.6 Add Repos
+        if: matrix.container == 'opensuse/leap:15.6'
+        run: |
+          zypper addrepo -f https://download.opensuse.org/repositories/devel:/libraries:/c_c++/15.6/devel:libraries:c_c++.repo
+          zypper addrepo -f https://download.opensuse.org/repositories/devel:/tools:/building/15.6/devel:tools:building.repo
+          zypper addrepo -f https://download.opensuse.org/repositories/multimedia:/libs/15.6/multimedia:libs.repo
+
       - name: Prerequisites 1 (openSUSE)
         if: matrix.group == 'suse'
         run: |
           zypper clean --all
-          zypper refresh
+          zypper lr -d
+          zypper --gpg-auto-import-keys refresh
           zypper update -y
           zypper install -y -t pattern devel_C_C++
           zypper install -y gcc13 gcc13-c++
@@ -151,13 +166,13 @@ jobs:
           fftw-devel openal-soft jansson-devel luajit-devel wxGTK-devel \
           ffmpeg-free-devel opus-devel
 
-      - name: Install dependencies (openSUSE Leap)
-        if: startsWith(matrix.container, 'opensuse/leap')
-        run: |
-          zypper install -y python311
-          python3 -m pip install --upgrade pip
-          python3 -m pip install meson
-          zypper install -y libopus-devel
+      # - name: Install dependencies (openSUSE Leap)
+      #   if: startsWith(matrix.container, 'opensuse/leap')
+      #   run: |
+      #     zypper install -y python311 python-pip
+      #     python3 -m pip install --upgrade pip
+      #     python3 -m pip install meson
+      #     zypper install -y libopus-devel
 
 # libboost_chrono1_66_0-devel \
 # libboost_headers1_66_0-devel \
@@ -168,27 +183,26 @@ jobs:
       
       - name: Install dependencies (openSUSE Tumbleweed)
         if: startsWith(matrix.container, 'opensuse/tumbleweed')
+        run: zypper install -y pkgconf-pkg-config
+
+      - name: Install dependencies (openSUSE)
+        if: matrix.group == 'suse'
         run: |
-          zypper install -y meson pkgconf-pkg-config
           zypper install -y libboost_chrono1_84_0-devel \
           libboost_headers1_84_0-devel \
           libboost_filesystem1_84_0-devel \
           libboost_locale1_84_0-devel \
           libboost_regex1_84_0-devel \
-          libboost_program_options1_84_0-devel \
-          ffmpeg-6-libavcodec-devel ffmpeg-6-libavdevice-devel \
-          ffmpeg-6-libavfilter-devel ffmpeg-6-libavformat-devel \
-          ffmpeg-6-libavutil-devel ffmpeg-6-libpostproc-devel \
-          ffmpeg-6-libswresample-devel ffmpeg-6-libswscale-devel
-
-      - name: Install dependencies (openSUSE)
-        if: matrix.group == 'suse'
-        run: |
-          zypper install -y ninja libX11-6 libfreetype6 nasm \
+          libboost_program_options1_84_0-devel
+          zypper install -y meson ninja libX11-6 libfreetype6 nasm \
           libfontconfig1 libnotify-devel libass-devel intltool zlib-devel \
           hunspell-devel libuchardet-devel libpulse-devel \
           fftw3-devel openal-soft-devel libjansson-devel luajit-devel \
           wxGTK3-3_2-devel vapoursynth-devel
+          zypper install -y ffmpeg-6-libavcodec-devel ffmpeg-6-libavdevice-devel \
+          ffmpeg-6-libavfilter-devel ffmpeg-6-libavformat-devel \
+          ffmpeg-6-libavutil-devel ffmpeg-6-libpostproc-devel \
+          ffmpeg-6-libswresample-devel ffmpeg-6-libswscale-devel
 
       - name: Add non-root user
         run: |
