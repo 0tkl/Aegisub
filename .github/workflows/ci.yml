@@ -7,13 +7,13 @@ on:
       - feature
       - cibuilds
     paths-ignore: 
-      - ".github/workflows/archlinux.yml"
+      - ".github/workflows/distro.yml"
   pull_request:
     branches:
       - master
       - feature
     paths-ignore: 
-      - ".github/workflows/archlinux.yml"
+      - ".github/workflows/distro.yml"
   workflow_dispatch:
 
 jobs:
@@ -246,11 +246,11 @@ jobs:
           rm -rf AviSynthPlus
           git clone --depth=1 -b release/6.1 https://github.com/FFmpeg/FFmpeg.git
           cd FFmpeg
-          ./configure --prefix=/usr --disable-debug \
-          --disable-muxers --disable-encoders --disable-filters \
-          --disable-hwaccels --disable-network --disable-devices \
-          --enable-gpl --enable-nonfree --enable-version3 --enable-shared \
-          --enable-avisynth
+          ./configure --prefix=/usr --disable-programs --disable-doc \
+          --disable-debug --disable-muxers --disable-encoders \
+          --disable-filters --disable-hwaccels --disable-network \
+          --disable-devices --enable-gpl --enable-nonfree \
+          --enable-version3 --enable-shared --enable-avisynth
           make V=1 -j2 -k
           sudo make install
           cd ..
