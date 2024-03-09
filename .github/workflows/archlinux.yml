@@ -25,7 +25,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        container: ["archlinux:base-devel", "debian:bookworm-slim", "debian:trixie-slim", "ubuntu:rolling", "fedora:latest", "fedora:rawhide"]
+        container: ["archlinux:base-devel", "debian:bookworm-slim", "debian:trixie-slim", "ubuntu:rolling", "fedora:latest", "fedora:rawhide", "opensuse/leap:latest", "opensuse/leap:15.6", "opensuse/tumbleweed:latest"]
         buildtype: [release, debug]
         include:
           - name: Archlinux
@@ -50,6 +50,18 @@ jobs:
           - group: rh
             name: Fedora Rawhide
             container: fedora:rawhide
+            ffmpeg61: true
+          - group: suse
+            name: openSUSE Leap 15.5
+            container: opensuse/leap:latest
+            ffmpeg61: false
+          - group: suse
+            name: openSUSE Leap 15.6
+            container: opensuse/leap:15.6
+            ffmpeg61: true
+          - group: suse
+            name: openSUSE Tumbleweed
+            container: opensuse/tumbleweed:latest
             ffmpeg61: true
           - args: >-
               --prefix=/usr
@@ -87,6 +99,16 @@ jobs:
           dnf -y group install --skip-broken \
           "C Development Tools and Libraries"
           dnf -y install cmake git curl sudo libtool gettext
+
+      - name: Prerequisites 1 (openSUSE)
+        if: matrix.group == 'suse'
+        run: |
+          zypper clean --all
+          zypper refresh
+          zypper update -y
+          zypper install -y -t pattern devel_C_C++
+          zypper install -y gcc13 gcc13-c++
+          zypper install -y cmake git curl sudo libtool gettext-runtime
 
       - uses: actions/checkout@v4
         with:
@@ -128,6 +150,45 @@ jobs:
           boost-devel hunspell-devel uchardet-devel pulseaudio-libs-devel \
           fftw-devel openal-soft jansson-devel luajit-devel wxGTK-devel \
           ffmpeg-free-devel opus-devel
+
+      - name: Install dependencies (openSUSE Leap)
+        if: startsWith(matrix.container, 'opensuse/leap')
+        run: |
+          zypper install -y python311
+          python3 -m pip install --upgrade pip
+          python3 -m pip install meson
+          zypper install -y libopus-devel
+
+# libboost_chrono1_66_0-devel \
+# libboost_headers1_66_0-devel \
+# libboost_filesystem1_66_0-devel \
+# libboost_locale1_66_0-devel \
+# libboost_regex1_66_0-devel \
+# libboost_program_options1_66_0-devel \
+      
+      - name: Install dependencies (openSUSE Tumbleweed)
+        if: startsWith(matrix.container, 'opensuse/tumbleweed')
+        run: |
+          zypper install -y meson pkgconf-pkg-config
+          zypper install -y libboost_chrono1_84_0-devel \
+          libboost_headers1_84_0-devel \
+          libboost_filesystem1_84_0-devel \
+          libboost_locale1_84_0-devel \
+          libboost_regex1_84_0-devel \
+          libboost_program_options1_84_0-devel \
+          ffmpeg-6-libavcodec-devel ffmpeg-6-libavdevice-devel \
+          ffmpeg-6-libavfilter-devel ffmpeg-6-libavformat-devel \
+          ffmpeg-6-libavutil-devel ffmpeg-6-libpostproc-devel \
+          ffmpeg-6-libswresample-devel ffmpeg-6-libswscale-devel
+
+      - name: Install dependencies (openSUSE)
+        if: matrix.group == 'suse'
+        run: |
+          zypper install -y ninja libX11-6 libfreetype6 nasm \
+          libfontconfig1 libnotify-devel libass-devel intltool zlib-devel \
+          hunspell-devel libuchardet-devel libpulse-devel \
+          fftw3-devel openal-soft-devel libjansson-devel luajit-devel \
+          wxGTK3-3_2-devel vapoursynth-devel
 
       - name: Add non-root user
         run: |
@@ -171,10 +232,18 @@ jobs:
           sudo -u user1 meson subprojects packagefiles --apply ffmpeg
 
       - name: Configure
+        if: ${{ ! startsWith(matrix.container, 'opensuse/leap') }}
         run: |
           C_FLAGS="-Wall -Wextra -Wpedantic"
           CXX_FLAGS="-Wall -Wextra -Wpedantic"
           sudo -u user1 meson setup build ${{ matrix.args }} -Dcpp_std=c++2a -Dbuildtype=${{ matrix.buildtype }}
+
+      - name: Configure (openSUSE Leap)
+        if: startsWith(matrix.container, 'opensuse/leap')
+        run: |
+          C_FLAGS="-Wall -Wextra -Wpedantic"
+          CXX_FLAGS="-Wall -Wextra -Wpedantic"
+          sudo -u user1 CC=/usr/bin/gcc-13 CXX=/usr/bin/g++-13 meson setup build ${{ matrix.args }} -Dcpp_std=c++2a -Dbuildtype=${{ matrix.buildtype }}
 
       - name: Build
         run: sudo -u user1 meson compile -C build
