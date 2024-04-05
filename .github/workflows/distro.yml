@@ -118,9 +118,10 @@ jobs:
       - name: Prerequisites (Debian & Ubuntu)
         if: matrix.group == 'deb'
         run: |
-          apt-get update
-          apt-get install --no-install-recommends -y \
-          cmake git curl ca-certificates sudo build-essential \
+          DEBIAN_FRONTEND=noninteractive apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install \
+          --no-install-recommends -y cmake git curl \
+          ca-certificates sudo build-essential \
           autoconf automake libtool gettext libgettextpo-dev
       
       - name: Prerequisites (Fedora)
