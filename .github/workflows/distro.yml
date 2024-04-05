@@ -45,14 +45,11 @@ jobs:
           - avisynthplus: false
           - lua52compat: false
           - age: 1
-          # ffms2     ≥ 5.0 requires age = 0
-          # ffmpeg    ≥ 6.1 requires age ≤ 1
-          # meson     ≥ 1.0 requires age ≤ 2
-          # wxWidgets ≥ 3.1 requires age ≤ 3
-          # age > 0 infers ffms2     < 5.0
-          # age > 1 infers ffmpeg    < 6.1
-          # age > 2 infers meson     < 1.0
-          # age > 3 infers wxWidgets < 3.1
+# ffms2     ≥ 5.0 requires age = 0;  age > 0 infers ffms2     < 5.0
+# ffmpeg    ≥ 6.1 requires age ≤ 1;  age > 1 infers ffmpeg    < 6.1
+# meson     ≥ 1.0 requires age ≤ 2;  age > 2 infers meson     < 1.0
+# wxWidgets ≥ 3.1 requires age ≤ 3;  age > 3 infers wxWidgets < 3.1
+# xxHash    ≥ 0.8 requires age ≤ 4;  age > 4 infers xxHash    < 0.8
           - name: Archlinux
             container: archlinux:base-devel
             avisynthplus: true
@@ -73,7 +70,7 @@ jobs:
           - group: deb
             name: Ubuntu 20.04
             container: ubuntu:focal
-            age: 4
+            age: 5
           - group: deb
             name: Ubuntu 22.04
             container: ubuntu:jammy
@@ -174,13 +171,13 @@ jobs:
           fontconfig hunspell libass libglvnd meson openal portaudio \
           python pulseaudio uchardet vapoursynth wxwidgets-gtk3
 
-      - name: Install meson from pip (Debian 11, Ubuntu 22.04)
+      - name: Install meson from pip (Old)
         if: ${{ matrix.group == 'deb' && matrix.age > 2 }} 
         run: |
           apt-get install -y python3 python3-pip
           pip install meson
 
-      - name: Install meson from apt (Debian 12+, Ubuntu 23.04+)
+      - name: Install meson from apt (New)
         if: ${{ matrix.group == 'deb' && matrix.age <= 2 }}
         run: apt-get install --no-install-recommends -y meson
 
@@ -192,8 +189,7 @@ jobs:
           ninja-build libx11-dev libfreetype6-dev libfontconfig1-dev \
           libnotify-dev libass-dev libasound2-dev intltool \
           libboost-all-dev libhunspell-dev libuchardet-dev \
-          libpulse-dev libopenal-dev libxxhash-dev libfftw3-dev \
-          libopus-dev
+          libpulse-dev libopenal-dev libfftw3-dev libopus-dev
 
       - name: Install ffmpeg (Debian 13+, Ubuntu 24.04+)
         if: ${{ matrix.group == 'deb' && matrix.age <= 1 }}
@@ -202,13 +198,17 @@ jobs:
           libavcodec-dev libavdevice-dev libavfilter-dev libavformat-dev \
           libavutil-dev libpostproc-dev libswresample-dev libswscale-dev
 
-      - name: Install wxWidgets 3.0 (Debian 11, Ubuntu 22.04)
+      - name: Install wxWidgets 3.0 (Old)
         if: ${{ matrix.group == 'deb' && matrix.age > 3 }}
         run: apt-get install -y libwxgtk3.0-gtk3-dev wx3.0-i18n
 
-      - name: Install wxWidgets 3.2 (Debian 12+, Ubuntu 22.10+)
+      - name: Install wxWidgets 3.2 (New)
         if: ${{ matrix.group == 'deb' && matrix.age <= 3 }}
         run: apt-get install -y libwxgtk3.2-dev wx3.2-i18n
+
+      - name: Install xxHash
+        if: ${{ matrix.group == 'deb' && matrix.age <= 4 }}
+        run: apt-get install -y libxxhash-dev
 
       - name: Install dependencies (Fedora)
         if: matrix.group == 'rh'
