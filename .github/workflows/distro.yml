@@ -33,6 +33,7 @@ jobs:
           - "debian:bookworm-slim"
           - "debian:trixie-slim"
           - "debian:unstable-slim"
+          - "ubuntu:focal"
           - "ubuntu:jammy"
           - "ubuntu:noble"
           - "fedora:latest"
@@ -70,6 +71,10 @@ jobs:
           - group: deb
             name: Debian Unstable
             container: debian:unstable-slim
+          - group: deb
+            name: Ubuntu 20.04
+            container: ubuntu:jammy
+            age: 4
           - group: deb
             name: Ubuntu 22.04
             container: ubuntu:jammy
