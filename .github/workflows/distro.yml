@@ -99,6 +99,7 @@ jobs:
               -Dbestsource=enabled
               -Dffms2=enabled
               -Dffmpeg:default_library=shared
+              -Dffmpeg:gpl=enabled
               -Dffmpeg:version3=enabled
               -Dvapoursynth=enabled
 
