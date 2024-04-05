@@ -44,21 +44,26 @@ jobs:
         include:
           - avisynthplus: false
           - lua52compat: false
-          - ffmpeg61: true
-          - wx31: true
-          - meson061: true
+          - age: 1
+          # ffms2     ≥ 5.0 requires age = 0
+          # ffmpeg    ≥ 6.1 requires age ≤ 1
+          # meson     ≥ 1.0 requires age ≤ 2
+          # wxWidgets ≥ 3.1 requires age ≤ 3
+          # age > 0 infers ffms2     < 5.0
+          # age > 1 infers ffmpeg    < 6.1
+          # age > 2 infers meson     < 1.0
+          # age > 3 infers wxWidgets < 3.1
           - name: Archlinux
             container: archlinux:base-devel
             avisynthplus: true
           - group: deb
             name: Debian 11
             container: debian:bullseye-backports
-            wx31: false
-            meson061: false
+            age: 4
           - group: deb
             name: Debian 12
             container: debian:bookworm-slim
-            ffmpeg61: false
+            age: 2
           - group: deb
             name: Debian 13
             container: debian:trixie-slim
@@ -68,9 +73,7 @@ jobs:
           - group: deb
             name: Ubuntu 22.04
             container: ubuntu:jammy
-            ffmpeg61: false
-            wx31: false
-            meson061: false
+            age: 4
           - group: deb
             name: Ubuntu 24.04
             container: ubuntu:noble
@@ -78,7 +81,7 @@ jobs:
             name: Fedora Latest
             container: fedora:latest
             lua52compat: true
-            ffmpeg61: false
+            age: 2
           - group: rh
             name: Fedora Rawhide
             container: fedora:rawhide
@@ -166,14 +169,14 @@ jobs:
           fontconfig hunspell libass libglvnd meson openal portaudio \
           python pulseaudio uchardet vapoursynth wxwidgets-gtk3
 
-      - name: Install meson (Debian 11)
-        if: ${{ matrix.group == 'deb' && matrix.meson061 == false }}
+      - name: Install meson from pip (Debian 11, Ubuntu 22.04)
+        if: ${{ matrix.group == 'deb' && matrix.age > 2 }} 
         run: |
           apt-get install -y python3 python3-pip
           pip install meson
 
-      - name: Install meson (Debian 12+, Ubuntu 22.04+)
-        if: ${{ matrix.group == 'deb' && matrix.meson061 == true }}
+      - name: Install meson from apt (Debian 12+, Ubuntu 23.04+)
+        if: ${{ matrix.group == 'deb' && matrix.age <= 2 }}
         run: apt-get install --no-install-recommends -y meson
 
       - name: Install some dependencies (Debian & Ubuntu)
@@ -188,18 +191,18 @@ jobs:
           libopus-dev
 
       - name: Install ffmpeg (Debian 13+, Ubuntu 24.04+)
-        if: ${{ matrix.group == 'deb' && matrix.ffmpeg61 == true }}
+        if: ${{ matrix.group == 'deb' && matrix.age <= 1 }}
         run: |
           apt-get install -y \
           libavcodec-dev libavdevice-dev libavfilter-dev libavformat-dev \
           libavutil-dev libpostproc-dev libswresample-dev libswscale-dev
 
       - name: Install wxWidgets 3.0 (Debian 11, Ubuntu 22.04)
-        if: ${{ matrix.group == 'deb' && matrix.wx31 == false }}
+        if: ${{ matrix.group == 'deb' && matrix.age > 3 }}
         run: apt-get install -y libwxgtk3.0-gtk3-dev wx3.0-i18n
 
       - name: Install wxWidgets 3.2 (Debian 12+, Ubuntu 22.10+)
-        if: ${{ matrix.group == 'deb' && matrix.wx31 == true }}
+        if: ${{ matrix.group == 'deb' && matrix.age <= 3 }}
         run: apt-get install -y libwxgtk3.2-dev wx3.2-i18n
 
       - name: Install dependencies (Fedora)
@@ -252,7 +255,7 @@ jobs:
           sudo -u user1 curl -o gtest_1.14.0-1_patch.zip -L https://wrapdb.mesonbuild.com/v2/gtest_1.14.0-1/get_patch
 
       - name: Download AviSynth+
-        if: matrix.avisynthplus == false
+        if: ${{ ! matrix.avisynthplus }}
         run: |
           cd subprojects
           sudo -u user1 git clone --depth=1 -b 3.7 https://github.com/AviSynth/AviSynthPlus.git
@@ -274,7 +277,7 @@ jobs:
           sudo -u user1 meson subprojects packagefiles --apply ffms2
 
       - name: Download FFmpeg
-        if: matrix.ffmpeg61 == false
+        if: matrix.age > 1
         run: |
           cd subprojects
           sudo -u user1 git clone --depth=1 -b meson-6.1 https://gitlab.freedesktop.org/gstreamer/meson-ports/ffmpeg.git
@@ -283,7 +286,7 @@ jobs:
           sudo -u user1 meson subprojects packagefiles --apply ffmpeg
 
       - name: Download LuaJIT
-        if: matrix.lua52compat == false
+        if: ${{ ! matrix.lua52compat }}
         run: |
           cd subprojects
           sudo -u user1 git clone --depth=1 https://github.com/LuaJIT/LuaJIT.git
