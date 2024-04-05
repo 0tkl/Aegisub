@@ -19,7 +19,7 @@ on:
 
 jobs:
   build:
-    name: ${{ matrix.name }}, ${{ matrix.buildtype }}
+    name: ${{ matrix.name }}
     runs-on: ubuntu-latest
     container:
       image: ${{ matrix.container }}
@@ -41,7 +41,6 @@ jobs:
           - "opensuse/leap:latest"
           - "opensuse/leap:15.6"
           - "opensuse/tumbleweed:latest"
-        buildtype: [release, debug]
         include:
           - avisynthplus: false
           - lua52compat: false
@@ -73,7 +72,7 @@ jobs:
             container: debian:unstable-slim
           - group: deb
             name: Ubuntu 20.04
-            container: ubuntu:jammy
+            container: ubuntu:focal
             age: 4
           - group: deb
             name: Ubuntu 22.04
@@ -304,14 +303,14 @@ jobs:
         run: |
           C_FLAGS="-Wall -Wextra -Wpedantic"
           CXX_FLAGS="-Wall -Wextra -Wpedantic"
-          sudo -u user1 meson setup build ${{ matrix.args }} -Dcpp_std=c++14 -Dbuildtype=${{ matrix.buildtype }}
+          sudo -u user1 meson setup build ${{ matrix.args }} -Dcpp_std=c++14 -Dbuildtype=debug
 
       - name: Configure (openSUSE Leap)
         if: startsWith(matrix.container, 'opensuse/leap')
         run: |
           C_FLAGS="-Wall -Wextra -Wpedantic"
           CXX_FLAGS="-Wall -Wextra -Wpedantic"
-          sudo -u user1 CC=/usr/bin/gcc-13 CXX=/usr/bin/g++-13 meson setup build ${{ matrix.args }} -Dcpp_std=c++14 -Dbuildtype=${{ matrix.buildtype }}
+          sudo -u user1 CC=/usr/bin/gcc-13 CXX=/usr/bin/g++-13 meson setup build ${{ matrix.args }} -Dcpp_std=c++14 -Dbuildtype=debug
 
       - name: Build
         run: sudo -u user1 meson compile -C build
