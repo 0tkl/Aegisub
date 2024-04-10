@@ -52,12 +52,9 @@ jobs:
         env:
           VER: ${{ matrix.version }}
         run: |
-          zypper addrepo -f https://download.opensuse.org/repositories/devel:libraries:c_c++/$VER/devel:libraries:c_c++.repo dev_libs_c_c++
-          zypper addrepo -f https://download.opensuse.org/repositories/devel:tools:building/$VER/devel:tools:building.repo dev_tools_building
-          zypper addrepo -f https://download.opensuse.org/repositories/multimedia:libs/$VER/multimedia:libs.repo multimedia_libs
-          zypper modifyrepo -p 90 dev_libs_c_c++
-          zypper modifyrepo -p 90 dev_tools_building
-          zypper modifyrepo -p 90 multimedia_libs
+          zypper addrepo -p 90 -fcG https://download.opensuse.org/repositories/devel:libraries:c_c++/$VER/devel:libraries:c_c++.repo dev_libs_c_c++
+          zypper addrepo -p 90 -fcG https://download.opensuse.org/repositories/devel:tools:building/$VER/devel:tools:building.repo dev_tools_building
+          zypper addrepo -p 90 -fcG https://download.opensuse.org/repositories/multimedia:libs/$VER/multimedia:libs.repo multimedia_libs
 
       - name: Prerequisites (openSUSE)
         run: |
