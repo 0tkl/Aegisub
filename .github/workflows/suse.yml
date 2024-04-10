@@ -27,8 +27,10 @@ jobs:
           - lua52compat: false
           - name: openSUSE Leap 15.5
             container: opensuse/leap:latest
+            version: "15.5"
           - name: openSUSE Leap 15.6
             container: opensuse/leap:15.6
+            version: "15.6"
           - args: >-
               --prefix=/usr
               -Ddefault_audio_output=PulseAudio
@@ -41,26 +43,21 @@ jobs:
               -Dvapoursynth=enabled
 
     steps:
-      - name: Add repos (openSUSE Leap 15.5)
-        if: matrix.container == 'opensuse/leap:latest'
+      - name: Refresh
         run: |
-          zypper addrepo https://download.opensuse.org/repositories/devel:libraries:c_c++/15.5/devel:libraries:c_c++.repo dev_libs_c_c++
-          zypper addrepo https://download.opensuse.org/repositories/devel:tools:building/15.5/devel:tools:building.repo dev_tools_building
-          zypper addrepo https://download.opensuse.org/repositories/multimedia:libs/15.5/multimedia:libs.repo multimedia_libs
+          zypper refresh
+          zypper --non-interactive dup
 
-      - name: Add repos (openSUSE Leap 15.6)
-        if: matrix.container == 'opensuse/leap:15.6'
+      - name: Add repos
+        env:
+          VER: ${{ matrix.version }}
         run: |
-          zypper addrepo https://download.opensuse.org/repositories/devel:libraries:c_c++/15.6/devel:libraries:c_c++.repo dev_libs_c_c++
-          zypper addrepo https://download.opensuse.org/repositories/devel:tools:building/15.6/devel:tools:building.repo dev_tools_building
-          zypper addrepo https://download.opensuse.org/repositories/multimedia:libs/15.6/multimedia:libs.repo multimedia_libs
-
-      - name: Set repo priorities (openSUSE Leap)
-        run: |
+          zypper addrepo -f https://download.opensuse.org/repositories/devel:libraries:c_c++/$VER/devel:libraries:c_c++.repo dev_libs_c_c++
+          zypper addrepo -f https://download.opensuse.org/repositories/devel:tools:building/$VER/devel:tools:building.repo dev_tools_building
+          zypper addrepo -f https://download.opensuse.org/repositories/multimedia:libs/$VER/multimedia:libs.repo multimedia_libs
           zypper modifyrepo -p 90 dev_libs_c_c++
           zypper modifyrepo -p 90 dev_tools_building
           zypper modifyrepo -p 90 multimedia_libs
-          zypper refresh
 
       - name: Prerequisites (openSUSE)
         run: |
