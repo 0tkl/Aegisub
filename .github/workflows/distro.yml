@@ -136,6 +136,10 @@ jobs:
           zypper addrepo https://download.opensuse.org/repositories/devel:libraries:c_c++/15.5/devel:libraries:c_c++.repo dev_libs_c_c++
           zypper addrepo https://download.opensuse.org/repositories/devel:tools:building/15.5/devel:tools:building.repo dev_tools_building
           zypper addrepo https://download.opensuse.org/repositories/multimedia:libs/15.5/multimedia:libs.repo multimedia_libs
+          zypper modifyrepo -p 90 dev_libs_c_c++
+          zypper modifyrepo -p 90 dev_tools_building
+          zypper modifyrepo -p 90 multimedia_libs
+          zypper refresh
 
       - name: Add repos (openSUSE Leap 15.6)
         if: matrix.container == 'opensuse/leap:15.6'
@@ -143,14 +147,18 @@ jobs:
           zypper addrepo https://download.opensuse.org/repositories/devel:libraries:c_c++/15.6/devel:libraries:c_c++.repo dev_libs_c_c++
           zypper addrepo https://download.opensuse.org/repositories/devel:tools:building/15.6/devel:tools:building.repo dev_tools_building
           zypper addrepo https://download.opensuse.org/repositories/multimedia:libs/15.6/multimedia:libs.repo multimedia_libs
-
-      - name: Set repo priorities (openSUSE Leap)
-        if: startsWith(matrix.container, 'opensuse/leap')
-        run: |
           zypper modifyrepo -p 90 dev_libs_c_c++
           zypper modifyrepo -p 90 dev_tools_building
           zypper modifyrepo -p 90 multimedia_libs
           zypper refresh
+
+      # - name: Set repo priorities (openSUSE Leap)
+      #   if: startsWith(matrix.container, 'opensuse/leap')
+      #   run: |
+      #     zypper modifyrepo -p 90 dev_libs_c_c++
+      #     zypper modifyrepo -p 90 dev_tools_building
+      #     zypper modifyrepo -p 90 multimedia_libs
+      #     zypper refresh
 
       - name: Prerequisites (openSUSE)
         if: matrix.group == 'suse'
