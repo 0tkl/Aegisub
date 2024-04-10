@@ -133,24 +133,30 @@ jobs:
       - name: Add Repos (openSUSE Leap 15.5)
         if: matrix.container == 'opensuse/leap:latest'
         run: |
-          zypper addrepo -f https://download.opensuse.org/repositories/devel:/libraries:/c_c++/15.5/devel:libraries:c_c++.repo
-          zypper addrepo -f https://download.opensuse.org/repositories/devel:/tools:/building/15.5/devel:tools:building.repo
-          zypper addrepo -f https://download.opensuse.org/repositories/multimedia:/libs/15.5/multimedia:libs.repo
+          zypper addrepo -f https://download.opensuse.org/repositories/devel:/libraries:/c_c++/15.5/devel:libraries:c_c++.repo dev_libs_c_c++
+          zypper addrepo -f https://download.opensuse.org/repositories/devel:/tools:/building/15.5/devel:tools:building.repo dev_tools_building
+          zypper addrepo -f https://download.opensuse.org/repositories/multimedia:/libs/15.5/multimedia:libs.repo multimedia_libs
 
       - name: Add Repos (openSUSE Leap 15.6)
         if: matrix.container == 'opensuse/leap:15.6'
         run: |
-          zypper addrepo -f https://download.opensuse.org/repositories/devel:/libraries:/c_c++/15.6/devel:libraries:c_c++.repo
-          zypper addrepo -f https://download.opensuse.org/repositories/devel:/tools:/building/15.6/devel:tools:building.repo
-          zypper addrepo -f https://download.opensuse.org/repositories/multimedia:/libs/15.6/multimedia:libs.repo
+          zypper addrepo -f https://download.opensuse.org/repositories/devel:/libraries:/c_c++/15.6/devel:libraries:c_c++.repo dev_libs_c_c++
+          zypper addrepo -f https://download.opensuse.org/repositories/devel:/tools:/building/15.6/devel:tools:building.repo dev_tools_building
+          zypper addrepo -f https://download.opensuse.org/repositories/multimedia:/libs/15.6/multimedia:libs.repo multimedia_libs
+
+      - name: Add Repos (openSUSE Leap)
+        if: startsWith(matrix.container, 'opensuse/leap')
+        run: |
+          zypper modifyrepo -p 90 dev_libs_c_c++
+          zypper modifyrepo -p 90 dev_tools_building
+          zypper modifyrepo -p 90 multimedia_libs
+          zypper refresh
 
       - name: Prerequisites (openSUSE)
         if: matrix.group == 'suse'
         run: |
           zypper clean --all
-          zypper lr -d
-          zypper --gpg-auto-import-keys refresh
-          zypper update -y
+          zypper repos -d
           zypper install -y -t pattern devel_C_C++
           zypper install -y gcc13 gcc13-c++
           zypper install -y cmake git curl sudo libtool gettext-runtime
