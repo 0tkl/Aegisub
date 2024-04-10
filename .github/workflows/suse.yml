@@ -1,0 +1,171 @@
+name: opensuse test
+
+on:
+  push:
+    branches:
+      - test
+    paths-ignore:
+      - ".github/workflows/ci.yml"
+      - ".github/workflows/distro.yml"
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    container:
+      image: ${{ matrix.container }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        container:
+          - "opensuse/leap:latest"
+          - "opensuse/leap:15.6"
+        include:
+          - avisynthplus: false
+          - lua52compat: false
+          - name: openSUSE Leap 15.5
+            container: opensuse/leap:latest
+          - name: openSUSE Leap 15.6
+            container: opensuse/leap:15.6
+          - args: >-
+              --prefix=/usr
+              -Ddefault_audio_output=PulseAudio
+              -Davisynth=enabled
+              -Dbestsource=enabled
+              -Dffms2=enabled
+              -Dffmpeg:default_library=shared
+              -Dffmpeg:gpl=enabled
+              -Dffmpeg:version3=enabled
+              -Dvapoursynth=enabled
+
+    steps:
+      - name: Add repos (openSUSE Leap 15.5)
+        if: matrix.container == 'opensuse/leap:latest'
+        run: |
+          zypper addrepo https://download.opensuse.org/repositories/devel:libraries:c_c++/15.5/devel:libraries:c_c++.repo dev_libs_c_c++
+          zypper addrepo https://download.opensuse.org/repositories/devel:tools:building/15.5/devel:tools:building.repo dev_tools_building
+          zypper addrepo https://download.opensuse.org/repositories/multimedia:libs/15.5/multimedia:libs.repo multimedia_libs
+
+      - name: Add repos (openSUSE Leap 15.6)
+        if: matrix.container == 'opensuse/leap:15.6'
+        run: |
+          zypper addrepo https://download.opensuse.org/repositories/devel:libraries:c_c++/15.6/devel:libraries:c_c++.repo dev_libs_c_c++
+          zypper addrepo https://download.opensuse.org/repositories/devel:tools:building/15.6/devel:tools:building.repo dev_tools_building
+          zypper addrepo https://download.opensuse.org/repositories/multimedia:libs/15.6/multimedia:libs.repo multimedia_libs
+
+      - name: Set repo priorities (openSUSE Leap)
+        run: |
+          zypper modifyrepo -p 90 dev_libs_c_c++
+          zypper modifyrepo -p 90 dev_tools_building
+          zypper modifyrepo -p 90 multimedia_libs
+          zypper refresh
+
+      - name: Prerequisites (openSUSE)
+        run: |
+          zypper clean --all
+          zypper repos -d
+          zypper install -y -t pattern devel_C_C++
+          zypper install -y gcc13 gcc13-c++
+          zypper install -y cmake git curl sudo libtool gettext-runtime
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Git config add safe directory
+        run: git config --global --add safe.directory '/__w/Aegisub/Aegisub'
+
+      - name: Install dependencies
+        run: |
+          zypper install -y libboost_chrono1_84_0-devel \
+          libboost_headers1_84_0-devel \
+          libboost_filesystem1_84_0-devel \
+          libboost_locale1_84_0-devel \
+          libboost_regex1_84_0-devel \
+          libboost_program_options1_84_0-devel
+          zypper install -y meson ninja libX11-6 libfreetype6 nasm \
+          libfontconfig1 libnotify-devel libass-devel intltool zlib-devel \
+          hunspell-devel libuchardet-devel libpulse-devel \
+          fftw3-devel openal-soft-devel xxhash-devel luajit-devel \
+          wxGTK3-3_2-devel vapoursynth-devel
+          zypper install -y ffmpeg-6-libavcodec-devel ffmpeg-6-libavdevice-devel \
+          ffmpeg-6-libavfilter-devel ffmpeg-6-libavformat-devel \
+          ffmpeg-6-libavutil-devel ffmpeg-6-libpostproc-devel \
+          ffmpeg-6-libswresample-devel ffmpeg-6-libswscale-devel
+
+      - name: Add non-root user
+        run: |
+          cat /etc/passwd
+          USERNAME=user1
+          USER_UID=1001
+          USER_GID=$USER_UID
+          groupadd --gid $USER_GID $USERNAME
+          useradd --uid $USER_UID --gid $USER_GID -m $USERNAME
+          echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME
+          chmod 0440 /etc/sudoers.d/$USERNAME
+          chown -R $USERNAME:$USER_GID /__w/Aegisub/Aegisub
+
+      - name: Download gtest
+        run: |
+          cd subprojects
+          sudo -u user1 mkdir packagecache
+          cd packagecache
+          sudo -u user1 curl -o gtest-1.14.0.tar.gz -L https://github.com/google/googletest/archive/refs/tags/v1.14.0.tar.gz
+          sudo -u user1 curl -o gtest_1.14.0-1_patch.zip -L https://wrapdb.mesonbuild.com/v2/gtest_1.14.0-1/get_patch
+
+      - name: Download AviSynth+
+        run: |
+          cd subprojects
+          sudo -u user1 git clone --depth=1 -b 3.7 https://github.com/AviSynth/AviSynthPlus.git
+          mv AviSynthPlus avisynth
+          cd ..
+          sudo -u user1 meson subprojects packagefiles --apply avisynth
+
+      - name: Download BestSource and FFMS2
+        run: |
+          cd subprojects
+          sudo -u user1 git clone --recursive -b R2-RC2 https://github.com/vapoursynth/bestsource.git
+          cd bestsource
+          sudo -u user1 git reset --hard 9d7e218
+          cd ..
+          patch --directory=./bestsource --forward --strip=1 < ./packagefiles/bestsource/0001.patch
+          sudo -u user1 git clone --depth=1 -b 5.0-RC3 https://github.com/FFMS/ffms2.git
+          cd ..
+          sudo -u user1 meson subprojects packagefiles --apply bestsource
+          sudo -u user1 meson subprojects packagefiles --apply ffms2
+
+      - name: Download FFmpeg
+        run: |
+          cd subprojects
+          sudo -u user1 git clone --depth=1 -b meson-6.1 https://gitlab.freedesktop.org/gstreamer/meson-ports/ffmpeg.git
+          patch --directory=./ffmpeg --forward --strip=1 < ./packagefiles/ffmpeg/0001.patch
+          cd ..
+          sudo -u user1 meson subprojects packagefiles --apply ffmpeg
+
+      - name: Download LuaJIT
+        run: |
+          cd subprojects
+          sudo -u user1 git clone --depth=1 https://github.com/LuaJIT/LuaJIT.git
+          mv LuaJIT luajit
+          cd ..
+          sudo -u user1 meson subprojects packagefiles --apply luajit
+
+      - name: Configure (openSUSE Leap)
+        run: |
+          C_FLAGS="-Wall -Wextra -Wpedantic"
+          CXX_FLAGS="-Wall -Wextra -Wpedantic"
+          sudo -u user1 CC=/usr/bin/gcc-13 CXX=/usr/bin/g++-13 meson setup build ${{ matrix.args }} -Dcpp_std=c++14 -Dbuildtype=debug
+
+      - name: Build
+        run: sudo -u user1 meson compile -C build
+      
+      - name: Run test
+        run: sudo -u user1 meson test -C build --verbose "gtest main"
+
+      - name: Generate Package
+        run: |
+          mkdir -p pkgdir
+          meson install -C build --destdir=../pkgdir
+          ls -Ral pkgdir

@@ -9,12 +9,14 @@ on:
       - test
     paths-ignore:
       - ".github/workflows/ci.yml"
+      - ".github/workflows/suse.yml"
   pull_request:
     branches:
       - master
       - feature
     paths-ignore:
       - ".github/workflows/ci.yml"
+      - ".github/workflows/suse.yml"
   workflow_dispatch:
 
 jobs:

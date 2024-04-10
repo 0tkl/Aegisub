@@ -8,12 +8,14 @@ on:
       - cibuilds
     paths-ignore:
       - ".github/workflows/distro.yml"
+      - ".github/workflows/suse.yml"
   pull_request:
     branches:
       - master
       - feature
     paths-ignore:
       - ".github/workflows/distro.yml"
+      - ".github/workflows/suse.yml"
   workflow_dispatch:
 
 jobs:
