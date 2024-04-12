@@ -254,11 +254,7 @@ jobs:
       - name: Download BestSource and FFMS2
         run: |
           cd subprojects
-          sudo -u user1 git clone --recursive -b R2-RC3 https://github.com/vapoursynth/bestsource.git
-          cd bestsource
-          sudo -u user1 git reset --hard 9d7e218
-          cd ..
-          patch --directory=./bestsource --forward --strip=1 < ./packagefiles/bestsource/0001.patch
+          sudo -u user1 git clone --recurse-submodules --shallow-submodules --remote-submodules --depth=1 -b R4 https://github.com/vapoursynth/bestsource.git
           sudo -u user1 git clone --depth=1 -b 5.0-RC3 https://github.com/FFMS/ffms2.git
           cd ..
           sudo -u user1 meson subprojects packagefiles --apply bestsource

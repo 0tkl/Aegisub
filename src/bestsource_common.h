@@ -21,7 +21,7 @@
 
 #ifdef WITH_BESTSOURCE
 
-namespace std { class string_view; }
+// namespace std { class string_view; }
 
 #include <bsshared.h>
 
