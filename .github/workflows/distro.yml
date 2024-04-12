@@ -54,6 +54,8 @@ jobs:
             avisynthplus: true
           - group: deb
             name: Debian 11
+            tmpname: debian
+            series: bullseye
             container: debian:bullseye-backports
             age: 4
           - group: deb
@@ -69,10 +71,14 @@ jobs:
           - group: deb
             name: Ubuntu 20.04
             container: ubuntu:focal
+            tmpname: ubuntu
+            series: focal
             age: 5
           - group: deb
             name: Ubuntu 22.04
             container: ubuntu:jammy
+            tmpname: ubuntu
+            series: jammy
             age: 4
           - group: deb
             name: Ubuntu 24.04
@@ -181,12 +187,26 @@ jobs:
           libavcodec-dev libavdevice-dev libavfilter-dev libavformat-dev \
           libavutil-dev libpostproc-dev libswresample-dev libswscale-dev
 
-      - name: Install wxWidgets 3.0 (Old)
-        if: ${{ matrix.group == 'deb' && matrix.age > 3 }}
-        run: apt-get install -y libwxgtk3.0-gtk3-dev wx3.0-i18n
+      # - name: Install wxWidgets 3.0 (Old)
+      #   if: ${{ matrix.group == 'deb' && matrix.age > 3 }}
+      #   run: apt-get install -y libwxgtk3.0-gtk3-dev wx3.0-i18n
 
-      - name: Install wxWidgets 3.2 (New)
-        if: ${{ matrix.group == 'deb' && matrix.age <= 3 }}
+      # - name: Install wxWidgets 3.2 (New)
+      #   if: ${{ matrix.group == 'deb' && matrix.age <= 3 }}
+      #   run: apt-get install -y libwxgtk3.2-dev wx3.2-i18n
+
+      - name: Install wxWidgets 3.2 from CodeLite (Old)
+        if: matrix.group == 'deb' && matrix.age > 3
+        run: |
+          apt-get install --no-install-recommends -y gnupg software-properties-common
+          apt-get update
+          apt-key adv --fetch-keys https://repos.codelite.org/CodeLite.asc
+          apt-add-repository 'deb https://repos.codelite.org/wx3.2/${{ matrix.tmpname }}/ ${{ matrix.series }} universe'
+          apt-get update
+          apt-get install -y libwxgtk3.2unofficial-dev wx3.2-i18n libgtk-3-dev
+
+      - name: Install wxWidgets 3.2 from apt (New)
+        if: matrix.group == 'deb' && matrix.age <= 3
         run: apt-get install -y libwxgtk3.2-dev wx3.2-i18n
 
       - name: Install xxHash
