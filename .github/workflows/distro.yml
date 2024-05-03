@@ -117,6 +117,14 @@ jobs:
         if: contains(matrix.container, 'archlinux')
         run: pacman --noconfirm -Syu cmake git
       
+      - name: Add Git PPA for Ubuntu 20.04
+        if: matrix.name == 'Ubuntu 20.04'
+        run: |
+          DEBIAN_FRONTEND=noninteractive apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install \
+          --no-install-recommends -y software-properties-common
+          add-apt-repository ppa:git-core/ppa
+
       - name: Prerequisites (Debian & Ubuntu)
         if: matrix.group == 'deb'
         run: |
