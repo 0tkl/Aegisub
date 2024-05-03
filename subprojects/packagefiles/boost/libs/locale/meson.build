@@ -55,10 +55,10 @@ if host_system == 'windows'
     locale_args += '-DBOOST_LOCALE_NO_POSIX_BACKEND=1'
 else
     locale_sources += files([
+        'src/boost/locale/posix/codecvt.cpp',
         'src/boost/locale/posix/collate.cpp',
         'src/boost/locale/posix/converter.cpp',
         'src/boost/locale/posix/numeric.cpp',
-        'src/boost/locale/posix/codecvt.cpp',
         'src/boost/locale/posix/posix_backend.cpp',
     ])
     locale_args += '-DBOOST_LOCALE_NO_WINAPI_BACKEND=1'
