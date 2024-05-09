@@ -283,7 +283,7 @@ jobs:
         run: |
           cd subprojects
           sudo -u user1 git clone --recurse-submodules --shallow-submodules --remote-submodules --depth=1 -b R4 https://github.com/vapoursynth/bestsource.git
-          sudo -u user1 git clone --depth=1 -b 5.0-RC3 https://github.com/FFMS/ffms2.git
+          sudo -u user1 git clone --depth=1 -b 5.0-RC4 https://github.com/FFMS/ffms2.git
           cd ..
           sudo -u user1 meson subprojects packagefiles --apply bestsource
           sudo -u user1 meson subprojects packagefiles --apply ffms2
