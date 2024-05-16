@@ -139,8 +139,8 @@ jobs:
         run: |
           dnf -y clean all
           dnf -y update
-          dnf -y group install --skip-broken \
-          "C Development Tools and Libraries"
+          dnf -y group list
+          dnf -y group install --skip-broken c-development
           dnf -y install cmake git curl sudo libtool gettext
 
       - name: Prerequisites (openSUSE)
