@@ -55,7 +55,7 @@ public:
 /// @class line_iterator
 /// @brief An iterator over lines in a stream
 template<class OutputType = std::string>
-class line_iterator final : public line_iterator_base, public std::iterator<std::input_iterator_tag, OutputType> {
+class line_iterator final : public line_iterator_base {
 	OutputType value; ///< Value to return when this is dereference
 
 	/// @brief Convert a string to the output type
@@ -69,6 +69,10 @@ class line_iterator final : public line_iterator_base, public std::iterator<std:
 	/// @brief Get the next value from the stream
 	void next();
 public:
+	using iterator_category = std::input_iterator_tag;
+	using value_type        = OutputType;
+	using difference_type   = std::ptrdiff_t;
+
 	/// @brief Constructor
 	/// @param stream The stream to read from. The calling code is responsible
 	///               for ensuring that the stream remains valid for the
