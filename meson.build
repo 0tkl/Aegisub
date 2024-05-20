@@ -87,15 +87,7 @@ cc = meson.get_compiler('c')
 deps += cc.find_library('m', required: false)
 deps += cc.find_library('dl', required: false)
 
-if meson.version().version_compare('>=0.60.0')
-  iconv_dep = dependency('iconv', fallback: ['iconv', 'libiconv_dep'])
-else
-  iconv_dep = cc.find_library('iconv', required: false)
-  if not (iconv_dep.found() or cc.has_function('iconv_open'))
-      iconv_sp = subproject('iconv') # this really needs to be replaced with a proper port
-      iconv_dep = iconv_sp.get_variable('libiconv_dep')
-  endif
-endif
+iconv_dep = dependency('iconv', fallback: ['iconv', 'libiconv_dep'])
 deps += iconv_dep
 
 deps += dependency('libass', version: '>=0.9.7',
@@ -222,14 +214,7 @@ foreach dep: [
     if not get_option(optname).disabled()
         # [provide] section is ignored if required is false;
         # must provided define fallback explicitly
-        # (with meson 0.56 you can do allow_fallback: true):
-        #d = dependency(dep[0], version: dep[1],
-        #               required: false, allow_fallback: true)
-        if dep[3].length() > 0
-            d = dependency(dep[0], version: dep[1], fallback: dep[3])
-        else
-            d = dependency(dep[0], version: dep[1], required: false)
-        endif
+        d = dependency(dep[0], version: dep[1], required: false, allow_fallback: true)
 
         if not d.found() and dep[4].length() > 0 and host_machine.system() == 'darwin'
             d = dependency('appleframeworks', modules: dep[4], required: false)

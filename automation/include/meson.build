@@ -1,3 +1,4 @@
+fs = import('fs')
 # Copy files to build directory for testing purposes
 lua_files = files(
     'cleantags.lua',
@@ -14,7 +15,7 @@ lua_files = files(
 )
 
 foreach f: lua_files
-    configure_file(input: f, output: '@PLAINNAME@', copy: true)
+    fs.copyfile(f)
 endforeach
 
 subdir('aegisub')
