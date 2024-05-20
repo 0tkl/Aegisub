@@ -221,14 +221,7 @@ foreach dep: [
     if not get_option(optname).disabled()
         # [provide] section is ignored if required is false;
         # must provided define fallback explicitly
-        # (with meson 0.56 you can do allow_fallback: true):
-        #d = dependency(dep[0], version: dep[1],
-        #               required: false, allow_fallback: true)
-        if dep[3].length() > 0
-            d = dependency(dep[0], version: dep[1], fallback: dep[3])
-        else
-            d = dependency(dep[0], version: dep[1], required: false)
-        endif
+        d = dependency(dep[0], version: dep[1], required: false, allow_fallback: true)
 
         if not d.found() and dep[4].length() > 0 and host_machine.system() == 'darwin'
             d = dependency('appleframeworks', modules: dep[4], required: false)
