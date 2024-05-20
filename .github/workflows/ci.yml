@@ -6,10 +6,14 @@ on:
       - master
       - feature
       - cibuilds
+    paths-ignore: 
+      - ".github/workflows/distro.yml"
   pull_request:
     branches:
       - master
       - feature
+    paths-ignore: 
+      - ".github/workflows/distro.yml"
   workflow_dispatch:
 
 jobs:
@@ -43,6 +47,7 @@ jobs:
               -Davisynth=enabled
               -Dbestsource=enabled
               -Dvapoursynth=enabled
+
           - name: Windows MSVC Release (wx master)
             os: windows-latest
             msvc: true
@@ -75,13 +80,13 @@ jobs:
             name: Ubuntu Debug,
             os: ubuntu-latest,
             buildtype: debugoptimized,
-            args: ''
+            args: '-Dffms2=disabled'
           }
           - {
             name: Ubuntu Release,
             os: ubuntu-latest,
             buildtype: release,
-            args: ''
+            args: '-Dffms2=disabled'
           }
           - name: Ubuntu AppImage
             os: ubuntu-22.04
@@ -97,12 +102,52 @@ jobs:
               -Davisynth=enabled
               -Dbestsource=enabled
               -Dvapoursynth=enabled
-          - {
-            name: macOS Release,
-            os: macos-13,
-            buildtype: release,
-            args: -Ddefault_library=static -Dbuild_osx_bundle=true -Dlocal_boost=true -Dvapoursynth=enabled --force-fallback-for=ffms2
-          }
+
+          - name: macOS 13 Release
+            os: macos-13
+            buildtype: release
+            prefix: "/usr/local/Cellar"
+            args: >-
+              -Ddefault_library=static
+              -Dbuild_osx_bundle=true
+              -Dbestsource=enabled
+              -Dvapoursynth=enabled
+              --force-fallback-for=ffms2
+
+          - name: macOS Release
+            os: macos-14
+            buildtype: release
+            prefix: "/opt/homebrew/Cellar"
+            args: >-
+              -Ddefault_library=static
+              -Dbuild_osx_bundle=true
+              -Dbestsource=enabled
+              -Dvapoursynth=enabled
+              --force-fallback-for=ffms2
+
+          - name: macOS 13 Release (wx master)
+            os: macos-13
+            buildtype: release
+            prefix: "/usr/local/Cellar"
+            args: >-
+              -Ddefault_library=static
+              -Dbuild_osx_bundle=true
+              -Dbestsource=enabled
+              -Dvapoursynth=enabled
+              --force-fallback-for=ffms2
+              -Dwx_version='3.3.0'
+
+          - name: macOS Release (wx master)
+            os: macos-14
+            buildtype: release
+            prefix: "/opt/homebrew/Cellar"
+            args: >-
+              -Ddefault_library=static
+              -Dbuild_osx_bundle=true
+              -Dbestsource=enabled
+              -Dvapoursynth=enabled
+              --force-fallback-for=ffms2
+              -Dwx_version='3.3.0'
 
     steps:
       - uses: actions/checkout@v4
@@ -113,10 +158,18 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Setup Meson
+      # copied from gha workflow in meson repo
+      # github actions overwrites brew's python. Force it to reassert itself, by running in a separate step.
+      - name: Unbreak Python in GitHub Actions (MacOS)
+        if: startsWith(matrix.config.os, 'macos')
         run: |
-          python -m pip install --upgrade pip setuptools
-          pip install meson
+          brew update
+          find /usr/local/bin -lname '*/Library/Frameworks/Python.framework/*' -delete
+          sudo rm -rf /Library/Frameworks/Python.framework/
+          brew install --force python3 && brew unlink python3 && brew unlink python3 && brew link --overwrite python3
+
+      - name: Setup Meson
+        run: pipx install meson
 
       - name: Setup MSVC
         if: matrix.config.os == 'windows-latest' && matrix.config.msvc == true
@@ -125,7 +178,7 @@ jobs:
       - name: Install dependencies (Windows)
         if: matrix.config.os == 'windows-latest'
         run: |
-          choco install ninja innosetup
+          choco install ninja innosetup nasm
 
           $moonscripturl = "https://github.com/leafo/moonscript/releases/download/win32-v0.5.0/moonscript-187bac54ee5a7450013e9c38e005a0e671b76f45.zip"
           mkdir moonscript
@@ -145,21 +198,44 @@ jobs:
       - name: Install dependencies (MacOS)
         if: startsWith(matrix.config.os, 'macos-')
         run: |
-          export HOMEBREW_NO_INSTALL_CLEANUP=1
-          export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
-          # Skip brew update for now, see https://github.com/actions/setup-python/issues/577
-          # brew update
-          brew install luarocks ninja
-          sudo luarocks install luafilesystem 1.8.0
+          brew install luarocks
           sudo luarocks install moonscript --dev
-          brew install libass zlib ffms2 fftw hunspell
+          brew install ninja nasm boost libass
+          brew install --HEAD ffms2
+          brew install zlib fftw hunspell
           brew install pulseaudio  # NO OpenAL in github CI
+
+      - name: Setup Third-Party wxWidgets 3.2 (Ubuntu 22.04)
+        if: matrix.config.os == 'ubuntu-22.04'
+        run: |
+          sudo apt-key adv --fetch-keys https://repos.codelite.org/CodeLite.asc
+          sudo apt-add-repository 'deb https://repos.codelite.org/wx3.2/ubuntu/ jammy universe'
 
       - name: Install dependencies (Linux)
         if: startsWith(matrix.config.os, 'ubuntu-')
         run: |
           sudo apt-get update
-          sudo apt-get install ninja-build build-essential libx11-dev libwxgtk3.0-gtk3-dev libfreetype6-dev pkg-config libfontconfig1-dev libass-dev libasound2-dev libffms2-dev intltool libboost-all-dev libhunspell-dev libuchardet-dev libpulse-dev libopenal-dev libxxhash-dev nasm
+          sudo apt-get install --no-install-recommends ninja-build libx11-dev \
+          libfreetype6-dev pkg-config libfontconfig1-dev libnotify-dev \
+          libass-dev libasound2-dev intltool libboost-all-dev libhunspell-dev \
+          libuchardet-dev libpulse-dev libopenal-dev libxxhash-dev nasm
+          sudo apt-get install --no-install-recommends \
+          libwxbase3.2-0-unofficial libwxbase3.2unofficial-dev \
+          libwxgtk3.2-0-unofficial libwxgtk3.2unofficial-dev \
+          wx3.2-headers wx-common wx3.2-i18n
+
+      - name: set up MacOS env
+        if: startsWith( matrix.config.os, 'macos-' )
+        run: |
+          # Changes are only available in the following steps, not the current one
+          echo 'CPPFLAGS=-I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I${{matrix.config.prefix}}/gettext/0.22.5/include' >> $GITHUB_ENV
+          echo 'LDFLAGS=-L${{matrix.config.prefix}}/gettext/0.22.5/lib' >> $GITHUB_ENV
+          echo 'PKG_CONFIG_PATH=${{matrix.config.prefix}}/icu4c/74.2/lib/pkgconfig' >> $GITHUB_ENV
+          echo 'ACLOCAL_PATH=${{matrix.config.prefix}}/gettext/0.22.5/share/aclocal'  >> $GITHUB_ENV
+          # Prepend to $PATH
+          echo "${{matrix.config.prefix}}/icu4c/74.2/bin"   >> $GITHUB_PATH
+          echo "${{matrix.config.prefix}}/icu4c/74.2/sbin"  >> $GITHUB_PATH
+          echo "${{matrix.config.prefix}}/gettext/0.22.5/bin" >> $GITHUB_PATH
 
       - name: Configure
         run: |
