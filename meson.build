@@ -73,10 +73,7 @@ deps = []
 deps_inc = []
 
 if host_machine.system() == 'darwin'
-    add_languages('objc', 'objcpp')
-    add_project_arguments('-DGL_SILENCE_DEPRECATION', language: 'cpp')
-    # meson neither supports objcpp_std nor inherits cpp_std https://github.com/mesonbuild/meson/issues/5495
-    add_project_arguments('-std=c++11', language: 'objcpp')
+    add_languages('objc', 'objcpp', native: false, required: true)
 elif host_machine.system() != 'windows'
     conf.set('WITH_FONTCONFIG', 1)
     deps += dependency('fontconfig')
