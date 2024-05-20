@@ -1,4 +1,6 @@
 # Copy files to build directory for testing purposes
+fs = import('fs')
+
 lua_files = files(
     'argcheck.moon',
     'clipboard.lua',
@@ -10,5 +12,5 @@ lua_files = files(
 )
 
 foreach f: lua_files
-    configure_file(input: f, output: '@PLAINNAME@', copy: true)
+    fs.copyfile(f)
 endforeach
