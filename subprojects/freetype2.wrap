@@ -2,6 +2,7 @@
 directory = freetype2
 url = https://gitlab.freedesktop.org/freetype/freetype.git
 revision = master
+depth = 1
 
 [provide]
 freetype = freetype_dep
