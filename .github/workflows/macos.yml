@@ -1,0 +1,187 @@
+name: macOS Build & Package
+
+on:
+  push:
+    branches:
+      - master
+      - feature
+      - cibuilds
+    paths: 
+      - '**'
+      - '!.github/workflows/**'
+      - '.github/workflows/macos.yml'
+      - '!docs/**'
+      - '!packages/**'
+      - 'packages/meson.build'
+      - 'packages/desktop/**'
+      - '!packages/desktop/aegisub.appdata**'
+      - '!packages/desktop/aegisub.desktop**'
+      - 'packages/osx_**'
+      - '!tools/win-installer-**'
+  pull_request:
+    branches:
+      - master
+      - feature
+    paths: 
+      - '**'
+      - '!.github/workflows/**'
+      - '.github/workflows/macos.yml'
+      - '!docs/**'
+      - '!packages/**'
+      - 'packages/meson.build'
+      - 'packages/desktop/**'
+      - '!packages/desktop/aegisub.appdata**'
+      - '!packages/desktop/aegisub.desktop**'
+      - 'packages/osx_**'
+      - '!tools/win-installer-**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-13, macos-14, macos-15]
+        wxver: [3.2, 3.3]
+        include:
+          - buildtype: release
+          - base-args: >-
+              -Ddefault_library=static
+              -Dbuild_osx_bundle=true
+              -Dbestsource=enabled
+              -Dvapoursynth=enabled
+              --force-fallback-for=ffms2
+
+          - os: macos-13
+            pref: "/usr/local"
+            prefix: "/usr/local/opt"
+          - os: macos-14
+            pref: "/opt/homebrew"
+            prefix: "/opt/homebrew/opt"
+          - os: macos-15
+            pref: "/opt/homebrew"
+            prefix: "/opt/homebrew/opt"
+
+          - wxver: 3.2
+            extra-args: ''
+          - wxver: 3.3
+            extra-args: "-Dwx_version='3.3.0'"
+
+          - name: x86-64 Release (macOS 13)
+            os: macos-13
+            wxver: 3.2
+          - name: arm64 Release (macOS 14)
+            os: macos-14
+            wxver: 3.2
+          - name: arm64 Release (macOS 15)
+            os: macos-15
+            wxver: 3.2
+          - name: x86-64 Release (macOS 13, wx master)
+            os: macos-13
+            wxver: 3.3
+          - name: arm64 Release (macOS 14, wx master)
+            os: macos-14
+            wxver: 3.3
+          - name: arm64 Release (macOS 15, wx master)
+            os: macos-15
+            wxver: 3.3
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout BestSource repo
+        uses: actions/checkout@v4
+        with:
+          repository: vapoursynth/bestsource
+          ref: R8
+          path: subprojects/bestsource
+          submodules: recursive
+
+      - name: Checkout wxWidgets repo (3.2 release)
+        if: matrix.wxver == 3.2
+        uses: actions/checkout@v4
+        with:
+          repository: wxWidgets/wxWidgets
+          ref: v3.2.6
+          path: subprojects/wxWidgets
+          submodules: recursive
+
+      - name: Checkout wxWidgets repo (master branch)
+        if: matrix.wxver == 3.3
+        uses: actions/checkout@v4
+        with:
+          repository: wxWidgets/wxWidgets
+          ref: master
+          path: subprojects/wxWidgets-master
+          submodules: recursive
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      # copied from gha workflow in meson repo
+      # github actions overwrites brew's python. Force it to reassert itself, by running in a separate step.
+      - name: Unbreak Python in GitHub Actions
+        run: |
+          brew update
+          find /usr/local/bin -lname '*/Library/Frameworks/Python.framework/*' -delete
+          sudo rm -rf /Library/Frameworks/Python.framework/
+          brew install --force python3 && brew unlink python3 && brew unlink python3 && brew link --overwrite python3
+
+      - name: Setup Meson
+        run: pipx install meson
+
+      - name: Install dependencies
+        run: |
+          brew install luarocks
+          sudo luarocks install moonscript --dev
+          brew install ninja nasm boost libass
+          brew install --HEAD ffms2
+          brew install zlib fftw hunspell
+          brew install pulseaudio  # NO OpenAL in github CI
+
+      - name: set up MacOS env
+        run: |
+          # Changes are only available in the following steps, not the current one
+          # echo 'CPPFLAGS=-I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I${{matrix.prefix}}/gettext/include' >> $GITHUB_ENV
+          echo 'CPPFLAGS=-I${{matrix.pref}}/include -I${{matrix.prefix}}/icu4c/include -I${{matrix.prefix}}/gettext/include' >> $GITHUB_ENV
+          echo 'LDFLAGS=-L${{matrix.prefix}}/gettext/lib' >> $GITHUB_ENV
+          echo 'PKG_CONFIG_PATH=${{matrix.prefix}}/icu4c/lib/pkgconfig' >> $GITHUB_ENV
+          echo 'ACLOCAL_PATH=${{matrix.prefix}}/gettext/share/aclocal'  >> $GITHUB_ENV
+          # Prepend to $PATH
+          echo "${{matrix.prefix}}/icu4c/bin"   >> $GITHUB_PATH
+          echo "${{matrix.prefix}}/icu4c/sbin"  >> $GITHUB_PATH
+          echo "${{matrix.prefix}}/gettext/bin" >> $GITHUB_PATH
+
+      - name: Configure
+        run: |
+          meson setup build ${{ matrix.base-args }} ${{ matrix.extra-args }} -Dbuildtype=${{ matrix.buildtype }}
+          meson configure build
+
+      - name: Build
+        run: meson compile -C build
+
+      - name: Run test
+        run: meson test -C build --verbose "gtest main"
+
+      # macOS artifacts
+      - name: Generate macOS bundle
+        run: meson compile osx-bundle -C build
+
+      - name: Sign the app bundle
+        run: codesign --sign - --force --deep build/Aegisub.app
+
+      - name: Generate macOS app dmg
+        run: meson compile osx-build-dmg -C build
+
+      - name: Upload artifacts - macOS dmg
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.name }} - installer
+          path: build/Aegisub-*.dmg
+          if-no-files-found: error
