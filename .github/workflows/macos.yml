@@ -6,6 +6,7 @@ on:
       - master
       - feature
       - cibuilds
+      - cpp17-migration
     paths: 
       - '**'
       - '!.github/workflows/**'
