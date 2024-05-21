@@ -181,6 +181,10 @@ else
         ]
     endif
 
+    if host_machine.system() == 'darwin' and get_option('wx_version').version_compare('>=3.3.0')
+        deps += dependency('libpng')
+    endif
+
     if host_machine.system() == 'windows'
         deps += [
             wx.dependency('wxzlib'),

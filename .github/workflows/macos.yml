@@ -98,6 +98,7 @@ jobs:
           brew install --HEAD ffms2
           brew install zlib fftw hunspell
           brew install pulseaudio  # NO OpenAL in github CI
+          brew install libpng
 
       - name: set up MacOS env
         run: |
