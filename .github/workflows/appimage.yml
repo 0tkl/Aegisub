@@ -1,0 +1,127 @@
+name: Linux AppImage Build & Package
+
+on:
+  push:
+    branches:
+      - master
+      - feature
+      - cibuilds
+    paths:
+      - '**'
+      - '!.github/workflows/**'
+      - '.github/workflows/appimage.yml'
+      - '!docs/**'
+      - '!packages/**'
+      - 'packages/meson.build'
+      - 'packages/desktop/**'
+      - '!src/osx/**'
+      - '!tools/osx-**'
+      - '!tools/win-installer-**'
+  pull_request:
+    branches:
+      - master
+      - feature
+    paths:
+      - '**'
+      - '!.github/workflows/**'
+      - '.github/workflows/appimage.yml'
+      - '!docs/**'
+      - '!packages/**'
+      - 'packages/meson.build'
+      - 'packages/desktop/**'
+      - '!src/osx/**'
+      - '!tools/osx-**'
+      - '!tools/win-installer-**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, ubuntu-24.04]
+        include:
+          - buildtype: release
+            # distro ffms is currently broken
+          - args: >-
+              --prefix=/usr
+              -Dbuild_appimage=true
+              -Ddefault_library=static
+              --force-fallback-for=ffms2
+              -Dffmpeg:libdav1d=enabled
+              -Davisynth=enabled
+              -Dbestsource=enabled
+              -Dvapoursynth=enabled
+          
+          - name: Ubuntu 22.04 AppImage
+            os: ubuntu-22.04
+          - name: Ubuntu 24.04 AppImage
+            os: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Setup Meson
+        run: pipx install meson
+
+      - name: Install dependencies (Linux)
+        if: startsWith(matrix.os, 'ubuntu-')
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends ninja-build libx11-dev \
+          libfreetype6-dev pkg-config libfontconfig1-dev libnotify-dev \
+          libass-dev libasound2-dev intltool libboost-all-dev libhunspell-dev \
+          libuchardet-dev libpulse-dev libopenal-dev libxxhash-dev nasm
+      
+      - name: Install wxWidgets 3.2 from CodeLite (Ubuntu 22.04)
+        if: matrix.os == 'ubuntu-22.04'
+        run: |
+          sudo apt-key adv --fetch-keys https://repos.codelite.org/CodeLite.asc
+          sudo apt-add-repository 'deb https://repos.codelite.org/wx3.2/ubuntu/ jammy universe'
+          sudo apt-get install --no-install-recommends gettext libwxgtk3.2unofficial-dev wx3.2-i18n
+
+      - name: Install wxWidgets 3.2 (Ubuntu 24.04)
+        if: matrix.os == 'ubuntu-24.04'
+        run: sudo apt-get install --no-install-recommends gettext libwxgtk3.2-dev wx3.2-i18n
+
+      - name: Configure
+        run: |
+          meson setup build ${{ matrix.args }} -Dbuildtype=${{ matrix.buildtype }}
+          meson configure build
+
+      - name: Build
+        run: meson compile -C build
+      
+      - name: Run test
+        run: meson test -C build --verbose "gtest main"
+
+      # Linux artifacts (AppImage)
+      - name: Generate AppImage
+        run: |
+          mkdir -p appimage/appdir
+          meson install -C build --destdir=../appimage/appdir
+
+          cd appimage
+          sudo apt-get install libfuse2
+          curl -L "https://github.com/linuxdeploy/linuxdeploy/releases/download/1-alpha-20220822-1/linuxdeploy-x86_64.AppImage" -o linuxdeploy
+          curl -L "https://github.com/AppImage/AppImageKit/releases/download/13/appimagetool-x86_64.AppImage" -o appimagetool
+          chmod +x linuxdeploy appimagetool
+
+          ./linuxdeploy --appdir appdir --desktop-file=appdir/aegisub.desktop
+          ./appimagetool appdir
+
+      - name: Upload artifacts - Linux AppImage
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.name }}
+          path: appimage/*.AppImage
+          if-no-files-found: error
