@@ -227,7 +227,7 @@ jobs:
           curl -L "https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage" -o appimagetool
           chmod +x linuxdeploy appimagetool
 
-          ./linuxdeploy --appdir appdir --desktop-file=appdir/aegisub.desktop
+          ./linuxdeploy --appdir appdir --desktop-file=appdir/org.arch1t3cht.aegisub.desktop
           ./appimagetool appdir
 
       - name: Upload artifacts - Linux AppImage
