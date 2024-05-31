@@ -47,3 +47,8 @@ subprojects/hunspell-*
 subprojects/uchardet-*
 subprojects/vapoursynth
 subprojects/xxHash-*
+
+# local build
+gettext.zip
+gettext/*
+moonscript/*
