@@ -6,6 +6,7 @@ on:
       - master
       - feature
       - cibuilds
+      - ci0602
     paths-ignore:
       - ".github/workflows/ci.yml"
       - 'packages/osx_**'
