@@ -23,6 +23,7 @@
 #include <boost/locale/generator.hpp>
 #include <boost/phoenix/core/argument.hpp>
 #include <boost/phoenix/operator/comparison.hpp>
+#include <charconv>
 #include <fstream>
 #include <sstream>
 
@@ -61,14 +62,17 @@ void convert(std::string const& path) {
 		++entry_count;
 
 		idx_out_buffer << chunks[0] << '|' << dat_out.Get().tellp() << '\n';
-		dat->seekg(atoi(chunks[1].c_str()));
+		int pos;
+		std::from_chars(chunks[1].data(), chunks[1].data() + chunks[1].size(), pos);
+		dat->seekg(pos);
 
 		agi::line_iterator<std::string> iter{*dat, encoding_name};
 		dat_out.Get() << *iter << '\n';
 
 		std::vector<std::string> header;
 		boost::split(header, *iter, _1 == '|');
-		int meanings = atoi(header[1].c_str());
+		int meanings;
+		std::from_chars(header[1].data(), header[1].data() + header[1].size(), meanings);
 		for (int i = 0; i < meanings; ++i)
 			dat_out.Get() << *++iter << '\n';
 	}

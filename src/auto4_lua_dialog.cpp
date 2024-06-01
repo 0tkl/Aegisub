@@ -48,6 +48,7 @@
 #include <boost/range/adaptor/map.hpp>
 #include <boost/range/algorithm.hpp>
 #include <cfloat>
+#include <charconv>
 #include <unordered_map>
 
 #include <wx/button.h>
@@ -250,7 +251,9 @@ namespace Automation4 {
 
 			bool CanSerialiseValue() const override  { return true; }
 			std::string SerialiseValue() const override { return std::to_string(value); }
-			void UnserialiseValue(const std::string &serialised) override { value = atoi(serialised.c_str()); }
+			void UnserialiseValue(const std::string &serialised) override {
+				std::from_chars(serialised.data(), serialised.data() + serialised.size(), value);
+			}
 
 			wxControl *Create(wxWindow *parent) override {
 				cw = new wxSpinCtrl(parent, -1, "", wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, min, max, value);

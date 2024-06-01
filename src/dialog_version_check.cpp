@@ -47,6 +47,7 @@
 
 #include <ctime>
 #include <boost/asio/ip/tcp.hpp>
+#include <charconv>
 #include <functional>
 #include <mutex>
 #include <vector>
@@ -324,7 +325,9 @@ void DoCheck(bool interactive) {
 		agi::Split(parsed, line, '|');
 		if (parsed.size() != 6) continue;
 
-		if (atoi(parsed[1].c_str()) <= GetSVNRevision())
+		int local_revision;
+		std::from_chars(parsed[1].data(), parsed[1].data() + parsed[1].size(), local_revision);
+		if (local_revision <= GetSVNRevision())
 			continue;
 
 		// 0 and 2 being things that never got used
