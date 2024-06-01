@@ -31,6 +31,7 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/filesystem/path.hpp>
 #include <cassert>
+#include <charconv>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -121,7 +122,10 @@ std::string AssFile::GetScriptInfo(std::string const& key) const {
 }
 
 int AssFile::GetScriptInfoAsInt(std::string const& key) const {
-	return atoi(GetScriptInfo(key).c_str());
+	const std::string_view value{GetScriptInfo(key)};
+	int result = 0;
+	std::from_chars(value.data(), value.data() + value.size(), result);
+	return result;
 }
 
 void AssFile::SetScriptInfo(std::string const& key, std::string const& value) {
