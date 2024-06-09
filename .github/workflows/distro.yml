@@ -80,6 +80,7 @@ jobs:
           - group: deb
             name: Debian 13
             container: debian:trixie-slim
+            age: 1
           - group: deb
             name: Debian Unstable
             container: debian:unstable-slim
@@ -99,7 +100,6 @@ jobs:
             name: Fedora Latest
             container: fedora:latest
             lua52compat: true
-            age: 3
           - group: rh
             name: Fedora Rawhide
             container: fedora:rawhide
@@ -163,6 +163,7 @@ jobs:
           dnf clean all
           dnf -y update
           dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+          dnf repolist
 
       - name: Prerequisites (Fedora)
         if: matrix.group == 'rh'
@@ -189,7 +190,7 @@ jobs:
           zypper --gpg-auto-import-keys refresh
           zypper update --no-confirm
           zypper install -y --allow-downgrade --type pattern devel_C_C++
-          zypper install -y --allow-downgrade cmake curl gcc13 gcc13-c++ git glibc-locale-base sudo
+          zypper install -y --allow-downgrade cmake curl gcc13 gcc13-c++ git glibc-locale-base gzip sudo
 
       - name: Set latest gcc/g++ as default (openSUSE Leap)
         if: startsWith(matrix.container, 'opensuse/leap')
@@ -218,6 +219,14 @@ jobs:
           path: subprojects/bestsource
           submodules: recursive
 
+      - name: Checkout dav1d repo
+        if: matrix.age >= 6
+        uses: actions/checkout@v4
+        with:
+          repository: videolan/dav1d
+          ref: 1.4.2
+          path: subprojects/dav1d
+
       - name: Checkout FFMS2 repo
         if: matrix.age >= 2
         uses: actions/checkout@v4
@@ -233,6 +242,16 @@ jobs:
         with:
           repository: LuaJIT/LuaJIT
           path: subprojects/luajit
+
+      - name: Checkout vapoursynth repo
+        if: matrix.group == 'deb'
+        uses: actions/checkout@v4
+        with:
+          repository: vapoursynth/vapoursynth
+          ref: R68
+          path: subprojects/vapoursynth
+
+      - run: mkdir -p subprojects/packagecache
 
       - name: Install dependencies (Arch Linux)
         if: contains(matrix.container, 'archlinux')
@@ -264,16 +283,19 @@ jobs:
           libboost-all-dev libhunspell-dev libuchardet-dev \
           libpulse-dev libopenal-dev libfftw3-dev libopus-dev
 
-      - name: Install FFmpeg 6.1+ (Debian 13+, Ubuntu 24.04+)
-        if: matrix.group == 'deb' && matrix.age <= 2
+      - name: Install dav1d and xxHash (Debian/Ubuntu)
+        if: matrix.group == 'deb'
         run: |
-          apt-get install -y \
-          libavcodec-dev libavdevice-dev libavfilter-dev libavformat-dev \
-          libavutil-dev libpostproc-dev libswresample-dev libswscale-dev
-
-      - name: Install FFMS2 (Debian Unstable)
-        if: matrix.group == 'deb' && matrix.age <= 1
-        run: apt-get install -y libffms2-dev
+          if [ ${{ matrix.age }} -le 5 ]
+          then
+            apt-get install -y libdav1d-dev libxxhash-dev
+          else
+            cd subprojects
+            patch --directory=./dav1d --forward --strip=1 < ./packagefiles/dav1d/0001.patch
+            cd packagecache
+            curl -o xxHash-0.8.2.tar.gz -L https://github.com/Cyan4973/xxHash/archive/v0.8.2.tar.gz
+            curl -o xxhash_0.8.2-1_patch.zip -L https://wrapdb.mesonbuild.com/v2/xxhash_0.8.2-1/get_patch
+          fi
 
       - name: Install wxWidgets (Debian/Ubuntu)
         if: matrix.group == 'deb'
@@ -285,9 +307,21 @@ jobs:
             apt-get install -y libwxgtk3.0-gtk3-dev wx3.0-i18n
           fi
 
-      - name: Install xxHash (Ubuntu 20.04)
-        if: matrix.group == 'deb' && matrix.age <= 5
-        run: apt-get install -y libxxhash-dev
+      - name: Install FFmpeg 6.1+ (Debian/Ubuntu)
+        if: matrix.group == 'deb'
+        run: |
+          if [ ${{ matrix.age }} -le 2 ]
+          then
+            apt-get install -y \
+            libavcodec-dev libavdevice-dev libavfilter-dev libavformat-dev \
+            libavutil-dev libpostproc-dev libswresample-dev libswscale-dev
+          else
+            git clone --depth=1 -b meson-6.1 https://gitlab.freedesktop.org/gstreamer/meson-ports/ffmpeg.git subprojects/ffmpeg
+          fi
+
+      - name: Install FFMS2 (Debian 13+)
+        if: matrix.group == 'deb' && matrix.age <= 1
+        run: apt-get install -y libffms2-dev
 
       - name: Install dependencies (Fedora)
         if: matrix.group == 'rh'
@@ -297,66 +331,69 @@ jobs:
           fontconfig-devel libnotify-devel libass-devel intltool zlib-devel \
           boost-devel hunspell-devel uchardet-devel pulseaudio-libs-devel \
           fftw-devel openal-soft xxhash-devel luajit-devel wxGTK-devel \
-          ffmpeg-free-devel opus-devel
+          ffmpeg-free-devel opus-devel vapoursynth-devel
 
       - name: Install FFMS2 (Fedora Rawhide)
         if: matrix.group == 'rh' && matrix.age <= 1
         run: dnf install -y ffms2-devel
 
 # In Leap, boost in devel_libraries_c_c++ links to very old libstdc++
-      - name: Install Boost (openSUSE Tumbleweed)
-        if: startsWith(matrix.container, 'opensuse/tumbleweed')
+      - name: Install Boost (openSUSE)
+        if: matrix.group == 'suse'
         run: |
-          zypper install -y libboost_chrono-devel \
-          libboost_headers-devel libboost_filesystem-devel \
-          libboost_locale-devel libboost_regex-devel \
-          libboost_program_options-devel
+          if ${{ matrix.localboost }}; then
+            cd subprojects/packagecache
+            curl -o boost_1_85_0.tar.gz -L https://boostorg.jfrog.io/artifactory/main/release/1.85.0/source/boost_1_85_0.tar.gz
+            tar -xvzf boost_1_85_0.tar.gz -C ..
+          else
+            zypper install -y libboost_chrono-devel \
+            libboost_headers-devel libboost_filesystem-devel \
+            libboost_locale-devel libboost_regex-devel \
+            libboost_program_options-devel
+          fi
 
 # wxWidgets-3_2-devel on openSUSE links to GTK2
 # Info: wxGTK3-3_2 in the main repo of Leap is actually v3.1.5
       - name: Install some dependencies (openSUSE)
         if: matrix.group == 'suse'
         run: |
-          zypper install -y meson ninja nasm libnotify-devel libass-devel \
-          intltool zlib-devel hunspell-devel libuchardet-devel \
-          libpulse-devel fftw3-devel openal-soft-devel xxhash-devel \
-          luajit-devel vapoursynth-devel
-          zypper install -y wxGTK3-3_2-devel 
-          zypper install -y ffmpeg-7-libavcodec-devel ffmpeg-7-libavdevice-devel \
-          ffmpeg-7-libavfilter-devel ffmpeg-7-libavformat-devel \
-          ffmpeg-7-libavutil-devel ffmpeg-7-libpostproc-devel \
+          zypper install --allow-downgrade -y meson ninja nasm \
+          libnotify-devel libass-devel intltool zlib-devel hunspell-devel \
+          libuchardet-devel libpulse-devel fftw3-devel openal-soft-devel \
+          xxhash-devel luajit-devel vapoursynth-devel
+          zypper install --allow-downgrade -y wxGTK3-3_2-devel
+          zypper install --allow-downgrade -y ffmpeg-7-libavcodec-devel \
+          ffmpeg-7-libavdevice-devel ffmpeg-7-libavfilter-devel \
+          ffmpeg-7-libavformat-devel ffmpeg-7-libavutil-devel \
           ffmpeg-7-libswresample-devel ffmpeg-7-libswscale-devel
 
       - name: Download gtest
+        working-directory: subprojects/packagecache
         run: |
-          mkdir -p subprojects/packagecache
-          cd subprojects/packagecache
           curl -o gtest-1.14.0.tar.gz -L https://github.com/google/googletest/archive/refs/tags/v1.14.0.tar.gz
           curl -o gtest_1.14.0-1_patch.zip -L https://wrapdb.mesonbuild.com/v2/gtest_1.14.0-1/get_patch
 
-      - name: Add meson.build to AviSynth+
-        if: ${{ ! matrix.avisynthplus }}
-        run: meson subprojects packagefiles --apply avisynth
-
-      - name: Add meson.build to BestSource
-        run: meson subprojects packagefiles --apply bestsource
-
-      - name: Add meson.build to FFMS2
-        if: matrix.age >= 2
-        run: meson subprojects packagefiles --apply ffms2
-
-      - name: Download FFmpeg, add meson.build to FFmpeg
-        if: matrix.age >= 3
+      - name: Add meson.build to subprojects
         run: |
-          cd subprojects
-          git clone --depth=1 -b meson-6.1 https://gitlab.freedesktop.org/gstreamer/meson-ports/ffmpeg.git
-          patch --directory=./ffmpeg --forward --strip=1 < ./packagefiles/ffmpeg/0001.patch
-          cd ..
-          meson subprojects packagefiles --apply ffmpeg
-
-      - name: Add meson.build to LuaJIT
-        if: ${{ ! matrix.lua52compat }}
-        run: meson subprojects packagefiles --apply luajit
+          if ! ${{ matrix.avisynthplus }}; then
+            meson subprojects packagefiles --apply avisynth
+          fi
+          meson subprojects packagefiles --apply bestsource
+          if ${{ matrix.localboost }}; then
+            meson subprojects packagefiles --apply boost
+          fi
+          if [ ${{ matrix.age }} -ge 2 ]; then
+            meson subprojects packagefiles --apply ffms2
+          fi
+          if [ ${{ matrix.age }} -ge 3 ]; then
+            meson subprojects packagefiles --apply ffmpeg
+          fi
+          if ! ${{ matrix.lua52compat }}; then
+            meson subprojects packagefiles --apply luajit
+          fi
+          if [ "${{ matrix.group }}" = "deb" ]; then
+            meson subprojects packagefiles --apply vapoursynth
+          fi
 
       - name: Add non-root user
         run: |
