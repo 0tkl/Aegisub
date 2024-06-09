@@ -164,22 +164,9 @@ jobs:
           dnf clean all
           dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
           dnf -y upgrade
-          if [ $(rpm -E %fedora) -ge 41 ]
-          then
-            dnf5 --help
-            echo "======================="
-            dnf5 group --help
-            echo "======================="
-            dnf5 group list --help
-            echo "======================="
-            dnf5 group list
-            echo "======================="
-            dnf5 -y group install --skip-broken c-development
-            dnf5 -y install cmake git curl sudo libtool gettext
-          else
-            dnf -y group install --skip-broken c-development
-            dnf -y install cmake git curl sudo libtool gettext
-          fi
+          dnf --version
+          dnf -y group install --skip-broken c-development
+          dnf -y install cmake git curl sudo libtool gettext
 
       - name: Add repos (openSUSE Leap)
         if: startsWith(matrix.container, 'opensuse/leap')
