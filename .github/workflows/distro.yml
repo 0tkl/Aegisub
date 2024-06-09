@@ -163,10 +163,9 @@ jobs:
         run: |
           dnf clean all
           dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
-          dnf -y upgrade
-          dnf --version
           dnf -y group install c-development
           dnf -y install cmake git curl sudo libtool gettext
+          dnf -y upgrade
 
       - name: Add repos (openSUSE Leap)
         if: startsWith(matrix.container, 'opensuse/leap')
