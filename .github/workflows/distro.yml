@@ -157,21 +157,24 @@ jobs:
           ca-certificates sudo build-essential \
           autoconf automake libtool gettext libgettextpo-dev
 
-      - name: Add RPM Fusion repo (Fedora)
-        if: matrix.container == 'fedora:rawhide'
-        run: |
-          dnf clean all
-          dnf -y update
-          dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
-          dnf repolist
-
+# “dnf update” on Rawhide will replace dnf with dnf5 
       - name: Prerequisites (Fedora)
         if: matrix.group == 'rh'
         run: |
           dnf clean all
+          dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
           dnf -y update
-          dnf -y group install --skip-broken c-development
-          dnf -y install cmake git curl sudo libtool gettext
+          if [ $(rpm -E %fedora) -ge 41 ]
+          then
+            dnf5 group list --help
+            dnf5 group list
+            dnf5 -y group install --skip-broken c-development
+            dnf5 -y install cmake git curl sudo libtool gettext
+          else
+            dnf group list --verbose
+            dnf -y group install --skip-broken c-development
+            dnf -y install cmake git curl sudo libtool gettext
+          fi
 
       - name: Add repos (openSUSE Leap)
         if: startsWith(matrix.container, 'opensuse/leap')
