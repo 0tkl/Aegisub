@@ -165,7 +165,7 @@ jobs:
           dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
           dnf -y upgrade
           dnf --version
-          dnf -y group install --skip-broken c-development
+          dnf -y group install c-development
           dnf -y install cmake git curl sudo libtool gettext
 
       - name: Add repos (openSUSE Leap)
