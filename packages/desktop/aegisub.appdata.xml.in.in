@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
-  <id>org.aegisub.aegisub</id>
+  <id>org.arch1t3cht.aegisub</id>
   
   <name>Aegisub</name>
   <summary>A free, cross-platform open source tool for creating and modifying subtitles</summary>
@@ -23,7 +23,7 @@
     </ul>
   </description>
   
-  <launchable type="desktop-id">org.aegisub.aegisub.desktop</launchable>
+  <launchable type="desktop-id">org.arch1t3cht.aegisub.desktop</launchable>
   <screenshots>
     <screenshot type="default">
       <caption>Typesetting</caption>

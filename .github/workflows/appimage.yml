@@ -106,18 +106,21 @@ jobs:
         run: meson test -C build --verbose "gtest main"
 
       # Linux artifacts (AppImage)
-      - name: Generate AppImage
+      - name: meson install
         run: |
           mkdir -p appimage/appdir
           meson install -C build --destdir=../appimage/appdir
 
+      # Linux artifacts (AppImage)
+      - name: Generate AppImage
+        run: |
           cd appimage
           sudo apt-get install appstream libfuse2
           curl -L "https://github.com/linuxdeploy/linuxdeploy/releases/download/2.0.0-alpha-1-20241106/linuxdeploy-x86_64.AppImage" -o linuxdeploy
           curl -L "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage" -o appimagetool
           chmod +x linuxdeploy appimagetool
 
-          ./linuxdeploy --appdir appdir --desktop-file=appdir/org.aegisub.aegisub.desktop
+          ./linuxdeploy --appdir appdir --desktop-file=appdir/org.arch1t3cht.aegisub.desktop
           ./appimagetool --guess --verbose appdir
 
       - name: Upload artifacts - Linux AppImage
