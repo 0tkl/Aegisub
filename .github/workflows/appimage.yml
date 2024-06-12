@@ -115,13 +115,29 @@ jobs:
       - name: Generate AppImage
         run: |
           cd appimage
-          sudo apt-get install appstream libfuse2
+          sudo apt-get install appstream desktop-file-utils libfuse2
           curl -L "https://github.com/linuxdeploy/linuxdeploy/releases/download/2.0.0-alpha-1-20241106/linuxdeploy-x86_64.AppImage" -o linuxdeploy
-          curl -L "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage" -o appimagetool
+          curl -L "https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage" -o appimagetool
           chmod +x linuxdeploy appimagetool
 
           ./linuxdeploy --appdir appdir --desktop-file=appdir/org.arch1t3cht.aegisub.desktop
           ./appimagetool --guess --verbose appdir
+
+      # Linux artifacts (AppImage)
+      - name: Flatpak check
+        run: |
+          sudo apt install flatpak
+          sudo apt install gnome-software-plugin-flatpak
+          sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+          sudo flatpak install -y flathub org.flatpak.Builder
+          cd appimage/appdir
+          ls -al
+          desktop-file-validate org.arch1t3cht.aegisub.desktop
+          sudo chown 1001:1001 /run/user/1001/dconf/user
+          sudo -i
+          cd usr/share/metainfo
+          ls -al
+          flatpak run --command=flatpak-builder-lint org.flatpak.Builder appstream org.arch1t3cht.aegisub.appdata.xml
 
       - name: Upload artifacts - Linux AppImage
         uses: actions/upload-artifact@v4
