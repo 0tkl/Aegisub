@@ -1,0 +1,300 @@
+name: Linux Build with sanitizer
+
+on:
+  push:
+    branches:
+      - master
+      - feature
+      - cibuilds
+    paths:
+      - '**'
+      - '!.github/workflows/**'
+      - '.github/workflows/linux-sanitizer.yml'
+      - '!docs/**'
+      - '!packages/**'
+      - 'packages/meson.build'
+      - 'packages/desktop/**'
+      - '!src/osx/**'
+      - '!tools/osx-**'
+      - '!tools/win-installer-**'
+  pull_request:
+    branches:
+      - master
+      - feature
+    paths:
+      - '**'
+      - '!.github/workflows/**'
+      - '.github/workflows/linux-sanitizer.yml'
+      - '!docs/**'
+      - '!packages/**'
+      - 'packages/meson.build'
+      - 'packages/desktop/**'
+      - '!src/osx/**'
+      - '!tools/osx-**'
+      - '!tools/win-installer-**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Fedora, ${{ matrix.compiler }}, ${{ matrix.buildtype }}, ${{ matrix.sanitizer }}
+    runs-on: ubuntu-latest
+    container:
+      image: ${{ matrix.container }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        container:
+          # - "archlinux:base-devel"
+          # - "debian:unstable-slim"
+          - "fedora:rawhide"
+          # - "opensuse/tumbleweed:latest"
+        compiler: [gcc, clang]
+        sanitizer: ["address,undefined", memory, leak]
+        buildtype: [release, debug, debugoptimized]
+        exclude:
+          - compiler: gcc
+            sanitizer: memory
+        include:
+          - cppstd: c++20
+          - avisynthplus: false
+          - lua52compat: false
+          # ffms2     ≥ 5.0  requires age ≤ 1;  age ≥ 2 infers ffms2     < 5.0
+          - age: 2
+          # - group: arch
+          #   name: Archlinux
+          #   container: archlinux:base-devel
+          #   avisynthplus: true
+          # - group: deb
+          #   name: Debian
+          #   container: debian:unstable-slim
+          #   age: 1
+          - group: rh
+            name: Fedora
+            container: fedora:rawhide
+            lua52compat: true
+            age: 1
+          # - group: suse
+          #   name: openSUSE
+          #   container: opensuse/tumbleweed:latest
+          - compiler: gcc
+            cc: gcc
+            cxx: g++
+            ld: mold
+          - compiler: clang
+            cc: clang
+            cxx: clang++
+            ld: lld
+          - args: >-
+              --prefix=/usr
+              -Ddefault_audio_output=PulseAudio
+              -Davisynth=enabled
+              -Dbestsource=enabled
+              -Dffms2=enabled
+              -Dffmpeg:default_library=shared
+              -Dffmpeg:gpl=enabled
+              -Dffmpeg:version3=enabled
+              -Dffmpeg:libdav1d=enabled
+              -Dfftw3=enabled
+              -Dvapoursynth=enabled
+
+    env:
+      USERNAME: user1
+      USER_UID: 1001
+      USER_GID: 1001
+
+    steps:
+      - name: Prerequisites (Arch Linux)
+        if: contains(matrix.container, 'archlinux')
+        run: pacman --noconfirm -Syu cmake git
+
+      - name: Prerequisites (Debian & Ubuntu)
+        if: matrix.group == 'deb'
+        run: |
+          DEBIAN_FRONTEND=noninteractive apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install \
+          --no-install-recommends -y cmake git curl \
+          ca-certificates sudo build-essential \
+          autoconf automake libtool gettext libgettextpo-dev
+
+      - name: Add RPM Fusion repo; Prerequisites (Fedora)
+        if: matrix.group == 'rh'
+        run: |
+          dnf clean all
+          dnf -y upgrade --exclude=dnf
+          dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+          dnf -y group install --skip-broken c-development
+          dnf -y install cmake git curl sudo libtool gettext
+
+# glibc-locale is installed in tumbleweed image by default, but not in leap
+      - name: Prerequisites (openSUSE)
+        if: matrix.group == 'suse'
+        run: |
+          zypper clean --all
+          zypper --gpg-auto-import-keys refresh
+          zypper update --no-confirm
+          zypper install -y --allow-downgrade --type pattern devel_C_C++
+          zypper install -y --allow-downgrade cmake curl gcc14 gcc14-c++ git glibc-locale-base gzip sudo
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout Avisynth+ repo
+        if: ${{ ! matrix.avisynthplus }}
+        uses: actions/checkout@v4
+        with:
+          repository: AviSynth/AviSynthPlus
+          ref: "3.7"
+          path: subprojects/avisynth
+
+      - name: Checkout BestSource repo
+        uses: actions/checkout@v4
+        with:
+          repository: vapoursynth/bestsource
+          ref: R8
+          path: subprojects/bestsource
+          submodules: recursive
+
+      - name: Checkout FFMS2 repo
+        if: matrix.age >= 2
+        uses: actions/checkout@v4
+        with:
+          repository: FFMS/ffms2
+          ref: "5.0"
+          path: subprojects/ffms2
+          submodules: recursive
+
+      - name: Checkout LuaJIT repo
+        if: ${{ ! matrix.lua52compat }}
+        uses: actions/checkout@v4
+        with:
+          repository: LuaJIT/LuaJIT
+          path: subprojects/luajit
+
+      - name: Checkout vapoursynth repo
+        if: matrix.group == 'deb'
+        uses: actions/checkout@v4
+        with:
+          repository: vapoursynth/vapoursynth
+          ref: R70
+          path: subprojects/vapoursynth
+
+      - name: Install dependencies (Arch Linux)
+        if: contains(matrix.container, 'archlinux')
+        run: |
+          pacman --noconfirm -Syu wireplumber
+          pacman --noconfirm -Sy pipewire-jack
+          pacman --noconfirm -Sy avisynthplus boost ffmpeg fftw \
+          fontconfig hunspell libass libglvnd meson openal portaudio \
+          python pulseaudio uchardet vapoursynth wxwidgets-gtk3
+
+      - name: Install dependencies (Debian)
+        if: matrix.group == 'deb'
+        run: |
+          apt-get install --no-install-recommends -y meson
+          apt-get install -y pkg-config
+          apt-get install --no-install-recommends -y nasm \
+          ninja-build libx11-dev libfreetype6-dev libfontconfig1-dev \
+          libnotify-dev libass-dev libasound2-dev intltool \
+          libboost-all-dev libhunspell-dev libuchardet-dev \
+          libpulse-dev libopenal-dev libfftw3-dev libopus-dev
+          apt-get install -y \
+          libavcodec-dev libavdevice-dev libavfilter-dev libavformat-dev \
+          libavutil-dev libpostproc-dev libswresample-dev libswscale-dev
+          apt-get install -y libdav1d-dev libxxhash-dev
+          apt-get install -y libffms2-dev
+          apt-get install -y libwxgtk3.2-dev wx3.2-i18n
+
+      - name: Install dependencies (Fedora)
+        if: matrix.group == 'rh'
+        run: |
+          dnf install -y pkgconf-pkg-config
+          dnf install -y --skip-broken meson ninja-build libX11 freetype nasm \
+          fontconfig-devel libnotify-devel libass-devel intltool zlib-devel \
+          boost-devel hunspell-devel uchardet-devel pulseaudio-libs-devel \
+          fftw-devel openal-soft xxhash-devel luajit-devel wxGTK-devel \
+          ffmpeg-free-devel opus-devel vapoursynth-devel ffms2-devel
+          dnf install -y libasan libhwasan liblsan libtsan libubsan
+          dnf install -y mold
+
+      - name: Install Clang (Fedora)
+        if: matrix.group == 'rh' && matrix.compiler == 'clang'
+        run: dnf install -y clang clang-libs lld
+
+      - name: Install some dependencies (openSUSE)
+        if: matrix.group == 'suse'
+        run: |
+          zypper install -y libboost_chrono-devel \
+          libboost_headers-devel libboost_filesystem-devel \
+          libboost_locale-devel libboost_regex-devel \
+          libboost_program_options-devel
+          zypper install --allow-downgrade -y meson ninja nasm \
+          libnotify-devel libass-devel intltool zlib-ng-compat-devel \
+          hunspell-devel libuchardet-devel libpulse-devel fftw3-devel \
+          openal-soft-devel xxhash-devel luajit-devel vapoursynth-devel
+          zypper install --allow-downgrade -y wxGTK3-3_2-devel
+          zypper install --allow-downgrade -y ffmpeg-7-libavcodec-devel \
+          ffmpeg-7-libavdevice-devel ffmpeg-7-libavfilter-devel \
+          ffmpeg-7-libavformat-devel ffmpeg-7-libavutil-devel \
+          ffmpeg-7-libswresample-devel ffmpeg-7-libswscale-devel
+
+      - name: Download gtest
+        run: |
+          mkdir -p subprojects/packagecache
+          cd subprojects/packagecache
+          curl -o gtest-1.15.2.tar.gz -L https://github.com/google/googletest/archive/refs/tags/v1.15.2.tar.gz
+          curl -o gtest_1.15.2-1_patch.zip -L https://wrapdb.mesonbuild.com/v2/gtest_1.15.2-1/get_patch
+
+      - name: Add meson.build to AviSynth+
+        if: ${{ ! matrix.avisynthplus }}
+        run: meson subprojects packagefiles --apply avisynth
+
+      - name: Add meson.build to BestSource
+        run: meson subprojects packagefiles --apply bestsource
+
+      - name: Add meson.build to FFMS2
+        if: matrix.age >= 2
+        run: meson subprojects packagefiles --apply ffms2
+
+      - name: Add meson.build to LuaJIT
+        if: ${{ ! matrix.lua52compat }}
+        run: meson subprojects packagefiles --apply luajit
+
+      - name: Add meson.build to vapoursynth
+        if: matrix.group == 'deb'
+        run: meson subprojects packagefiles --apply vapoursynth
+
+      - name: Add non-root user
+        run: |
+          groupadd --gid $USER_GID $USERNAME
+          useradd --uid $USER_UID --gid $USER_GID -m $USERNAME
+          echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME
+          chmod 0440 /etc/sudoers.d/$USERNAME
+
+      - name: Configure
+        run: |
+          chown -R $USERNAME:$USER_GID /__w/Aegisub/Aegisub
+          sudo -u $USERNAME CC=${{ matrix.cc }} CXX=${{ matrix.cxx }} CC_LD=${{ matrix.ld }} CXX_LD=${{ matrix.ld }} C_FLAGS="-Wall -Wextra -Wpedantic" CXX_FLAGS="-Wall -Wextra -Wpedantic" \
+          meson setup build ${{ matrix.args }} -Dcpp_std=${{ matrix.cppstd }} -Dbuildtype=${{ matrix.buildtype }} \
+          -Db_sanitize=${{ matrix.sanitizer }} -Db_lundef=false
+
+      - name: Build
+        run: sudo -u $USERNAME meson compile -C build
+
+      - name: Run test
+        run: |
+          sudo -u $USERNAME meson test -C build --verbose "gtest main"
+          chown -R root:root /__w/Aegisub/Aegisub
+
+      - name: Generate Package
+        run: |
+          mkdir -p pkgdir
+          meson install -C build --destdir=../pkgdir
+          case ${{ matrix.group }} in
+            arch) pacman --noconfirm -Sy tree ;;
+            deb) apt-get install -y tree ;;
+            rh) dnf install -y tree ;;
+            suse) zypper install -y tree ;;
+          esac
+          tree pkgdir
