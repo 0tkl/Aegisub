@@ -365,7 +365,7 @@ namespace {
 		lua_pushvalue(L, 1);
 		std::unique_ptr<AssEntry> et(Automation4::LuaAssFile::LuaToAssEntry(L));
 		lua_pop(L, 1);
-		if (typeid(*et) != typeid(AssStyle))
+		if (auto& tmp = *et; typeid(tmp) != typeid(AssStyle))
 			return error(L, "Not a style entry");
 
 		double width, height, descent, extlead;
@@ -1017,7 +1017,7 @@ namespace {
 					throw LuaForEachBreak();
 				}
 
-				if (typeid(*lines[cur - 1]) != typeid(AssDialogue)) {
+				if (auto& tmp = *lines[cur - 1]; typeid(tmp) != typeid(AssDialogue)) {
 					wxLogError("Selected row %d is not a dialogue line", cur);
 					throw LuaForEachBreak();
 				}
