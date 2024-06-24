@@ -144,7 +144,8 @@ else
         'wxUSE_REGEX': 'builtin',
         'CMAKE_BUILD_TYPE': build_type,
         'wxUSE_IMAGE': true,
-        'wxBUILD_MONOLITHIC': true      # otherwise breaks project generation w/ meson
+        'wxBUILD_MONOLITHIC': true,     # otherwise breaks project generation w/ meson
+        'WXWIN_COMPATIBILITY_3_0': false
     })
 
     if get_option('wx_version').version_compare('>=3.3.0')
