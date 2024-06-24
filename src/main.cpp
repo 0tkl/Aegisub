@@ -96,7 +96,7 @@ void AegisubApp::OnAssertFailure(const wxChar *file, int line, const wxChar *fun
 }
 
 AegisubApp::AegisubApp() {
-	// http://trac.wxwidgets.org/ticket/14302
+	// https://github.com/wxWidgets/wxWidgets/issues/14302
 	wxSetEnv("UBUNTU_MENUPROXY", "0");
 }
 
