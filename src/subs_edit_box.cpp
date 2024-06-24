@@ -170,8 +170,8 @@ SubsEditBox::SubsEditBox(wxWindow *parent, agi::Context *context)
 	layer = new wxSpinCtrl(this,-1,"",wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS | wxTE_PROCESS_ENTER,0,0x7FFFFFFF,0);
 #ifndef __WXGTK3__
 	// GTK3 has a bug that we cannot shrink the size of a widget, so do nothing there. See:
-	//  http://gtk.10911.n7.nabble.com/gtk-widget-set-size-request-stopped-working-with-GTK3-td26274.html
-	//  https://trac.wxwidgets.org/ticket/18568
+	//  https://web.archive.org/web/20141228085729/http://gtk.10911.n7.nabble.com/gtk-widget-set-size-request-stopped-working-with-GTK3-td26274.html
+	//  https://github.com/wxWidgets/wxWidgets/issues/18568
 	layer->SetInitialSize(layer->GetSizeFromTextSize(GetTextExtent(wxS("00"))));
 #endif
 	layer->SetToolTip(_("Layer number"));
