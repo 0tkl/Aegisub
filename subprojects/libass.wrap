@@ -1,5 +1,5 @@
 [wrap-git]
 directory = libass
 url = https://github.com/libass/libass.git
-revision = head
+revision = 0.17.3
 depth = 1
