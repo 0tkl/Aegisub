@@ -1,4 +1,4 @@
-diff --git a/include/wx/dcbuffer.h b/include/wx/dcbuffer.h
+﻿diff --git a/include/wx/dcbuffer.h b/include/wx/dcbuffer.h
 index b47045bca1..435a501546 100644
 --- a/include/wx/dcbuffer.h
 +++ b/include/wx/dcbuffer.h
@@ -18,4 +18,67 @@ index b47045bca1..435a501546 100644
  
  
  // ----------------------------------------------------------------------------
+diff --git a/src/msw/darkmode.cpp b/src/msw/darkmode.cpp
+index 7bfdfa0c9c..ce736b0be0 100644
+--- a/src/msw/darkmode.cpp
++++ b/src/msw/darkmode.cpp
+@@ -534,6 +534,7 @@ namespace wxMSWMenuImpl
+ // Definitions for undocumented messages and structs used in this code.
+ constexpr int WM_MENUBAR_DRAWMENU = 0x91;
+ constexpr int WM_MENUBAR_DRAWMENUITEM = 0x92;
++constexpr int WM_MENUBAR_MEASUREMENUITEM = 0x94;
  
+ // This is passed via LPARAM of WM_MENUBAR_DRAWMENU.
+ struct MenuBarDrawMenu
+@@ -558,6 +559,13 @@ struct MenuBarDrawMenuItem
+     MenuBarMenuItem mbmi;
+ };
+ 
++struct MenuBarMeasureMenuItem
++{
++    MEASUREITEMSTRUCT mis;
++    MenuBarDrawMenu mbdm;
++    MenuBarMenuItem mbmi;
++};
++
+ wxColour GetMenuColour(wxMenuColour which)
+ {
+     return wxDarkModeModule::GetSettings().GetMenuColour(which);
+@@ -580,7 +588,7 @@ HandleMenuMessage(WXLRESULT* result,
+                   WXWPARAM wParam,
+                   WXLPARAM lParam)
+ {
+-    if ( !wxMSWImpl::ShouldUseDarkMode() )
++    if ( !wxMSWImpl::ShouldUseDarkMode() && nMsg != wxMSWMenuImpl::WM_MENUBAR_MEASUREMENUITEM )
+         return false;
+ 
+     using namespace wxMSWMenuImpl;
+@@ -721,6 +729,28 @@ HandleMenuMessage(WXLRESULT* result,
+                                   &textOpts);
+             }
+             return true;
++        
++        case WM_MENUBAR_MEASUREMENUITEM:
++            if ( auto* const measureMenuItem = (MenuBarMeasureMenuItem*)lParam )
++            {
++                MEASUREITEMSTRUCT* const mis = &(measureMenuItem->mis);
++                if ( mis->CtlType != ODT_MENU )
++                    break;
++
++                MenuBarDrawMenu* const mbdm = &(measureMenuItem->mbdm);
++
++                HWND hwnd = GetHwndOf(w);
++                MENUBARINFO mbi = { sizeof(mbi) };
++                GetMenuBarInfo(hwnd, OBJID_MENU, 0, &mbi);
++
++                *result = w->MSWDefWindowProc(nMsg, wParam, lParam);
++
++                FLOAT const factor = mbi.hMenu == mbdm->hmenu ? 0.3125 : 0.15625;
++                UINT const padding = mis->itemHeight * factor;
++                mis->itemWidth += padding;
++                mis->itemHeight += padding;
++            }
++            return true;
+     }
+ 
+     return false;
