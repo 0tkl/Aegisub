@@ -40,12 +40,14 @@ on:
 
 jobs:
   build:
-    name: ${{ matrix.name }}
+    name: ${{ matrix.name }} (${{ matrix.arch }}${{ matrix.extra-args && ', wx master' }})
     runs-on: windows-2025
 
     strategy:
       fail-fast: false
       matrix:
+        arch: ['x86', 'x64', 'arm64']
+        compiler-flag: ['-Dvsenv=true']
         extra-args: ['', "-Dwx_version='3.3.0'"]
         include:
           - buildtype: release
@@ -67,13 +69,8 @@ jobs:
               -Davisynth=enabled
               -Dbestsource=enabled
               -Dvapoursynth=enabled
-          
           - name: Windows MSVC Release
             msvc: true
-            extra-args: ''
-          - name: Windows MSVC Release (wx master)
-            msvc: true
-            extra-args: "-Dwx_version='3.3.0'"
           #- {
           #  name: Windows MinGW,
           #  os: windows-latest,
@@ -94,7 +91,9 @@ jobs:
 
       - name: Setup MSVC
         if: matrix.msvc == true
-        uses: ilammy/msvc-dev-cmd@v1
+        uses: microsoft/setup-msbuild@v2
+        with:
+          msbuild-architecture: ${{ matrix.arch }}
 
       - name: Install dependencies
         run: |
@@ -117,7 +116,7 @@ jobs:
 
       - name: Configure
         run: |
-          meson setup build ${{ matrix.args }} ${{ matrix.extra-args }} -Dbuildtype=${{ matrix.buildtype }}
+          meson setup build ${{ matrix.args }} ${{ matrix.compiler-flag }} ${{ matrix.extra-args }} -Dbuildtype=${{ matrix.buildtype }}
           meson configure build
 
       - name: Build
@@ -139,20 +138,20 @@ jobs:
       - name: Upload artifacts - win_installer
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.name }} ${{ github.actor }} - installer
+          name: ${{ matrix.name }} (${{ matrix.arch }}${{ matrix.extra-args && ' wx master' }}) ${{ github.actor }} - installer
           path: build/Aegisub-*.exe
           if-no-files-found: error
       
       - name: Upload artifacts - portable.zip
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.name }} ${{ github.actor }} - portable 
+          name: ${{ matrix.name }} (${{ matrix.arch }}${{ matrix.extra-args && ' wx master' }}) ${{ github.actor }} - portable 
           path: build/aegisub-portable/
 
       - name: Upload artifacts - portable slim.zip
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.name }} ${{ github.actor }} - portable slim
+          name: ${{ matrix.name }} (${{ matrix.arch }}${{ matrix.extra-args && ' wx master' }}) ${{ github.actor }} - portable slim
           path: |
             build/aegisub-portable/
             !build/aegisub-portable/Microsoft.CRT
