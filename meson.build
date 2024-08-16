@@ -198,6 +198,8 @@ endif
 deps += dependency('icu-uc', components: 'uc', allow_fallback: true, version: '>=4.8.1.1')
 deps += dependency('icu-i18n', components: 'i18n', allow_fallback: true, version: '>=4.8.1.1')
 
+deps += dependency('harfbuzz', required: true)
+
 dep_avail = []
 foreach dep: [
     # audio, in order of precedence
