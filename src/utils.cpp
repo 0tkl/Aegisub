@@ -96,9 +96,10 @@ int SmallestPowerOf2(int x) {
 	return x;
 }
 
-bool IsCharRTL(wxChar c) {
-	// only hebrew for now
-	return (((wxChar)0x5d0) <= c) && (c <= ((wxChar)0x5ea));
+bool IsCharRTL(wxChar character) {
+    hb_unicode_funcs_t* unicode_funcs = hb_unicode_funcs_get_default();
+    hb_script_t script = hb_unicode_script(unicode_funcs, character);
+    return hb_script_get_horizontal_direction(script) == HB_DIRECTION_RTL;
 }
 
 #ifndef __WXMAC__
