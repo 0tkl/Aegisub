@@ -37,6 +37,8 @@
 #include <wx/bitmap.h>
 #include <wx/string.h>
 
+#include <hb.h>
+
 class wxKeyEvent;
 class wxMouseEvent;
 class wxStyledTextCtrl;
