@@ -26,6 +26,7 @@
 
 #include <boost/filesystem/fstream.hpp>
 #include <boost/filesystem/operations.hpp>
+#include <thread>
 
 namespace agi {
 	namespace io {
@@ -67,7 +68,7 @@ Save::~Save() noexcept(false) {
 			// Retry up to ten times in case it's just locked by a poorly-written antivirus scanner
 			if (i == 9)
 				throw;
-			util::sleep_for(100);
+			std::this_thread::sleep_for(std::chrono::milliseconds(100));
 		}
 	}
 }
