@@ -292,7 +292,7 @@ wxTextCtrl *SubsEditBox::MakeMarginCtrl(wxString const& tooltip, int margin, wxS
 	middle_left_sizer->Add(ctrl, wxSizerFlags().CenterVertical());
 
 	Bind(wxEVT_TEXT, [=, this](wxCommandEvent&) {
-		int value = agi::util::mid(-9999, atoi(ctrl->GetValue().utf8_str()), 99999);
+		int value = std::clamp(atoi(ctrl->GetValue().utf8_str()), -9999, 99999);
 		SetSelectedRows([&](AssDialogue *d) { d->Margin[margin] = value; },
 			commit_msg, AssFile::COMMIT_DIAG_META);
 	}, ctrl->GetId());

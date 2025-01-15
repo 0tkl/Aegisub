@@ -177,8 +177,8 @@ class ColorPickerSpectrum final : public wxControl {
 
 		if (evt.LeftDown() || (HasCapture() && evt.LeftIsDown())) {
 			// Adjust for the 1px black border around the control
-			int newx = mid(0, evt.GetX() - FromDIP(1), GetClientSize().x - FromDIP(3));
-			int newy = mid(0, evt.GetY() - FromDIP(1), GetClientSize().y - FromDIP(3));
+			int newx = std::clamp(evt.GetX() - FromDIP(1), 0, GetClientSize().x - FromDIP(3));
+			int newy = std::clamp(evt.GetY() - FromDIP(1), 0, GetClientSize().y - FromDIP(3));
 			SetXY(newx, newy);
 			wxCommandEvent evt2(EVT_SPECTRUM_CHANGE, GetId());
 			AddPendingEvent(evt2);

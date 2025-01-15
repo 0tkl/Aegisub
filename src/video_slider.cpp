@@ -67,7 +67,7 @@ VideoSlider::VideoSlider (wxWindow* parent, agi::Context *c)
 
 void VideoSlider::SetValue(int value) {
 	if (val == value) return;
-	value = mid(0, value, max);
+	value = std::clamp(value, 0, max);
 	if (GetXAtValue(val) != GetXAtValue(value))
 		Refresh(false);
 	val = value;

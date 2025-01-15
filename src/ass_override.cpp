@@ -112,7 +112,7 @@ template<> void AssOverrideParameter::Set<std::string>(std::string new_value) {
 
 template<> void AssOverrideParameter::Set<int>(int new_value) {
 	if (classification == AssParameterClass::ALPHA)
-		Set(agi::format("&H%02X&", mid(0, new_value, 255)));
+		Set(agi::format("&H%02X&", std::clamp(new_value, 0, 255)));
 	else
 		Set(std::to_string(new_value));
 }
