@@ -269,7 +269,7 @@ void FFmpegSourceVideoProvider::LoadVideo(agi::fs::path const& filename, std::st
 }
 
 void FFmpegSourceVideoProvider::GetFrame(int n, VideoFrame &out) {
-	n = mid(0, n, GetFrameCount() - 1);
+	n = std::clamp(n, 0, GetFrameCount() - 1);
 
 	auto frame = FFMS_GetFrame(VideoSource, n, &ErrInfo);
 	if (!frame)

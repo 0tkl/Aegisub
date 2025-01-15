@@ -368,9 +368,9 @@ std::vector<AudioMarker*> AudioTimingControllerKaraoke::OnRightClick(int ms, boo
 
 int AudioTimingControllerKaraoke::MoveMarker(KaraokeMarker *marker, int new_position) {
 	// No rearranging of syllables allowed
-	new_position = mid(
-		marker == &markers.front() ? start_marker.GetPosition() : (marker - 1)->GetPosition(),
+	new_position = std::clamp(
 		new_position,
+		marker == &markers.front() ? start_marker.GetPosition() : (marker - 1)->GetPosition(),
 		marker == &markers.back() ? end_marker.GetPosition() : (marker + 1)->GetPosition());
 
 	if (new_position == marker->GetPosition())

@@ -955,7 +955,7 @@ void AudioDisplay::PaintTrackCursor(wxDC &dc) {
 
 	wxSize label_size(dc.GetTextExtent(track_cursor_label));
 	wxPoint label_pos(track_cursor_pos - scroll_left - label_size.x/2, audio_top + 2);
-	label_pos.x = mid(2, label_pos.x, GetClientSize().GetWidth() - label_size.x - 2);
+	label_pos.x = std::clamp(label_pos.x, 2, GetClientSize().GetWidth() - label_size.x - 2);
 
 	int old_bg_mode = dc.GetBackgroundMode();
 	dc.SetBackgroundMode(wxTRANSPARENT);

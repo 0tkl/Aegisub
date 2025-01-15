@@ -88,7 +88,7 @@ template <typename T> T tabs(T x) { return x < 0 ? -x : x; }
 /// Get the middle value of a, b, and c (i.e. clamp b to [a,c])
 /// @precondition a <= c
 template<typename T> inline T mid(T a, T b, T c) {
-	return a > b ? a : (b > c ? c : b);
+	return std::max(a, std::min(b, c));
 }
 
 /// Get the text contents of the clipboard, or empty string on failure

@@ -269,7 +269,7 @@ void OpenALPlayer::FillBuffers(ALsizei count)
 {
 	InitContext();
 	// Do the actual filling/queueing
-	for (count = mid(1, count, buffers_free); count > 0; --count) {
+	for (count = std::clamp(count, 1, buffers_free); count > 0; --count) {
 		ALsizei fill_len = mid<ALsizei>(0, decode_buffer.size() / bpf, end_frame - cur_frame);
 
 		if (fill_len > 0) {

@@ -37,7 +37,7 @@
 
 static inline unsigned int clip_colorval(int val)
 {
-	return mid(0, val, 255);
+	return std::clamp(val, 0, 255);
 }
 
 // Algorithm from http://130.113.54.154/~monger/hsl-rgb.html
