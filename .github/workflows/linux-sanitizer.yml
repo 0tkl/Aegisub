@@ -50,7 +50,7 @@ jobs:
           - "fedora:rawhide"
           # - "opensuse/tumbleweed:latest"
         compiler: [gcc, clang]
-        sanitizer: ["address,undefined", memory, leak]
+        sanitizer: ["address,undefined", leak, memory, thread]
         buildtype: [release, debug, debugoptimized]
         exclude:
           - compiler: gcc
