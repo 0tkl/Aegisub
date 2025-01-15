@@ -143,11 +143,11 @@ void AudioProvider::GetAudioWithVolume(void *buf, int64_t start, int64_t count, 
 		if (bytes_per_sample == sizeof(uint8_t)) {
 			uint8_t *buff = reinterpret_cast<uint8_t *>(buf);
 			for (int64_t i = 0; i < n; ++i)
-				buff[i] = util::mid(0, static_cast<int>(((int) buff[i] - 128) * volume + 128), 0xFF);
+				buff[i] = std::clamp(static_cast<int>(((int) buff[i] - 128) * volume + 128), 0, 0xFF);
 		} else if (bytes_per_sample == sizeof(int16_t)) {
 			int16_t *buff = reinterpret_cast<int16_t *>(buf);
 			for (int64_t i = 0; i < n; ++i)
-				buff[i] = util::mid(-0x8000, static_cast<int>(buff[i] * volume), 0x7FFF);
+				buff[i] = std::clamp(static_cast<int>(buff[i] * volume), -0x8000, 0x7FFF);
 		} else if (bytes_per_sample == sizeof(int32_t)) {
 			int32_t *buff = reinterpret_cast<int32_t *>(buf);
 			for (int64_t i = 0; i < n; ++i)
