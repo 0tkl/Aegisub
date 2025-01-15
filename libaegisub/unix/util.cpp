@@ -19,9 +19,4 @@
 
 namespace agi { namespace util {
 void SetThreadName(const char *) { }
-
-void sleep_for(int ms) {
-	std::this_thread::sleep_for(std::chrono::milliseconds(ms));
-}
-
 } }
