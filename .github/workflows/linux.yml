@@ -71,7 +71,6 @@ jobs:
 # ffmpeg    ≥ 6.1  requires age ≤ 2;  age ≥ 3 infers ffmpeg    < 6.1
 # meson     ≥ 1.0  requires age ≤ 3;  age ≥ 4 infers meson     < 1.0
 # wxWidgets ≥ 3.1  requires age ≤ 4;  age ≥ 5 infers wxWidgets < 3.1
-# xxHash    ≥ 0.8  requires age ≤ 5;  age ≥ 6 infers xxHash    < 0.8  
           - age: 1
           - group: arch
             name: Archlinux
@@ -229,14 +228,6 @@ jobs:
           path: subprojects/bestsource
           submodules: recursive
 
-      # - name: Checkout dav1d repo
-      #   if: matrix.age >= 6
-      #   uses: actions/checkout@v4
-      #   with:
-      #     repository: videolan/dav1d
-      #     ref: 1.5.0
-      #     path: subprojects/dav1d
-
       - name: Checkout FFMS2 repo
         if: matrix.age >= 2
         uses: actions/checkout@v4
@@ -298,8 +289,7 @@ jobs:
           libavcodec-dev libavdevice-dev libavfilter-dev libavformat-dev \
           libavutil-dev libpostproc-dev libswresample-dev libswscale-dev
 
-      # && matrix.age <= 5
-      - name: Install dav1d and xxHash (Debian 11+, Ubuntu 22.04+)
+      - name: Install dav1d and xxHash (Debian/Ubuntu)
         if: matrix.group == 'deb'
         run: apt-get install -y libdav1d-dev libxxhash-dev
 
@@ -373,13 +363,6 @@ jobs:
         run: |
           curl -o boost_1_87_0.tar.gz -L https://archives.boost.io/release/1.87.0/source/boost_1_87_0.tar.gz
           tar -xvzf boost_1_87_0.tar.gz -C ..
-
-      # - name: Download xxHash (Ubuntu 22.04)
-      #   if: matrix.age >= 6
-      #   working-directory: subprojects/packagecache
-      #   run: |
-      #     curl -o xxHash-0.8.2.tar.gz -L https://github.com/Cyan4973/xxHash/archive/v0.8.2.tar.gz
-      #     curl -o xxhash_0.8.2-1_patch.zip -L https://wrapdb.mesonbuild.com/v2/xxhash_0.8.2-1/get_patch
 
       - name: Add meson.build to AviSynth+
         if: ${{ ! matrix.avisynthplus }}
