@@ -44,6 +44,7 @@
 #include <clocale>
 #include <functional>
 #include <wx/intl.h>
+#include <wx/uilocale.h>
 #include <wx/choicdlg.h> // Keep this last so wxUSE_CHOICEDLG is set.
 
 #ifndef AEGISUB_CATALOG
@@ -79,6 +80,7 @@ bool AegisubLocale::HasLanguage(std::string const& language) {
 }
 
 std::string AegisubLocale::PickLanguage() {
+	using namespace wxUILocale;
 	if (active_language.empty()) {
 		wxString os_ui_language = GetTranslations()->GetBestTranslation(AEGISUB_CATALOG);
 		if (!os_ui_language.empty())
@@ -94,12 +96,18 @@ std::string AegisubLocale::PickLanguage() {
 	langs.insert(langs.begin(), "en_US");
 
 	// Check if user local language is available, if so, make it first
-	const wxLanguageInfo *info = wxLocale::GetLanguageInfo(wxLocale::GetSystemLanguage());
-	if (info) {
-		auto it = std::find(langs.begin(), langs.end(), info->CanonicalName);
-		if (it != langs.end())
-			std::rotate(langs.begin(), it, it + 1);
+	const wxString user_lang = GetLanguageCanonicalName(GetSystemLanguage());
+	
+	auto it = std::find(langs.begin(), langs.end(), user_lang);
+	if (it == langs.end()) {
+		if (user_lang.size() >= 5) {
+			auto neural = user_lang.BeforeFirst('_');
+			auto it = std::find(langs.begin(), langs.end(), neural);
+		}
 	}
+
+	if (it != langs.end())
+		std::rotate(langs.begin(), it, it + 1);
 
 	// Generate names
 	wxArrayString langNames;
