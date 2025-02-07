@@ -204,9 +204,9 @@ void OptionPage::OptionChoice(wxFlexGridSizer *flex, const wxString &name, const
 
 wxFlexGridSizer* OptionPage::PageSizer(wxString name) {
 	auto tmp_sizer = new wxStaticBoxSizer(wxHORIZONTAL, this, name);
-	sizer->Add(tmp_sizer, 0,wxEXPAND, 5);
-	auto flex = new wxFlexGridSizer(2,5,5);
-	flex->AddGrowableCol(0,1);
+	sizer->Add(tmp_sizer, 0, wxEXPAND, 5);
+	auto flex = new wxFlexGridSizer(2, 5, 5);
+	flex->AddGrowableCol(0, 1);
 	tmp_sizer->Add(flex, 1, wxEXPAND, 5);
 	sizer->AddSpacer(8);
 	return flex;
