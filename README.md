@@ -96,13 +96,13 @@ gmock:       libgmock-dev
 ```
 
 I.e. to install on Ubuntu 24.04 run this command:
-``` bash
+```bash
 sudo apt install build-essential pkg-config meson ninja-build gettext intltool libfontconfig1-dev libass-dev libboost-chrono-dev libboost-locale-dev libboost-regex-dev libboost-system-dev libboost-thread-dev zlib1g-dev wx3.2-headers libwxgtk3.2-dev icu-devtools libicu-dev libpulse-dev libasound2-dev libopenal-dev libffms2-dev libfftw3-dev libhunspell-dev libuchardet-dev libcurl4-gnutls-dev libgl1-mesa-dev libgtest-dev libgmock-dev
 ```
 
 #### Build Aegisub
 
-``` bash
+```bash
 meson setup build --prefix=/usr/local --buildtype=release --strip -Dsystem_luajit=false
 meson compile -C build
 meson install -C build
