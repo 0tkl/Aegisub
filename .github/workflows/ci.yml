@@ -2,7 +2,7 @@ name: Meson CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, 'refactr-wx326' ]
     tags: [ 'v*' ]
   pull_request:
     branches: [ master ]
