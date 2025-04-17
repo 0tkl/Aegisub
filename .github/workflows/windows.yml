@@ -41,7 +41,7 @@ on:
 jobs:
   build:
     name: ${{ matrix.name }} (${{ matrix.arch }}${{ matrix.extra-args && ', wx master' }})
-    runs-on: windows-2025
+    runs-on: ${{ matrix.arch == 'arm64' && 'windows-11-arm' || 'windows-2025' }}
 
     strategy:
       fail-fast: false
