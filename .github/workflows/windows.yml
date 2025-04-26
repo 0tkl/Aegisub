@@ -71,6 +71,10 @@ jobs:
               -Dvapoursynth=enabled
           - name: Windows MSVC Release
             msvc: true
+          - arch: arm64
+            armarg: >-
+              -Dlibass:asm=disabled
+              
           #- {
           #  name: Windows MinGW,
           #  os: windows-latest,
@@ -116,7 +120,7 @@ jobs:
 
       - name: Configure
         run: |
-          meson setup build ${{ matrix.args }} ${{ matrix.compiler-flag }} ${{ matrix.extra-args }} -Dbuildtype=${{ matrix.buildtype }}
+          meson setup build ${{ matrix.args }} ${{ matrix.armarg }} ${{ matrix.compiler-flag }} ${{ matrix.extra-args }} -Dbuildtype=${{ matrix.buildtype }}
           meson configure build
 
       - name: Build
