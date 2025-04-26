@@ -118,6 +118,19 @@ jobs:
           Get-Location | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
           popd
 
+      - name: Checkout gas-preprocessor (arm64)
+        if: matrix.arch == 'arm64'
+        uses: actions/checkout@v4
+        with:
+          repository: FFmpeg/gas-preprocessor
+          ref: a120373ba30de06675d8c47617b315beef16c88e
+          path: gas-preprocessor
+
+      - name: Add gas-preprocessor to path (arm64)
+        if: matrix.arch == 'arm64'
+        run: |
+          echo "$PWD\gas-preprocessor" | Out-File -FilePath $Env:GITHUB_PATH -Encoding utf8 -Append
+
       - name: Configure
         run: |
           meson setup build ${{ matrix.args }} ${{ matrix.armarg }} ${{ matrix.compiler-flag }} ${{ matrix.extra-args }} -Dbuildtype=${{ matrix.buildtype }}
