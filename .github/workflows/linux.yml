@@ -110,10 +110,12 @@ jobs:
             name: Fedora Latest
             container: fedora:latest
             lua52compat: true
+            cppstd: c++20
           - group: rh
             name: Fedora Rawhide
             container: fedora:rawhide
             lua52compat: true
+            cppstd: c++20
           - group: suse
             name: openSUSE Leap 15.6
             container: opensuse/leap:15.6
