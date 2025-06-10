@@ -17,7 +17,6 @@
 #include <libaegisub/signal.h>
 
 #include <memory>
-#include <set>
 #include <unordered_map>
 #include <vector>
 #include <wx/bitmap.h>

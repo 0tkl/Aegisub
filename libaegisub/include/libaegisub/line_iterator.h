@@ -15,7 +15,6 @@
 #pragma once
 
 #include <array>
-#include <cstdint>
 #include <iterator>
 #include <memory>
 

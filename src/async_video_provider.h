@@ -21,7 +21,6 @@
 
 #include <atomic>
 #include <memory>
-#include <set>
 #include <wx/event.h>
 
 class AssDialogue;

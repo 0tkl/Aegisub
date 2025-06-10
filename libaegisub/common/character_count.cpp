@@ -17,13 +17,10 @@
 #include "libaegisub/character_count.h"
 
 #include "libaegisub/ass/dialogue_parser.h"
-#include "libaegisub/exception.h"
 #include "libaegisub/unicode.h"
 
 #include <unicode/uchar.h>
 #include <unicode/utf8.h>
-
-#include <mutex>
 
 namespace {
 const std::basic_string_view<char32_t> ass_special_chars = U"nNh";

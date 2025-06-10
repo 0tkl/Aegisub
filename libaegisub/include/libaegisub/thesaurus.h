@@ -14,7 +14,6 @@
 
 #include <map>
 #include <libaegisub/fs.h>
-#include <iosfwd>
 #include <memory>
 #include <string>
 #include <string_view>

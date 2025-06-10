@@ -38,7 +38,6 @@
 #include "visual_tool_vector_clip.h"
 
 #include <memory>
-#include <typeinfo>
 #include <vector>
 #include <wx/glcanvas.h>
 
