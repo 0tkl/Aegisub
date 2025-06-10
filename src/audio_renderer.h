@@ -246,7 +246,7 @@ protected:
 
 public:
 	/// @brief Constructor
-	AudioRendererBitmapProvider() : provider(nullptr), pixel_ms(0), amplitude_scale(0) { };
+	AudioRendererBitmapProvider() : provider(nullptr), pixel_ms(0), amplitude_scale(0) { }
 
 	/// @brief Destructor
 	virtual ~AudioRendererBitmapProvider() = default;

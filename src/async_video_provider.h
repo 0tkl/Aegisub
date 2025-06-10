@@ -149,7 +149,9 @@ struct FrameReadyEvent final : public wxEvent {
 	std::shared_ptr<VideoFrame> frame;
 	/// Time which was used for subtitle rendering
 	double time;
-	wxEvent *Clone() const override { return new FrameReadyEvent(*this); };
+	wxEvent *Clone() const override {
+		return new FrameReadyEvent(*this);
+	}
 	FrameReadyEvent(std::shared_ptr<VideoFrame> frame, double time)
 	: frame(std::move(frame)), time(time) { }
 };
@@ -157,12 +159,16 @@ struct FrameReadyEvent final : public wxEvent {
 // These exceptions are wxEvents so that they can be passed directly back to
 // the parent thread as events
 struct VideoProviderErrorEvent final : public wxEvent, public agi::Exception {
-	wxEvent *Clone() const override { return new VideoProviderErrorEvent(*this); };
+	wxEvent *Clone() const override {
+		return new VideoProviderErrorEvent(*this);
+	}
 	VideoProviderErrorEvent(VideoProviderError const& err);
 };
 
 struct SubtitlesProviderErrorEvent final : public wxEvent, public agi::Exception {
-	wxEvent *Clone() const override { return new SubtitlesProviderErrorEvent(*this); };
+	wxEvent *Clone() const override {
+		return new SubtitlesProviderErrorEvent(*this);
+	}
 	SubtitlesProviderErrorEvent(std::string const& msg);
 };
 
