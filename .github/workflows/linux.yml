@@ -104,9 +104,8 @@ jobs:
             name: Ubuntu 24.04
             container: ubuntu:noble
           - group: deb
-            name: Ubuntu 24.10
+            name: Ubuntu 25.04
             container: ubuntu:rolling
-            age: 2
           - group: rh
             name: Fedora Latest
             container: fedora:latest
