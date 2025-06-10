@@ -24,7 +24,6 @@ locale_sources = files([
     'src/icu/formatters_cache.cpp',
     'src/icu/icu_backend.cpp',
     'src/icu/numeric.cpp',
-    'src/icu/time_zone.cpp',
     # std
     'src/std/codecvt.cpp',
     'src/std/collate.cpp',
