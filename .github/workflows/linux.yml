@@ -361,8 +361,8 @@ jobs:
         if: matrix.localboost
         working-directory: subprojects/packagecache
         run: |
-          curl -o boost_1_87_0.tar.gz -L https://archives.boost.io/release/1.87.0/source/boost_1_87_0.tar.gz
-          tar -xvzf boost_1_87_0.tar.gz -C ..
+          curl -o boost_1_88_0.tar.gz -L https://archives.boost.io/release/1.88.0/source/boost_1_88_0.tar.gz
+          tar -xvzf boost_1_88_0.tar.gz -C ..
 
       - name: Add meson.build to AviSynth+
         if: ${{ ! matrix.avisynthplus }}
