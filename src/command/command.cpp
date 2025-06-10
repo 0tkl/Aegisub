@@ -20,6 +20,8 @@
 #include <libaegisub/log.h>
 #include <libaegisub/string.h>
 
+#include <map>
+
 #include "include/aegisub/hotkey.h"
 
 #include <wx/intl.h>
