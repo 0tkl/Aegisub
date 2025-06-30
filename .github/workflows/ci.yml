@@ -41,6 +41,29 @@ jobs:
               -Dffmpeg:postproc=disabled
               -Dffmpeg:ffmpeg=disabled
               -Dffmpeg:ffplay=disabled
+              -Dcurl:tool=disabled
+              -Dcurl:tests=disabled
+              -Dcurl:unittests=disabled
+              -Dcurl:kerberos-auth=disabled
+              -Dcurl:negotiate-auth=disabled
+              -Dcurl:gss-api=disabled
+              -Dcurl:gsasl=disabled
+              -Dcurl:tls-srp=disabled
+              -Dcurl:ssh=disabled
+              -Dcurl:dict=disabled
+              -Dcurl:ftp=disabled
+              -Dcurl:gopher=disabled
+              -Dcurl:imap=disabled
+              -Dcurl:ldap=disabled
+              -Dcurl:ldaps=disabled
+              -Dcurl:mqtt=disabled
+              -Dcurl:pop3=disabled
+              -Dcurl:rtmp=disabled
+              -Dcurl:rtsp=disabled
+              -Dcurl:smb=disabled
+              -Dcurl:smtp=disabled
+              -Dcurl:telnet=disabled
+              -Dcurl:tftp=disabled
           #- {
           #  name: Windows MinGW,
           #  os: windows-latest,
