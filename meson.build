@@ -146,6 +146,7 @@ else
     opt_var = cmake.subproject_options()
     opt_var.set_override_option('cpp_std', 'c++20')
     opt_var.add_cmake_defines({
+        'CMAKE_INTERPROCEDURAL_OPTIMIZATION': 'ON',
         'CMAKE_POLICY_VERSION_MINIMUM': '3.31',
 
         'wxBUILD_INSTALL': false,
