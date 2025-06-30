@@ -33,7 +33,14 @@ jobs:
               -Dharfbuzz:docs=disabled
               -Dfribidi:tests=false
               -Dfribidi:docs=false
+              -Dlibass:tests=disabled
+              -Dlibass:compare=disabled
+              -Dlibass:profile=disabled
               -Dlibass:fontconfig=disabled
+              -Dffmpeg:avdevice=disabled
+              -Dffmpeg:postproc=disabled
+              -Dffmpeg:ffmpeg=disabled
+              -Dffmpeg:ffplay=disabled
           #- {
           #  name: Windows MinGW,
           #  os: windows-latest,
