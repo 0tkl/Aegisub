@@ -2,7 +2,7 @@ name: Meson CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, hint-text ]
     tags: [ 'v*' ]
   pull_request:
     branches: [ master ]
@@ -33,6 +33,9 @@ jobs:
               -Dharfbuzz:docs=disabled
               -Dfribidi:tests=false
               -Dfribidi:docs=false
+              -Dlibass:tests=disabled
+              -Dlibass:compare=disabled
+              -Dlibass:profile=disabled
               -Dlibass:fontconfig=disabled
           #- {
           #  name: Windows MinGW,
@@ -76,7 +79,7 @@ jobs:
       - name: Setup Meson
         run: |
           python -m pip install --upgrade pip setuptools
-          pip install meson==1.7.2
+          pip install meson
 
       - name: Setup MSVC
         if: matrix.config.os == 'windows-latest' && matrix.config.msvc == true
@@ -95,7 +98,7 @@ jobs:
           Get-Location | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
           popd
 
-          $gettexturl = "https://github.com/mlocati/gettext-iconv-windows/releases/download/v0.21-v1.16/gettext0.21-iconv1.16-static-64.zip"
+          $gettexturl = "https://github.com/mlocati/gettext-iconv-windows/releases/download/v0.25-v1.17/gettext0.25-iconv1.17-static-64.zip"
           Invoke-WebRequest -Uri $gettexturl -OutFile ".\gettext.zip"
           Expand-Archive ".\gettext.zip" -DestinationPath gettext
           pushd gettext/bin
@@ -153,7 +156,10 @@ jobs:
         if: matrix.config.os == 'windows-latest'
         with:
           name: ${{ matrix.config.name }} - portable
-          path: build/aegisub-portable-64.zip
+          path: |
+            build/aegisub-portable/
+            !build/aegisub-portable/Microsoft.CRT
+            !build/aegisub-portable/Redist
 
       # macOS artifacts
       - name: Generate macOS installer

@@ -84,6 +84,6 @@ Write-Output 'Copying - portable-config'
 Copy-New-Item $SourceRoot\packages\win_installer\portable\config.json  $PortableOutputDir
 
 
-Write-Output 'Creating portable zip'
-Remove-Item aegisub-portable-64.zip
-7z a aegisub-portable-64.zip aegisub-portable\
+#Write-Output 'Creating portable zip'
+#Remove-Item aegisub-portable-64.zip
+#7z a aegisub-portable-64.zip aegisub-portable\
