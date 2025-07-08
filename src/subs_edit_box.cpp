@@ -118,7 +118,11 @@ SubsEditBox::SubsEditBox(wxWindow *parent, agi::Context *context)
 #endif
 	top_sizer->Add(comment_box, 0, wxRIGHT | wxALIGN_CENTER, 5);
 
-	style_box = MakeComboBox("Default", wxCB_READONLY, &SubsEditBox::OnStyleChange, _("Style for this line"));
+	style_box = new wxComboBox(this, -1, "Default", wxDefaultPosition,
+		FromDIP(wxSize(110, -1)), { "Default" }, wxCB_READONLY | wxTE_PROCESS_ENTER);
+	style_box->SetToolTip(_("Style for this line"));
+	Bind(wxEVT_COMBOBOX, &SubsEditBox::OnStyleChange, this, style_box->GetId());
+	top_sizer->Add(style_box, wxSizerFlags(2).Center().Border(wxRIGHT));
 
 	style_edit_button = new wxButton(this, -1, _("Edit"), wxDefaultPosition,
 		wxSize(GetTextExtent(_("Edit")).GetWidth() + 20, -1));
@@ -300,15 +304,6 @@ wxButton *SubsEditBox::MakeBottomButton(const char *cmd_name) {
 
 	btn->Bind(wxEVT_BUTTON, std::bind(&SubsEditBox::CallCommand, this, cmd_name));
 	return btn;
-}
-
-wxComboBox *SubsEditBox::MakeComboBox(wxString const& initial_text, int style, void (SubsEditBox::*handler)(wxCommandEvent&), wxString const& tooltip) {
-	wxString styles[] = { "Default" };
-	wxComboBox *ctrl = new wxComboBox(this, -1, initial_text, wxDefaultPosition, wxSize(110,-1), 1, styles, style | wxTE_PROCESS_ENTER);
-	ctrl->SetToolTip(tooltip);
-	top_sizer->Add(ctrl, wxSizerFlags(2).Center().Border(wxRIGHT));
-	Bind(wxEVT_COMBOBOX, handler, this, ctrl->GetId());
-	return ctrl;
 }
 
 wxRadioButton *SubsEditBox::MakeRadio(wxString const& text, bool start, wxString const& tooltip) {

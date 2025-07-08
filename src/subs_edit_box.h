@@ -132,7 +132,6 @@ class SubsEditBox final : public wxPanel {
 	TimeEdit *MakeTimeCtrl(wxString const& tooltip, TimeField field);
 	void MakeButton(const char *cmd_name);
 	wxButton *MakeBottomButton(const char *cmd_name);
-	wxComboBox *MakeComboBox(wxString const& initial_text, int style, void (SubsEditBox::*handler)(wxCommandEvent&), wxString const& tooltip);
 	wxRadioButton *MakeRadio(wxString const& text, bool start, wxString const& tooltip);
 
 	void OnChange(wxStyledTextEvent &event);
